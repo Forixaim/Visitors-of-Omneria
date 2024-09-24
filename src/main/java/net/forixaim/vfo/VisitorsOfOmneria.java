@@ -1,0 +1,44 @@
+package net.forixaim.vfo;
+
+import net.forixaim.vfo.animations.CoreRegistry;
+import net.forixaim.vfo.registry.SoundRegistry;
+import net.forixaim.vfo.skill.DatakeyRegistry;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+
+import static net.forixaim.vfo.registry.CreativeTabRegistry.CREATIVE_MODE_TABS;
+import static net.forixaim.vfo.registry.ItemRegistry.ITEMS;
+
+// The value here should match an entry in the META-INF/mods.toml file
+@Mod(VisitorsOfOmneria.MOD_ID)
+public class VisitorsOfOmneria
+{
+
+	// Define mod id in a common place for everything to reference
+	public static final String MOD_ID = "vfo";
+
+
+	public VisitorsOfOmneria()
+	{
+
+		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		ITEMS.register(modEventBus);
+		CREATIVE_MODE_TABS.register(modEventBus);
+		DatakeyRegistry.DATA_KEYS.register(modEventBus);
+		modEventBus.addListener(CoreRegistry::Register);
+		SoundRegistry.SOUNDS.register(modEventBus);
+
+		modEventBus.addListener(this::commonSetup);
+		MinecraftForge.EVENT_BUS.register(this);
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+	}
+
+	private void commonSetup(final FMLCommonSetupEvent event)
+	{
+	}
+}

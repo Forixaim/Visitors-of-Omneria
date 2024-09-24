@@ -1,0 +1,27 @@
+package net.forixaim.vfo.capabilities.weapons;
+
+import net.forixaim.vfo.VisitorsOfOmneria;
+import net.forixaim.vfo.capabilities.weapon_types.JoyeuseType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import yesman.epicfight.api.forgeevent.WeaponCapabilityPresetRegistryEvent;
+import yesman.epicfight.world.capabilities.item.CapabilityItem;
+
+import java.util.function.Function;
+
+//This is where all the weapon capability presets are implemented
+@Mod.EventBusSubscriber(modid = VisitorsOfOmneria.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+public class PresetRegistry
+{
+	public static Function<Item, CapabilityItem.Builder> JOYEUSE = (item ->
+			JoyeuseType.getInstance().export());
+
+
+	@SubscribeEvent
+	public static void Register(WeaponCapabilityPresetRegistryEvent Event)
+	{
+		Event.getTypeEntry().put(new ResourceLocation(VisitorsOfOmneria.MOD_ID, "joyeuse"), JOYEUSE);
+	}
+}
