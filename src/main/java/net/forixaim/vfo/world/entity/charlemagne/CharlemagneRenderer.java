@@ -3,18 +3,19 @@ package net.forixaim.vfo.world.entity.charlemagne;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.forixaim.vfo.VisitorsOfOmneria;
 import net.forixaim.vfo.registry.ModelLayers;
+import net.forixaim.vfo.world.entity.charlemagne.model.CharlemagneModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-public class CharlemagneRenderer extends MobRenderer<Charlemagne, CharlemagneModel<Charlemagne>>
+public class CharlemagneRenderer extends MobRenderer<Charlemagne, CharlemagneModel>
 {
 
 	public CharlemagneRenderer(EntityRendererProvider.Context p_174304_)
 	{
-		super(p_174304_, new CharlemagneModel<>(p_174304_.bakeLayer(ModelLayers.CHARLEMAGNE_LAYER)), 1f);
+		super(p_174304_, new CharlemagneModel(p_174304_.bakeLayer(ModelLayers.CHARLEMAGNE_LAYER)), 1f);
 	}
 
 	@Override

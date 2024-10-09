@@ -2,7 +2,6 @@ package net.forixaim.vfo;
 
 import net.forixaim.vfo.animations.CoreRegistry;
 import net.forixaim.vfo.registry.EntityRegistry;
-import net.forixaim.vfo.registry.ItemRegistry;
 import net.forixaim.vfo.registry.SoundRegistry;
 import net.forixaim.vfo.skill.DatakeyRegistry;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagneRenderer;
@@ -19,11 +18,11 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import static net.forixaim.vfo.registry.CreativeTabRegistry.CREATIVE_MODE_TABS;
 import static net.forixaim.vfo.registry.ItemRegistry.ITEMS;
 
+
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(VisitorsOfOmneria.MOD_ID)
 public class VisitorsOfOmneria
 {
-
 	// Define mod id in a common place for everything to reference
 	public static final String MOD_ID = "vfo";
 
@@ -40,6 +39,7 @@ public class VisitorsOfOmneria
 		SoundRegistry.SOUNDS.register(modEventBus);
 
 		modEventBus.addListener(this::commonSetup);
+		modEventBus.addListener(this::clientSetup);
 		MinecraftForge.EVENT_BUS.register(this);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 	}

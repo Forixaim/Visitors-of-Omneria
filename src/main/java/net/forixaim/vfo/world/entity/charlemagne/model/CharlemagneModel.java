@@ -1,4 +1,4 @@
-package net.forixaim.vfo.world.entity.charlemagne;// Made with Blockbench 4.10.4
+package net.forixaim.vfo.world.entity.charlemagne.model;// Made with Blockbench 4.10.4
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
@@ -6,15 +6,18 @@ package net.forixaim.vfo.world.entity.charlemagne;// Made with Blockbench 4.10.4
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.forixaim.vfo.VisitorsOfOmneria;
+import net.forixaim.vfo.world.entity.charlemagne.Charlemagne;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 
-public class CharlemagneModel<T extends Entity> extends EntityModel<T>
+public class CharlemagneModel extends HierarchicalModel<Charlemagne>
 {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(VisitorsOfOmneria.MOD_ID, "charlemagne_layer"), "main");
@@ -24,8 +27,10 @@ public class CharlemagneModel<T extends Entity> extends EntityModel<T>
 	private final ModelPart LeftArm;
 	private final ModelPart RightLeg;
 	private final ModelPart LeftLeg;
+	private final ModelPart Root;
 
 	public CharlemagneModel(ModelPart root) {
+		this.Root = root;
 		this.Head = root.getChild("Head");
 		this.Body = root.getChild("Body");
 		this.RightArm = root.getChild("RightArm");
@@ -69,7 +74,7 @@ public class CharlemagneModel<T extends Entity> extends EntityModel<T>
 	}
 
 	@Override
-	public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(@NotNull Charlemagne charlemagne, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
 	}
 
@@ -82,4 +87,11 @@ public class CharlemagneModel<T extends Entity> extends EntityModel<T>
 		RightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		LeftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
+
+	@Override
+	public @NotNull ModelPart root()
+	{
+		return this.Root;
+	}
+
 }

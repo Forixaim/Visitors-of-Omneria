@@ -18,7 +18,7 @@ public class Charlemagne extends AbstractFriendlyNPC
 {
 	private CharlemagneMode currentMode;
 
-	public Charlemagne(EntityType<? extends PathfinderMob> p_21683_, Level p_21684_)
+	public Charlemagne(EntityType<? extends AbstractFriendlyNPC> p_21683_, Level p_21684_)
 	{
 		super(p_21683_, p_21684_);
 		currentMode = CharlemagneMode.FRIENDLY;
@@ -44,7 +44,8 @@ public class Charlemagne extends AbstractFriendlyNPC
 				.add(Attributes.ARMOR, 20)
 				.add(Attributes.ARMOR_TOUGHNESS, 20)
 				.add(Attributes.KNOCKBACK_RESISTANCE, 1f)
-				.add(Attributes.ATTACK_DAMAGE, 10);
+				.add(Attributes.ATTACK_DAMAGE, 10)
+				.add(Attributes.FOLLOW_RANGE, 8.0);
 
 	}
 
