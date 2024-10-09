@@ -4,6 +4,7 @@ import net.minecraft.sounds.SoundEvents;
 import yesman.epicfight.api.animation.property.AnimationEvent;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.types.*;
+import yesman.epicfight.api.utils.TimePairList;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Armatures;
 
@@ -58,6 +59,8 @@ public class ImperatriceLumiereAnims
 				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (a,b,c,d,e) -> 1.5f);
 
 		IMPERATRICE_TRAILBLAZE_FWD = new DodgeAnimation(0.2F, 1.4F, "battle_style/legendary/imperatrice_lumiere/sword/skills/trailblaze_fwd", 0.6F, 1.65F, Armatures.BIPED)
+				.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true)
+				.addProperty(AnimationProperty.ActionAnimationProperty.NO_GRAVITY_TIME, TimePairList.create(0.2f, 1.0f))
 				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, ((dynamicAnimation, livingEntityPatch, v, v1, v2) -> {
 					return 1.5f;
 				}))
@@ -74,6 +77,8 @@ public class ImperatriceLumiereAnims
 				.addStateRemoveOld(EntityState.CAN_BASIC_ATTACK, false)
 				.addStateRemoveOld(EntityState.CAN_SKILL_EXECUTION, false);
 		IMPERATRICE_TRAILBLAZE_BACK = new DodgeAnimation(0.1F, 1.4F, "battle_style/legendary/imperatrice_lumiere/sword/skills/trailblaze_back", 0.6F, 1.65F, Armatures.BIPED)
+				.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true)
+				.addProperty(AnimationProperty.ActionAnimationProperty.NO_GRAVITY_TIME, TimePairList.create(0.2f, 1.0f))
 				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, ((dynamicAnimation, livingEntityPatch, v, v1, v2) -> {
 					return 1.5f;
 				}))
@@ -82,6 +87,8 @@ public class ImperatriceLumiereAnims
 				.addStateRemoveOld(EntityState.CAN_BASIC_ATTACK, false)
 				.addStateRemoveOld(EntityState.CAN_SKILL_EXECUTION, false);
 		IMPERATRICE_TRAILBLAZE_LEFT = new DodgeAnimation(0.1F, 1.4F, "battle_style/legendary/imperatrice_lumiere/sword/skills/trailblaze_left", 0.6F, 1.65F, Armatures.BIPED)
+				.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true)
+				.addProperty(AnimationProperty.ActionAnimationProperty.NO_GRAVITY_TIME, TimePairList.create(0.2f, 1.0f))
 				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, ((dynamicAnimation, livingEntityPatch, v, v1, v2) -> {
 					return 1.5f;
 				}))
@@ -90,6 +97,8 @@ public class ImperatriceLumiereAnims
 				.addStateRemoveOld(EntityState.CAN_BASIC_ATTACK, false)
 				.addStateRemoveOld(EntityState.CAN_SKILL_EXECUTION, false);
 		IMPERATRICE_TRAILBLAZE_RIGHT = new DodgeAnimation(0.1F, 1.4F, "battle_style/legendary/imperatrice_lumiere/sword/skills/trailblaze_right", 0.6F, 1.65F, Armatures.BIPED)
+				.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true)
+				.addProperty(AnimationProperty.ActionAnimationProperty.NO_GRAVITY_TIME, TimePairList.create(0.2f, 1.0f))
 				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, ((dynamicAnimation, livingEntityPatch, v, v1, v2) -> {
 					return 1.5f;
 				}))

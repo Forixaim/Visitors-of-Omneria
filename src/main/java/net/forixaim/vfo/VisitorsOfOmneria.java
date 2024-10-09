@@ -1,6 +1,8 @@
 package net.forixaim.vfo;
 
 import net.forixaim.vfo.animations.CoreRegistry;
+import net.forixaim.vfo.registry.EntityRegistry;
+import net.forixaim.vfo.registry.ItemRegistry;
 import net.forixaim.vfo.registry.SoundRegistry;
 import net.forixaim.vfo.skill.DatakeyRegistry;
 import net.minecraftforge.common.MinecraftForge;
@@ -29,6 +31,7 @@ public class VisitorsOfOmneria
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		ITEMS.register(modEventBus);
 		CREATIVE_MODE_TABS.register(modEventBus);
+		EntityRegistry.Register(modEventBus);
 		DatakeyRegistry.DATA_KEYS.register(modEventBus);
 		modEventBus.addListener(CoreRegistry::Register);
 		SoundRegistry.SOUNDS.register(modEventBus);

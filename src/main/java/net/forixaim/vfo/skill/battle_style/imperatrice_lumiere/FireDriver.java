@@ -107,25 +107,21 @@ public class FireDriver extends WeaponInnateSkill
 				}
 				if (event.getTarget().hasEffect(MobEffects.DAMAGE_RESISTANCE) || event.getTarget().hasEffect(MobEffects.FIRE_RESISTANCE))
 				{
-					if (ThreadLocalRandom.current().nextInt(0, 4) == 1)
+					if (event.getTarget().hasEffect(MobEffects.DAMAGE_RESISTANCE))
 					{
-						if (event.getTarget().hasEffect(MobEffects.DAMAGE_RESISTANCE))
+						int duration = Objects.requireNonNull(event.getTarget().getEffect(MobEffects.DAMAGE_RESISTANCE)).getDuration();
+						int potency = Objects.requireNonNull(event.getTarget().getEffect(MobEffects.DAMAGE_RESISTANCE)).getAmplifier() - 1;
+						event.getTarget().removeEffect(MobEffects.DAMAGE_RESISTANCE);
+						if (potency >= 0)
 						{
-							int duration = Objects.requireNonNull(event.getTarget().getEffect(MobEffects.DAMAGE_RESISTANCE)).getDuration();
-							int potency = Objects.requireNonNull(event.getTarget().getEffect(MobEffects.DAMAGE_RESISTANCE)).getAmplifier() - 1;
-							event.getTarget().removeEffect(MobEffects.DAMAGE_RESISTANCE);
-							if (potency >= 0)
-							{
-								event.getTarget().addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, duration, potency));
-							}
+							event.getTarget().addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, duration, potency));
 						}
-						event.getDamageSource().addRuntimeTag(DamageTypeTags.BYPASSES_ENCHANTMENTS);
-						event.getDamageSource().addRuntimeTag(DamageTypeTags.BYPASSES_ARMOR);
-						event.getTarget().removeEffect(MobEffects.FIRE_RESISTANCE);
-						event.getPlayerPatch().playSound(SoundRegistry.CRITICAL_HIT.get(), 0, 0);
 					}
+					event.getDamageSource().addRuntimeTag(DamageTypeTags.BYPASSES_ENCHANTMENTS);
+					event.getDamageSource().addRuntimeTag(DamageTypeTags.BYPASSES_ARMOR);
+					event.getTarget().removeEffect(MobEffects.FIRE_RESISTANCE);
+					event.getPlayerPatch().playSound(SoundRegistry.CRITICAL_HIT.get(), 0, 0);
 				}
-
 			}
 		});
 	}
