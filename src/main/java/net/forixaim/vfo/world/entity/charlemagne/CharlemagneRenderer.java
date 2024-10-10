@@ -15,7 +15,7 @@ public class CharlemagneRenderer extends MobRenderer<Charlemagne, CharlemagneMod
 
 	public CharlemagneRenderer(EntityRendererProvider.Context p_174304_)
 	{
-		super(p_174304_, new CharlemagneModel(p_174304_.bakeLayer(ModelLayers.CHARLEMAGNE_LAYER)), 1f);
+		super(p_174304_, new CharlemagneModel(p_174304_.bakeLayer(ModelLayers.CHARLEMAGNE_LAYER)), 0.5f);
 	}
 
 	@Override

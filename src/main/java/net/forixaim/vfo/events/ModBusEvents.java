@@ -5,12 +5,15 @@ import net.forixaim.vfo.registry.EntityRegistry;
 import net.forixaim.vfo.registry.ModelLayers;
 import net.forixaim.vfo.world.entity.charlemagne.Charlemagne;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagnePatch;
+import net.forixaim.vfo.world.entity.charlemagne.CharlemagnePatchRenderer;
 import net.forixaim.vfo.world.entity.charlemagne.model.CharlemagneModel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.checkerframework.checker.units.qual.C;
+import yesman.epicfight.api.client.forgeevent.PatchedRenderersEvent;
 import yesman.epicfight.api.forgeevent.EntityPatchRegistryEvent;
 
 
@@ -23,6 +26,12 @@ public class ModBusEvents
 		public static void onEntityPatchRegister(EntityPatchRegistryEvent event)
 		{
 			event.getTypeEntry().put(EntityRegistry.CHARLEMAGNE.get(), entity -> CharlemagnePatch::new);
+		}
+
+		@SubscribeEvent
+		public static void onPatchRenderRegister(PatchedRenderersEvent.Add event)
+		{
+			event.addPatchedEntityRenderer(EntityRegistry.CHARLEMAGNE.get(), entityType -> new CharlemagnePatchRenderer(event.getContext(), entityType));
 		}
 
 		@SubscribeEvent

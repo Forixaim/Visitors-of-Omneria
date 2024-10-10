@@ -11,6 +11,7 @@ import java.util.Map;
 
 public class CharlemagneMesh extends HumanoidMesh implements MeshProvider<CharlemagneMesh>
 {
+
 	public CharlemagneMesh(Map<String, float[]> arrayMap, Map<MeshPartDefinition, List<AnimatedVertexBuilder>> parts, AnimatedMesh parent, RenderProperties properties)
 	{
 		super(arrayMap, parts, parent, properties);
