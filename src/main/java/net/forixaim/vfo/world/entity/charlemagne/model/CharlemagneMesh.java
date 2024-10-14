@@ -12,8 +12,6 @@ public class CharlemagneMesh extends HumanoidMesh
 	public CharlemagneMesh(Map<String, float[]> arrayMap, Map<MeshPartDefinition, List<AnimatedVertexBuilder>> parts, AnimatedMesh parent, RenderProperties properties)
 	{
 		super(arrayMap, parts, parent, properties);
-		leftLeg.setHidden(true);
-		rightLeg.setHidden(true);
 	}
 
 	@Override

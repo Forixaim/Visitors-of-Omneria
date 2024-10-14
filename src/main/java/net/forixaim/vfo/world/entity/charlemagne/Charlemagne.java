@@ -1,5 +1,6 @@
 package net.forixaim.vfo.world.entity.charlemagne;
 
+import net.forixaim.vfo.world.entity.charlemagne.ai.CharlemagneBrain;
 import net.forixaim.vfo.world.entity.types.AbstractFriendlyNPC;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -16,17 +17,22 @@ import org.jetbrains.annotations.NotNull;
 
 public class Charlemagne extends AbstractFriendlyNPC
 {
-	private CharlemagneMode currentMode;
+	private final CharlemagneBrain brain;
 
 	public Charlemagne(EntityType<? extends AbstractFriendlyNPC> p_21683_, Level p_21684_)
 	{
 		super(p_21683_, p_21684_);
-		currentMode = CharlemagneMode.FRIENDLY;
+		this.brain = new CharlemagneBrain(this);
 	}
 
 	@Override
 	public boolean canBeAffected(MobEffectInstance p_70687_1_) {
 		return p_70687_1_.getEffect() != MobEffects.WITHER && super.canBeAffected(p_70687_1_);
+	}
+
+	public CharlemagneBrain getAI()
+	{
+		return brain;
 	}
 
 	@Override
@@ -52,7 +58,7 @@ public class Charlemagne extends AbstractFriendlyNPC
 	@Override
 	public boolean isInvulnerableTo(@NotNull DamageSource p_20122_)
 	{
-		if (currentMode.is(CharlemagneMode.FRIENDLY) || currentMode.is(CharlemagneMode.DEFENSE))
+		if (this.brain.getMode().is(CharlemagneMode.FRIENDLY) || this.brain.getMode().is(CharlemagneMode.DEFENSE))
 			return true;
 		return super.isInvulnerableTo(p_20122_);
 	}
