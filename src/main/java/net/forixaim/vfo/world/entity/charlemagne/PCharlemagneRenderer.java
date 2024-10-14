@@ -8,9 +8,9 @@ import net.minecraft.world.entity.EntityType;
 import yesman.epicfight.api.client.model.MeshProvider;
 import yesman.epicfight.client.renderer.patched.entity.PatchedLivingEntityRenderer;
 
-public class CharlemagnePatchRenderer extends PatchedLivingEntityRenderer<Charlemagne, CharlemagnePatch, CharlemagneModel, CharlemagneRenderer, CharlemagneMesh>
+public class PCharlemagneRenderer extends PatchedLivingEntityRenderer<Charlemagne, CharlemagnePatch, CharlemagneModel, CharlemagneRenderer, CharlemagneMesh>
 {
-	public CharlemagnePatchRenderer(EntityRendererProvider.Context context, EntityType<?> entityType)
+	public PCharlemagneRenderer(EntityRendererProvider.Context context, EntityType<?> entityType)
 	{
 		super(context, entityType);
 	}
@@ -18,6 +18,6 @@ public class CharlemagnePatchRenderer extends PatchedLivingEntityRenderer<Charle
 	@Override
 	public MeshProvider<CharlemagneMesh> getDefaultMesh()
 	{
-		return MeshRegistry.CHARLEMAGNE;
+		return () -> MeshRegistry.CHARLEMAGNE;
 	}
 }

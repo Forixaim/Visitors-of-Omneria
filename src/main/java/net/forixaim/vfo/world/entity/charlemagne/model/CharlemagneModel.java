@@ -20,7 +20,6 @@ import org.jetbrains.annotations.NotNull;
 public class CharlemagneModel extends HierarchicalModel<Charlemagne>
 {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(VisitorsOfOmneria.MOD_ID, "charlemagne_layer"), "main");
 	private final ModelPart Head;
 	private final ModelPart Body;
 	private final ModelPart RightArm;

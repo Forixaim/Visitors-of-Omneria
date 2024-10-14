@@ -24,13 +24,11 @@ public class CreativeTabRegistry
 			.icon(() -> new ItemStack(ItemRegistry.ORIGIN_JOYEUSE.get()))
 			.withTabsBefore(EpicFightCreativeTabs.ITEMS.getId()).hideTitle()
 			.withBackgroundLocation(new ResourceLocation(VisitorsOfOmneria.MOD_ID, "textures/gui/visitors_of_omneria.png"))
-			.displayItems((params, output) -> {
-				ItemRegistry.ITEMS.getEntries().forEach(item -> {
-					if (item == ItemRegistry.ORIGIN_JOYEUSE)
-						output.accept(item.get());
-					if (item == ItemRegistry.ORIGIN_EXCALIBUR)
-						output.accept(item.get());
-				});
-			})
+			.displayItems((params, output) -> ItemRegistry.ITEMS.getEntries().forEach(item -> {
+				if (item == ItemRegistry.ORIGIN_JOYEUSE)
+					output.accept(item.get());
+				if (item == ItemRegistry.ORIGIN_EXCALIBUR)
+					output.accept(item.get());
+			}))
 			.build());
 }
