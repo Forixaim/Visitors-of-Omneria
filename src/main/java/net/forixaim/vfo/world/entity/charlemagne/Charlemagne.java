@@ -1,28 +1,35 @@
 package net.forixaim.vfo.world.entity.charlemagne;
 
-import net.forixaim.vfo.world.entity.charlemagne.ai.CharlemagneBrain;
+import com.mojang.logging.LogUtils;
 import net.forixaim.vfo.world.entity.types.AbstractFriendlyNPC;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 
 public class Charlemagne extends AbstractFriendlyNPC
 {
-	private final CharlemagneBrain brain;
+	public CharlemagnePatch patch;
+
 
 	public Charlemagne(EntityType<? extends AbstractFriendlyNPC> p_21683_, Level p_21684_)
 	{
 		super(p_21683_, p_21684_);
-		this.brain = new CharlemagneBrain(this);
 	}
 
 	@Override
@@ -30,9 +37,21 @@ public class Charlemagne extends AbstractFriendlyNPC
 		return p_70687_1_.getEffect() != MobEffects.WITHER && super.canBeAffected(p_70687_1_);
 	}
 
-	public CharlemagneBrain getAI()
+	@Override
+	public boolean fireImmune()
 	{
-		return brain;
+		return true;
+	}
+
+	@Override
+	public boolean canStandOnFluid(FluidState p_204042_)
+	{
+		return p_204042_.is(Fluids.LAVA) || p_204042_.is(Fluids.FLOWING_LAVA);
+	}
+	@Override
+	public void kill()
+	{
+		super.kill();
 	}
 
 	@Override
@@ -40,6 +59,7 @@ public class Charlemagne extends AbstractFriendlyNPC
 	{
 		goalSelector.addGoal(0, new FloatGoal(this));
 		goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
+		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, (p_28879_) -> p_28879_ instanceof Enemy));
 	}
 
 	public static AttributeSupplier.Builder createAttributes()
@@ -49,6 +69,7 @@ public class Charlemagne extends AbstractFriendlyNPC
 				.add(Attributes.MOVEMENT_SPEED, 0.25D)
 				.add(Attributes.ARMOR, 20)
 				.add(Attributes.ARMOR_TOUGHNESS, 20)
+				.add(Attributes.ATTACK_KNOCKBACK, 2)
 				.add(Attributes.KNOCKBACK_RESISTANCE, 1f)
 				.add(Attributes.ATTACK_DAMAGE, 10)
 				.add(Attributes.FOLLOW_RANGE, 8.0);
@@ -58,8 +79,15 @@ public class Charlemagne extends AbstractFriendlyNPC
 	@Override
 	public boolean isInvulnerableTo(@NotNull DamageSource p_20122_)
 	{
-		if (this.brain.getMode().is(CharlemagneMode.FRIENDLY) || this.brain.getMode().is(CharlemagneMode.DEFENSE))
+		if ((this.patch.brain != null && (this.patch.brain.getMode().is(CharlemagneMode.FRIENDLY) || this.patch.brain.getMode().is(CharlemagneMode.DEFENSE))) && !p_20122_.is(DamageTypes.GENERIC_KILL))
 			return true;
 		return super.isInvulnerableTo(p_20122_);
+	}
+
+	@Override
+	protected @NotNull InteractionResult mobInteract(@NotNull Player p_21472_, @NotNull InteractionHand p_21473_)
+	{
+		LogUtils.getLogger().debug("Interacted");
+		return InteractionResult.SUCCESS;
 	}
 }

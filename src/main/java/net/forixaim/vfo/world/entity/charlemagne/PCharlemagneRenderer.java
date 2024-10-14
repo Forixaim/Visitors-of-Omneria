@@ -6,13 +6,14 @@ import net.forixaim.vfo.world.entity.charlemagne.model.CharlemagneModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.EntityType;
 import yesman.epicfight.api.client.model.MeshProvider;
+import yesman.epicfight.client.renderer.patched.entity.PHumanoidRenderer;
 import yesman.epicfight.client.renderer.patched.entity.PatchedLivingEntityRenderer;
 
-public class PCharlemagneRenderer extends PatchedLivingEntityRenderer<Charlemagne, CharlemagnePatch, CharlemagneModel, CharlemagneRenderer, CharlemagneMesh>
+public class PCharlemagneRenderer extends PHumanoidRenderer<Charlemagne, CharlemagnePatch, CharlemagneModel, CharlemagneRenderer, CharlemagneMesh>
 {
 	public PCharlemagneRenderer(EntityRendererProvider.Context context, EntityType<?> entityType)
 	{
-		super(context, entityType);
+		super(()-> MeshRegistry.CHARLEMAGNE, context, entityType);
 	}
 
 	@Override

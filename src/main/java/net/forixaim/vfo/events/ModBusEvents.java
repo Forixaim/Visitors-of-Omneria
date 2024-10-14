@@ -8,12 +8,14 @@ import net.forixaim.vfo.world.entity.charlemagne.Charlemagne;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagnePatch;
 import net.forixaim.vfo.world.entity.charlemagne.PCharlemagneRenderer;
 import net.forixaim.vfo.world.entity.charlemagne.model.CharlemagneModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import yesman.epicfight.api.client.forgeevent.PatchedRenderersEvent;
+import yesman.epicfight.api.client.model.transformer.HumanoidModelTransformer;
 import yesman.epicfight.api.forgeevent.EntityPatchRegistryEvent;
 import yesman.epicfight.client.renderer.patched.entity.PHumanoidRenderer;
 
@@ -39,10 +41,6 @@ public class ModBusEvents
 	@Mod.EventBusSubscriber(modid = VisitorsOfOmneria.MOD_ID, value = {Dist.CLIENT}, bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class ClientEvents
 	{
-		@SubscribeEvent
-		public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
-			event.registerLayerDefinition(ModelLayers.CHARLEMAGNE_LAYER, CharlemagneModel::createBodyLayer);
-		}
 
 		@SubscribeEvent
 		public static void onPatchRenderRegister(PatchedRenderersEvent.Add event)

@@ -10,7 +10,7 @@ public class CharlemagneAttack
 {
 	private final AnimationProvider<AttackAnimation> attackAnimation;
 
-	//Primarily fort multi-hit attacks
+	//Primarily for multi-hit attacks
 	private List<AttackAnimation.Phase> attacks = Lists.newArrayList();
 
 	private float suspectConfidence;
