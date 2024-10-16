@@ -1,11 +1,13 @@
 package net.forixaim.vfo.world.entity.charlemagne;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
 import net.forixaim.vfo.animations.battle_style.charlemagne_flamiere.CharlemagneFlamiereAnims;
 import net.forixaim.vfo.capabilities.weapons.OmneriaCategories;
-import net.forixaim.vfo.world.entity.charlemagne.ai.CharlemagneBehaviors;
+import net.forixaim.vfo.events.advanced_bosses.DamageDealtEvent;
+import net.forixaim.vfo.world.entity.charlemagne.ai.CharlemagneAttackString;
 import net.forixaim.vfo.world.entity.charlemagne.ai.CharlemagneBrain;
 import net.forixaim.vfo.world.entity.patches.FriendlyHumanoidNPCPatch;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -18,6 +20,7 @@ import yesman.epicfight.gameasset.MobCombatBehaviors;
 import yesman.epicfight.world.capabilities.entitypatch.Faction;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -25,11 +28,29 @@ import java.util.UUID;
 public class CharlemagnePatch extends FriendlyHumanoidNPCPatch<Charlemagne>
 {
 	private static final UUID CloseGapUUID = UUID.fromString("eb18c5eb-19bf-4a71-9398-b49d9b510217");
+	private static final List<CharlemagneAttackString> bossAttackString = Lists.newArrayList();
+
 	public CharlemagneBrain brain;
 	public CharlemagnePatch()
 	{
 		super(Faction.NEUTRAL);
+	}
 
+	@Override
+	public boolean isLastAttackSuccess()
+	{
+		return super.isLastAttackSuccess();
+	}
+
+	public void fireDamageDealtEvent(DamageDealtEvent event)
+	{
+		//Give all control to the internal brain class.
+		brain.onReceiveAttackConnection(event);
+	}
+
+	public void fireAttackAnimEndEvent()
+	{
+		brain.onAttackAnimationEnd();
 	}
 
 	@Override
@@ -59,7 +80,6 @@ public class CharlemagnePatch extends FriendlyHumanoidNPCPatch<Charlemagne>
 		));
 
 		this.weaponAttackMotions = Maps.newHashMap();
-		this.weaponAttackMotions.put(OmneriaCategories.ORIGIN_JOYEUSE, ImmutableMap.of(CapabilityItem.Styles.COMMON, CharlemagneBehaviors.JOYEUSE_ATTACKS));
 		this.weaponAttackMotions.put(CapabilityItem.WeaponCategories.AXE, ImmutableMap.of(CapabilityItem.Styles.COMMON, MobCombatBehaviors.HUMANOID_ONEHAND_TOOLS));
 		this.weaponAttackMotions.put(CapabilityItem.WeaponCategories.HOE, ImmutableMap.of(CapabilityItem.Styles.COMMON, MobCombatBehaviors.HUMANOID_ONEHAND_TOOLS));
 		this.weaponAttackMotions.put(CapabilityItem.WeaponCategories.PICKAXE, ImmutableMap.of(CapabilityItem.Styles.COMMON, MobCombatBehaviors.HUMANOID_ONEHAND_TOOLS));

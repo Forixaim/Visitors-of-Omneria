@@ -1,6 +1,7 @@
 package net.forixaim.vfo.world.entity.charlemagne.ai;
 
 import com.google.common.collect.Lists;
+import net.forixaim.vfo.world.entity.charlemagne.CharlemagnePatch;
 import yesman.epicfight.api.animation.AnimationProvider;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 
@@ -20,5 +21,21 @@ public class CharlemagneAttack
 	{
 		this.attackAnimation = () -> attackAnimation;
 		this.attacks.addAll(List.of(attackAnimation.phases));
+		this.suspectConfidence = 1;
+	}
+
+	public float getSuspectConfidence()
+	{
+		return suspectConfidence;
+	}
+
+	public void Fire(CharlemagnePatch attacker)
+	{
+		attacker.playAnimationSynchronized(attackAnimation.get(), 0);
+	}
+
+	public void Feint(CharlemagnePatch attacker)
+	{
+		attacker.playAnimationSynchronized(attackAnimation.get(), 2);
 	}
 }

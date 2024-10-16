@@ -9,17 +9,16 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.common.ForgeMod;
 import org.jetbrains.annotations.NotNull;
 
 public class Charlemagne extends AbstractFriendlyNPC
@@ -59,7 +58,6 @@ public class Charlemagne extends AbstractFriendlyNPC
 	{
 		goalSelector.addGoal(0, new FloatGoal(this));
 		goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
-		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, (p_28879_) -> p_28879_ instanceof Enemy));
 	}
 
 	public static AttributeSupplier.Builder createAttributes()
@@ -72,7 +70,8 @@ public class Charlemagne extends AbstractFriendlyNPC
 				.add(Attributes.ATTACK_KNOCKBACK, 2)
 				.add(Attributes.KNOCKBACK_RESISTANCE, 1f)
 				.add(Attributes.ATTACK_DAMAGE, 10)
-				.add(Attributes.FOLLOW_RANGE, 8.0);
+				.add(Attributes.FOLLOW_RANGE, 8.0)
+				.add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1.5);
 
 	}
 
@@ -88,6 +87,8 @@ public class Charlemagne extends AbstractFriendlyNPC
 	protected @NotNull InteractionResult mobInteract(@NotNull Player p_21472_, @NotNull InteractionHand p_21473_)
 	{
 		LogUtils.getLogger().debug("Interacted");
+		if (p_21472_.getItemInHand(InteractionHand.MAIN_HAND).is(Items.DEBUG_STICK) && !this.level().isClientSide)
+			this.patch.brain.debugFire();
 		return InteractionResult.SUCCESS;
 	}
 }
