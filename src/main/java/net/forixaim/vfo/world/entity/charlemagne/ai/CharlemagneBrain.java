@@ -4,16 +4,22 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.logging.LogUtils;
 import net.forixaim.vfo.animations.battle_style.charlemagne_flamiere.GroundAttacks;
+import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.ImperatriceLumiereAnims;
 import net.forixaim.vfo.events.advanced_bosses.DamageDealtEvent;
 import net.forixaim.vfo.world.entity.charlemagne.Charlemagne;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagneMode;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagnePatch;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import yesman.epicfight.api.animation.types.AttackAnimation;
+import yesman.epicfight.api.utils.math.OpenMatrix4f;
+import yesman.epicfight.api.utils.math.Vec3f;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.EntityPatch;
@@ -35,10 +41,6 @@ public class CharlemagneBrain
 	private LivingEntity nearestMonster;
 	private boolean attacking;
 	private LivingEntity opponent;
-	private final TargetingConditions DefendingNPCconditions = TargetingConditions.forCombat().range(8.0f).selector((pred) -> {
-		return pred instanceof Enemy;
-	});
-
 	private final List<CharlemagneAttackString> charlemagneAttackStrings = Lists.newArrayList(
 	);
 
@@ -56,6 +58,7 @@ public class CharlemagneBrain
 		charlemagneAttackStrings.add(
 				ASinstance.AttackString1
 		);
+
 	}
 
 	public CharlemagneMode getMode()
@@ -99,6 +102,12 @@ public class CharlemagneBrain
 		}
 	}
 
+	public void backOff(LivingEntity nearestMonster)
+	{
+		//move backwards until the distance has been reached.
+
+	}
+
 	public void onAttackAnimationEnd()
 	{
 		for (CharlemagneAttackString charlemagneAttackString : charlemagneAttackStrings)
@@ -112,6 +121,13 @@ public class CharlemagneBrain
 
 	protected AABB getTargetSearchArea(double pTargetDistance) {
 		return this.target.getBoundingBox().inflate(pTargetDistance, 4.0, pTargetDistance);
+	}
+
+	private Vec3 withinDist(LivingEntity opponent, float distance)
+	{
+		//Distance is the vector magnitude
+		Vec3 oppPos = opponent.position();
+		float theta;
 	}
 
 	public void receiveTickFire()
@@ -128,9 +144,14 @@ public class CharlemagneBrain
 			tick = 0;
 			seconds++;
 			if (!target.level().isClientSide)
+			{
 				LogUtils.getLogger().debug("a second has passed;");
+				LogUtils.getLogger().debug("Nearest monster: {}", nearestMonster);
+				LogUtils.getLogger().debug("Current Mode: {}", mode);
+			}
+
 			//Check for any enemy mobs nearby unless in defense mode;
-			nearestMonster = this.target.level().getNearestEntity(this.target.level().getEntitiesOfClass(Mob.class, this.getTargetSearchArea(8.0f)), DefendingNPCconditions, this.target, this.target.getX(), this.target.getY(), this.target.getZ());
+			nearestMonster = this.target.level().getNearestEntity(this.target.level().getEntitiesOfClass(Mob.class, this.getTargetSearchArea(8.0f)), target.DefCond, this.target, this.target.getX(), this.target.getY(), this.target.getZ());
 			if (nearestMonster != null && !mode.is(CharlemagneMode.DUELING))
 			{
 				this.mode = CharlemagneMode.DEFENSE;
@@ -177,14 +198,18 @@ public class CharlemagneBrain
 		{
 			this.target.lookAt(nearestMonster, 0, 0);
 			nearestMonster.setSecondsOnFire(2);
-			if (this.target.distanceTo(nearestMonster) < 2.5f && fireCheck())
+			if (this.target.distanceTo(nearestMonster) < 1.5f)
 			{
-				this.target.setTarget(null);
+				this.target.lookAt(nearestMonster, 0, 0);
+				patch.playAnimationSynchronized(ImperatriceLumiereAnims.IMPERATRICE_TRAILBLAZE_BACK, 0);
+			}
+			else if (this.target.distanceTo(nearestMonster) < 2.5f && fireCheck())
+			{
 				debugFire();
 			}
 			else if (fireCheck())
 			{
-				this.target.setTarget(nearestMonster);
+				target.getNavigation().moveTo();
 			}
 		}
 		else

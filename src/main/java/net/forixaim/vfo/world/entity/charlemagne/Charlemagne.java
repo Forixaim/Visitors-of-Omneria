@@ -14,7 +14,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -26,6 +28,8 @@ import org.jetbrains.annotations.NotNull;
 public class Charlemagne extends AbstractFriendlyNPC
 {
 	public CharlemagnePatch patch;
+	public final TargetingConditions DefCond = TargetingConditions.forCombat().range(this.getAttributeValue(Attributes.FOLLOW_RANGE)).selector((pred) -> pred instanceof Enemy);
+
 
 	public Charlemagne(EntityType<? extends AbstractFriendlyNPC> p_21683_, Level p_21684_)
 	{
@@ -71,7 +75,7 @@ public class Charlemagne extends AbstractFriendlyNPC
 				.add(Attributes.ATTACK_KNOCKBACK, 2)
 				.add(Attributes.KNOCKBACK_RESISTANCE, 1f)
 				.add(Attributes.ATTACK_DAMAGE, 10)
-				.add(Attributes.FOLLOW_RANGE, 8.0)
+				.add(Attributes.FOLLOW_RANGE, 40.0)
 				.add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1.5);
 
 	}

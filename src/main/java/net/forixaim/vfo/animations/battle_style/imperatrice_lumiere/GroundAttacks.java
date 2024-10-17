@@ -5,6 +5,8 @@ import net.forixaim.efm_ex.api.animation.types.KnockbackAttackAnimation;
 import net.forixaim.vfo.colliders.LumiereColliders;
 import net.forixaim.vfo.registry.SoundRegistry;
 import net.forixaim.vfo.skill.DatakeyRegistry;
+import net.minecraft.world.entity.Entity;
+import yesman.epicfight.api.animation.property.AnimationEvent;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.BasicAttackAnimation;
@@ -15,6 +17,7 @@ import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.ColliderPreset;
 import yesman.epicfight.gameasset.EpicFightSounds;
+import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.particle.EpicFightParticles;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.damagesource.StunType;
@@ -40,8 +43,81 @@ public class GroundAttacks
 
 	/* Dash Attack */
 	public static StaticAnimation IMPERATRICE_SWORD_DASH_ATTACK;
+	public static StaticAnimation BLAZE_WHEEL;
+
 	public static void Build()
 	{
+		HumanoidArmature biped = Armatures.BIPED;
+		BLAZE_WHEEL = new BasicAttackAnimation(0.1f, "battle_style/legendary/imperatrice_lumiere/sword/infernal_wheel", biped,
+				new AttackAnimation.Phase(0.0f, 0.0f, 0.0f, 0.2f, 0.4f, 0.4f, biped.rootJoint, null),
+				new AttackAnimation.Phase(0.4f, 0.0f, 0.5f, 0.8f, 1.3f, 1.6f, biped.toolR, null)
+		)
+				.addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.setter(0.5f))
+				.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.HOLD)
+				.addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, true)
+				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (a,b,c,d, e) -> 1.4f)
+				.addEvents(
+						AnimationEvent.TimeStampedEvent.create(0.1F, (entitypatch, animation, params) ->
+						{
+							Entity entity = entitypatch.getOriginal();
+							entity.level().addParticle(EpicFightParticles.ENTITY_AFTER_IMAGE.get(), entity.getX(), entity.getY(), entity.getZ(), Double.longBitsToDouble(entity.getId()), 0, 0);
+						}, AnimationEvent.Side.CLIENT),
+						AnimationEvent.TimeStampedEvent.create(0.2F, (entitypatch, animation, params) ->
+						{
+							Entity entity = entitypatch.getOriginal();
+							entity.level().addParticle(EpicFightParticles.ENTITY_AFTER_IMAGE.get(), entity.getX(), entity.getY(), entity.getZ(), Double.longBitsToDouble(entity.getId()), 0, 0);
+						}, AnimationEvent.Side.CLIENT),
+						AnimationEvent.TimeStampedEvent.create(0.3F, (entitypatch, animation, params) ->
+						{
+							Entity entity = entitypatch.getOriginal();
+							entity.level().addParticle(EpicFightParticles.ENTITY_AFTER_IMAGE.get(), entity.getX(), entity.getY(), entity.getZ(), Double.longBitsToDouble(entity.getId()), 0, 0);
+						}, AnimationEvent.Side.CLIENT),
+						AnimationEvent.TimeStampedEvent.create(0.4F, (entitypatch, animation, params) ->
+						{
+							Entity entity = entitypatch.getOriginal();
+							entity.level().addParticle(EpicFightParticles.ENTITY_AFTER_IMAGE.get(), entity.getX(), entity.getY(), entity.getZ(), Double.longBitsToDouble(entity.getId()), 0, 0);
+						}, AnimationEvent.Side.CLIENT),
+						AnimationEvent.TimeStampedEvent.create(0.5F, (entitypatch, animation, params) ->
+						{
+							Entity entity = entitypatch.getOriginal();
+							entity.level().addParticle(EpicFightParticles.ENTITY_AFTER_IMAGE.get(), entity.getX(), entity.getY(), entity.getZ(), Double.longBitsToDouble(entity.getId()), 0, 0);
+						}, AnimationEvent.Side.CLIENT),
+						AnimationEvent.TimeStampedEvent.create(0.6F, (entitypatch, animation, params) ->
+						{
+							Entity entity = entitypatch.getOriginal();
+							entity.level().addParticle(EpicFightParticles.ENTITY_AFTER_IMAGE.get(), entity.getX(), entity.getY(), entity.getZ(), Double.longBitsToDouble(entity.getId()), 0, 0);
+						}, AnimationEvent.Side.CLIENT),
+						AnimationEvent.TimeStampedEvent.create(0.7F, (entitypatch, animation, params) ->
+						{
+							Entity entity = entitypatch.getOriginal();
+							entity.level().addParticle(EpicFightParticles.ENTITY_AFTER_IMAGE.get(), entity.getX(), entity.getY(), entity.getZ(), Double.longBitsToDouble(entity.getId()), 0, 0);
+						}, AnimationEvent.Side.CLIENT),
+						AnimationEvent.TimeStampedEvent.create(0.8F, (entitypatch, animation, params) ->
+						{
+							Entity entity = entitypatch.getOriginal();
+							entity.level().addParticle(EpicFightParticles.ENTITY_AFTER_IMAGE.get(), entity.getX(), entity.getY(), entity.getZ(), Double.longBitsToDouble(entity.getId()), 0, 0);
+						}, AnimationEvent.Side.CLIENT),
+						AnimationEvent.TimeStampedEvent.create(0.9F, (entitypatch, animation, params) ->
+						{
+							Entity entity = entitypatch.getOriginal();
+							entity.level().addParticle(EpicFightParticles.ENTITY_AFTER_IMAGE.get(), entity.getX(), entity.getY(), entity.getZ(), Double.longBitsToDouble(entity.getId()), 0, 0);
+						}, AnimationEvent.Side.CLIENT),
+						AnimationEvent.TimeStampedEvent.create(1.0F, (entitypatch, animation, params) ->
+						{
+							Entity entity = entitypatch.getOriginal();
+							entity.level().addParticle(EpicFightParticles.ENTITY_AFTER_IMAGE.get(), entity.getX(), entity.getY(), entity.getZ(), Double.longBitsToDouble(entity.getId()), 0, 0);
+						}, AnimationEvent.Side.CLIENT),
+						AnimationEvent.TimeStampedEvent.create(1.1F, (entitypatch, animation, params) ->
+						{
+							Entity entity = entitypatch.getOriginal();
+							entity.level().addParticle(EpicFightParticles.ENTITY_AFTER_IMAGE.get(), entity.getX(), entity.getY(), entity.getZ(), Double.longBitsToDouble(entity.getId()), 0, 0);
+						}, AnimationEvent.Side.CLIENT),
+						AnimationEvent.TimeStampedEvent.create(1.2F, (entitypatch, animation, params) ->
+						{
+							Entity entity = entitypatch.getOriginal();
+							entity.level().addParticle(EpicFightParticles.ENTITY_AFTER_IMAGE.get(), entity.getX(), entity.getY(), entity.getZ(), Double.longBitsToDouble(entity.getId()), 0, 0);
+						}, AnimationEvent.Side.CLIENT)
+				);
 		IMPERATRICE_SWORD_JAB1 = new BasicAttackAnimation(0.05f, 0.25f, 0.4f, 0.5f, 1f, null, Armatures.BIPED.toolR, "battle_style/legendary/imperatrice_lumiere/sword/jab1", Armatures.BIPED)
 				.addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(0.25f))
 				.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
