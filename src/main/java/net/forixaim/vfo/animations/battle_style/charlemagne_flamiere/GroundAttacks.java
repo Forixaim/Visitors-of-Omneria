@@ -65,5 +65,6 @@ public class GroundAttacks
 							livingEntityPatch.playSound(SoundRegistry.IMPERATRICE_SWING3.get(), 0, 0);
 						}, AnimationEvent.Side.CLIENT
 				));
+
 	}
 }

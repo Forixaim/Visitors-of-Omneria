@@ -8,6 +8,11 @@ import net.forixaim.vfo.events.advanced_bosses.DamageDealtEvent;
 import net.forixaim.vfo.world.entity.charlemagne.Charlemagne;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagneMode;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagnePatch;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.phys.AABB;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
@@ -27,6 +32,12 @@ public class CharlemagneBrain
 	private final Charlemagne target;
 	public CharlemagnePatch patch;
 	private CharlemagneMode mode;
+	private LivingEntity nearestMonster;
+	private boolean attacking;
+	private LivingEntity opponent;
+	private final TargetingConditions DefendingNPCconditions = TargetingConditions.forCombat().range(8.0f).selector((pred) -> {
+		return pred instanceof Enemy;
+	});
 
 	private final List<CharlemagneAttackString> charlemagneAttackStrings = Lists.newArrayList(
 	);
@@ -99,6 +110,10 @@ public class CharlemagneBrain
 		}
 	}
 
+	protected AABB getTargetSearchArea(double pTargetDistance) {
+		return this.target.getBoundingBox().inflate(pTargetDistance, 4.0, pTargetDistance);
+	}
+
 	public void receiveTickFire()
 	{
 		tick++;
@@ -114,13 +129,30 @@ public class CharlemagneBrain
 			seconds++;
 			if (!target.level().isClientSide)
 				LogUtils.getLogger().debug("a second has passed;");
-			//Check for any enemy mobs nearby
+			//Check for any enemy mobs nearby unless in defense mode;
+			nearestMonster = this.target.level().getNearestEntity(this.target.level().getEntitiesOfClass(Mob.class, this.getTargetSearchArea(8.0f)), DefendingNPCconditions, this.target, this.target.getX(), this.target.getY(), this.target.getZ());
+			if (nearestMonster != null && !mode.is(CharlemagneMode.DUELING))
+			{
+				this.mode = CharlemagneMode.DEFENSE;
+			}
 
 		}
 		if (seconds >= 60)
 		{
 			seconds = 0;
 		}
+	}
+
+	public boolean fireCheck()
+	{
+		for (CharlemagneAttackString string : charlemagneAttackStrings)
+		{
+			if (string.firing)
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public void debugFire()
@@ -141,7 +173,24 @@ public class CharlemagneBrain
 
 	private void defenseTick()
 	{
-
+		if (nearestMonster != null && !nearestMonster.isDeadOrDying() )
+		{
+			this.target.lookAt(nearestMonster, 0, 0);
+			nearestMonster.setSecondsOnFire(2);
+			if (this.target.distanceTo(nearestMonster) < 2.5f && fireCheck())
+			{
+				this.target.setTarget(null);
+				debugFire();
+			}
+			else if (fireCheck())
+			{
+				this.target.setTarget(nearestMonster);
+			}
+		}
+		else
+		{
+			this.mode = CharlemagneMode.FRIENDLY;
+		}
 	}
 
 	private class AttackStrings
@@ -157,7 +206,12 @@ public class CharlemagneBrain
 				Lists.newArrayList(
 						new CharlemagneAttack((AttackAnimation) GroundAttacks.JAB_3)
 				)
-
 		);
+	}
+
+	private class MovementPatterns
+	{
+		private final Charlemagne target = CharlemagneBrain.this.target;
+
 	}
 }

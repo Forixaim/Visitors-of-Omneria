@@ -113,7 +113,7 @@ public class CharlemagnePatch extends FriendlyHumanoidNPCPatch<Charlemagne>
 	public void tick(LivingEvent.LivingTickEvent event)
 	{
 		super.tick(event);
-		if (brain != null)
+		if (brain != null && !this.isLogicalClient())
 			brain.receiveTickFire();
 		if (this.currentLivingMotion == LivingMotions.CHASE)
 		{
