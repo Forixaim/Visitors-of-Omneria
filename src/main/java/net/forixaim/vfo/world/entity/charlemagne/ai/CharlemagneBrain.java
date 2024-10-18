@@ -123,13 +123,6 @@ public class CharlemagneBrain
 		return this.target.getBoundingBox().inflate(pTargetDistance, 4.0, pTargetDistance);
 	}
 
-	private Vec3 withinDist(LivingEntity opponent, float distance)
-	{
-		//Distance is the vector magnitude
-		Vec3 oppPos = opponent.position();
-		float theta;
-	}
-
 	public void receiveTickFire()
 	{
 		tick++;
@@ -198,18 +191,18 @@ public class CharlemagneBrain
 		{
 			this.target.lookAt(nearestMonster, 0, 0);
 			nearestMonster.setSecondsOnFire(2);
-			if (this.target.distanceTo(nearestMonster) < 1.5f)
+			if (this.target.distanceTo(nearestMonster) < 2.5f && fireCheck())
 			{
-				this.target.lookAt(nearestMonster, 0, 0);
-				patch.playAnimationSynchronized(ImperatriceLumiereAnims.IMPERATRICE_TRAILBLAZE_BACK, 0);
-			}
-			else if (this.target.distanceTo(nearestMonster) < 2.5f && fireCheck())
-			{
+				this.target.setTarget(null);
 				debugFire();
+
 			}
 			else if (fireCheck())
 			{
-				target.getNavigation().moveTo();
+				if (this.target.getTarget() != nearestMonster)
+				{
+					target.setTarget(nearestMonster);
+				}
 			}
 		}
 		else

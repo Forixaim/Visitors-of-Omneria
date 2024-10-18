@@ -179,9 +179,8 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:geckolib-388172:5188427")
 
     implementation fg.deobf("curse.maven:epic-fight-mod-405076:5811659")
-    implementation fg.deobf("libs:ExCap:20.9.1")
-    implementation fg.deobf("libs:BattleArtsAPI:20.9.2.3")
-    runtimeOnly fg.deobf("libs:LegendaryWarriors:20.9")
+    implementation fg.deobf("libs:ExCap:20.9.2.5")
+    implementation fg.deobf("libs:BattleArtsAPI:20.9.2.5")
     runtimeOnly fg.deobf("libs:refm:0.2.0-1.20.1")
     runtimeOnly fg.deobf("libs:indestructible:20.9.2")
     runtimeOnly fg.deobf("libs:WoM:ref")
