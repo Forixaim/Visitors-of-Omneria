@@ -1,4 +1,4 @@
-package net.forixaim.vfo.animations.battle_style.imperatrice_lumiere;
+package net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword;
 
 import net.forixaim.bs_api.AnimationHelpers;
 import net.forixaim.efm_ex.api.animation.types.KnockbackAttackAnimation;
@@ -16,11 +16,13 @@ import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.world.damagesource.StunType;
 
-public class AerialAttacks
+public class LumiereSwordAerialAttacks
 {
 	public static StaticAnimation IMPERATRICE_SWORD_FORWARD_AERIAL;
 	public static StaticAnimation IMPERATRICE_SWORD_NEUTRAL_AERIAL;
 	public static StaticAnimation IMPERATRICE_SWORD_DOWN_AERIAL;
+	public static StaticAnimation IMPERATRICE_BACK_AERIAL;
+	public static StaticAnimation IMPERATRICE_UP_AERIAL;
 
 	public static void Build()
 	{
@@ -51,6 +53,47 @@ public class AerialAttacks
 				.addState(EntityState.TURNING_LOCKED, true)
 				.addState(EntityState.LOCKON_ROTATE, true)
 				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (a, b, c, d, e) -> 1.25f)
+				.addProperty(AnimationProperty.StaticAnimationProperty.FIXED_HEAD_ROTATION, true)
+				.addEvents(AnimationProperty.StaticAnimationProperty.EVENTS, AnimationEvent.create((livingEntityPatch, staticAnimation, objects) ->
+				{
+					if (!AnimationHelpers.isInAir(livingEntityPatch))
+					{
+						livingEntityPatch.playAnimationSynchronized(livingEntityPatch.getHoldingItemCapability(InteractionHand.MAIN_HAND).getLivingMotionModifier(livingEntityPatch, InteractionHand.MAIN_HAND).get(LivingMotions.IDLE).get(), 0);
+					}
+				}, AnimationEvent.Side.SERVER));
+
+		IMPERATRICE_BACK_AERIAL = new AttackAnimation(0.05f, 0.25f, 0.6f, 0.8f, 1.25f, null, Armatures.BIPED.toolR, "battle_style/legendary/imperatrice_lumiere/sword/back_air", Armatures.BIPED)
+				.addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(0.8f))
+				.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.LONG)
+				.addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, SoundRegistry.IMPERATRICE_SWING1.get())
+				.addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, SoundRegistry.IMPERATRICE_HIT_M.get())
+				.addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.setter(3f))
+				.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true)
+				.addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, false)
+				.addState(EntityState.TURNING_LOCKED, true)
+				.addState(EntityState.LOCKON_ROTATE, true)
+				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (a, b, c, d, e) -> 1.2f)
+				.addProperty(AnimationProperty.StaticAnimationProperty.FIXED_HEAD_ROTATION, true)
+				.addEvents(AnimationProperty.StaticAnimationProperty.EVENTS, AnimationEvent.create((livingEntityPatch, staticAnimation, objects) ->
+				{
+					if (!AnimationHelpers.isInAir(livingEntityPatch))
+					{
+						livingEntityPatch.playAnimationSynchronized(livingEntityPatch.getHoldingItemCapability(InteractionHand.MAIN_HAND).getLivingMotionModifier(livingEntityPatch, InteractionHand.MAIN_HAND).get(LivingMotions.IDLE).get(), 0);
+					}
+				}, AnimationEvent.Side.SERVER));
+
+		IMPERATRICE_UP_AERIAL = new KnockbackAttackAnimation(0.05f, "battle_style/legendary/imperatrice_lumiere/sword/up_air", Armatures.BIPED, 2f, 2f,
+				new KnockbackAttackAnimation.KnockbackPhase(0.0f, 0.0f, 0.1f, 0.3f, 0.4f, 0.4f, Armatures.BIPED.toolR, null, 2, 2, false))
+				.addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(0.3f))
+				.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.LONG)
+				.addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, SoundRegistry.IMPERATRICE_SWING1.get())
+				.addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, SoundRegistry.IMPERATRICE_HIT_S.get())
+				.addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.setter(3f))
+				.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true)
+				.addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, false)
+				.addState(EntityState.TURNING_LOCKED, true)
+				.addState(EntityState.LOCKON_ROTATE, true)
+				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (a, b, c, d, e) -> 1.2f)
 				.addProperty(AnimationProperty.StaticAnimationProperty.FIXED_HEAD_ROTATION, true)
 				.addEvents(AnimationProperty.StaticAnimationProperty.EVENTS, AnimationEvent.create((livingEntityPatch, staticAnimation, objects) ->
 				{

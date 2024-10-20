@@ -15,7 +15,7 @@ public class LumiereColliders
 		return new ResourceLocation(VisitorsOfOmneria.MOD_ID, name);
 	}
 	public static final Collider JOYEUSE = registerCollider(reg("joyeuse"), new MultiOBBCollider(15,
-			0.3D, 0.3D, 1.2D, 0.0D, 0D, -1D
+			0.5D, 0.5D, 1.2D, 0.0D, 0D, -1D
 	));
 
 	public static final Collider IMPERATRICE_FLAMING_ATMOSPHERE = registerCollider(reg("imperatrice_flaming_atmosphere"), new OBBCollider(3, 3, 3, 0, 0, 0));

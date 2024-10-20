@@ -1,4 +1,4 @@
-package net.forixaim.vfo.animations.battle_style.imperatrice_lumiere;
+package net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword;
 
 import net.forixaim.efm_ex.api.animation.types.KnockbackAttackAnimation;
 import net.forixaim.vfo.colliders.LumiereColliders;
@@ -19,7 +19,7 @@ import yesman.epicfight.world.damagesource.StunType;
 
 import java.util.Set;
 
-public class SmashAttacks
+public class LumiereSwordSmashAttacks
 {
 	public static StaticAnimation IMPERATRICE_SWORD_FIRE_DRIVER;
 	public static StaticAnimation IMPERATRICE_SWORD_FLARE_ERUPTION;

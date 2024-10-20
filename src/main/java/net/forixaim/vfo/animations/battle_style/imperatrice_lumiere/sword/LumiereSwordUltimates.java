@@ -1,4 +1,4 @@
-package net.forixaim.vfo.animations.battle_style.imperatrice_lumiere;
+package net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword;
 
 import net.forixaim.vfo.animations.AdditionalEffects;
 import net.forixaim.vfo.colliders.LumiereColliders;
@@ -22,7 +22,7 @@ import yesman.epicfight.world.damagesource.StunType;
 
 import java.util.Set;
 
-public class Ultimate
+public class LumiereSwordUltimates
 {
 	public static StaticAnimation IMPERATRICE_ULTIMATE_TRY;
 	public static StaticAnimation IMPERATRICE_FLARE_BLADE_CLEAVE;

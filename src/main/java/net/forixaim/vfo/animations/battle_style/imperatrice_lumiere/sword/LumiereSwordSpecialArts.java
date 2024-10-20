@@ -1,4 +1,4 @@
-package net.forixaim.vfo.animations.battle_style.imperatrice_lumiere;
+package net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword;
 
 import net.forixaim.bs_api.battle_arts_skills.BattleArtsSkillSlots;
 import net.forixaim.vfo.animations.AdditionalEffects;
@@ -26,7 +26,7 @@ import yesman.epicfight.world.damagesource.StunType;
 
 import java.util.Set;
 
-public class SpecialArts
+public class LumiereSwordSpecialArts
 {
 	public static StaticAnimation IMPERATRICE_INCANDESCENT_FIREWORK;
 	public static StaticAnimation IMPERATRICE_PROMINENCE_BLAZE;

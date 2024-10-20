@@ -1,4 +1,4 @@
-package net.forixaim.vfo.animations.battle_style.imperatrice_lumiere;
+package net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword;
 
 import net.minecraft.sounds.SoundEvents;
 import yesman.epicfight.api.animation.property.AnimationEvent;
@@ -11,7 +11,7 @@ import yesman.epicfight.gameasset.Armatures;
 /**
  * Module containing living motions.
  */
-public class ImperatriceLumiereAnims
+public class LumiereSwordAnims
 {
 	public static StaticAnimation IMPERATRICE_JOYEUSE_DRAW;
 	public static StaticAnimation IMPERATRICE_SWORD_EN_GARDE;
@@ -33,11 +33,11 @@ public class ImperatriceLumiereAnims
 	public static void Build()
 	{
 		//Build all of its module classes
-		AerialAttacks.Build();
-		GroundAttacks.Build();
-		SmashAttacks.Build();
-		SpecialArts.Build();
-		Ultimate.Build();
+		LumiereSwordAerialAttacks.Build();
+		LumiereSwordGroundAttacks.Build();
+		LumiereSwordSmashAttacks.Build();
+		LumiereSwordSpecialArts.Build();
+		LumiereSwordUltimates.Build();
 
 		//Main
 		IMPERATRICE_JOYEUSE_DRAW = new AttackAnimation(0.0f, 0.00f, 0.00f, 0.0f, 1.2f, null, Armatures.BIPED.toolR, "battle_style/legendary/imperatrice_lumiere/sword/joyeuse_draw", Armatures.BIPED)

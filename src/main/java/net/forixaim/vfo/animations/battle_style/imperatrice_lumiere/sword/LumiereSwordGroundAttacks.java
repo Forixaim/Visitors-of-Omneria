@@ -1,4 +1,4 @@
-package net.forixaim.vfo.animations.battle_style.imperatrice_lumiere;
+package net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword;
 
 import net.forixaim.bs_api.battle_arts_skills.BattleArtsSkillSlots;
 import net.forixaim.efm_ex.api.animation.types.KnockbackAttackAnimation;
@@ -15,14 +15,13 @@ import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.utils.math.ValueModifier;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Armatures;
-import yesman.epicfight.gameasset.ColliderPreset;
 import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.particle.EpicFightParticles;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.damagesource.StunType;
 
-public class GroundAttacks
+public class LumiereSwordGroundAttacks
 {
 	/* Jab */
 	public static StaticAnimation IMPERATRICE_SWORD_JAB1;

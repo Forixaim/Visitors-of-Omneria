@@ -3,7 +3,7 @@ package net.forixaim.vfo.skill.battle_style.imperatrice_lumiere.active;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.forixaim.bs_api.battle_arts_skills.BattleArtsSkillSlots;
 import net.forixaim.bs_api.battle_arts_skills.active.burst_arts.BurstArt;
-import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.SpecialArts;
+import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordSpecialArts;
 import net.forixaim.vfo.capabilities.styles.LumiereStyles;
 import net.forixaim.vfo.registry.SoundRegistry;
 import net.forixaim.vfo.skill.DatakeyRegistry;
@@ -31,7 +31,7 @@ import java.util.function.Consumer;
 public class BlazingDetermination extends BurstArt
 {
 	private static final UUID EVENT_UUID = UUID.fromString("1f198bcc-af51-45ae-a5f0-78496ec47408");
-	private static final AnimationProvider<AttackAnimation> FLARE_BURST_ACTIVATE = () -> (AttackAnimation) SpecialArts.IMPERATRICE_SWORD_FLARE_BURST;
+	private static final AnimationProvider<AttackAnimation> FLARE_BURST_ACTIVATE = () -> (AttackAnimation) LumiereSwordSpecialArts.IMPERATRICE_SWORD_FLARE_BURST;
 
 	private final Consumer<SkillExecuteEvent> skillExecuteEvent = event ->
 	{

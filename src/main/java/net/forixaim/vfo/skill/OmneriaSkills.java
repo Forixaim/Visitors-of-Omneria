@@ -6,7 +6,7 @@ import net.forixaim.bs_api.battle_arts_skills.active.ultimate_arts.UltimateArt;
 import net.forixaim.bs_api.battle_arts_skills.battle_style.BattleStyle;
 import net.forixaim.efm_ex.skill.ExCapWeaponPassive;
 import net.forixaim.vfo.VisitorsOfOmneria;
-import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.ImperatriceLumiereAnims;
+import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordAnims;
 import net.forixaim.vfo.registry.CreativeTabRegistry;
 import net.forixaim.vfo.skill.battle_style.imperatrice_lumiere.*;
 import net.forixaim.vfo.skill.battle_style.imperatrice_lumiere.active.BlazingDetermination;
@@ -68,10 +68,10 @@ public class OmneriaSkills
 				"trailblaze",
 				Trailblaze::new,
 				DodgeSkill.createDodgeBuilder().setAnimations(
-						() -> ImperatriceLumiereAnims.IMPERATRICE_TRAILBLAZE_FWD,
-						() -> ImperatriceLumiereAnims.IMPERATRICE_TRAILBLAZE_BACK,
-						() -> ImperatriceLumiereAnims.IMPERATRICE_TRAILBLAZE_LEFT,
-						() -> ImperatriceLumiereAnims.IMPERATRICE_TRAILBLAZE_RIGHT
+						() -> LumiereSwordAnims.IMPERATRICE_TRAILBLAZE_FWD,
+						() -> LumiereSwordAnims.IMPERATRICE_TRAILBLAZE_BACK,
+						() -> LumiereSwordAnims.IMPERATRICE_TRAILBLAZE_LEFT,
+						() -> LumiereSwordAnims.IMPERATRICE_TRAILBLAZE_RIGHT
 				)
 		);
 	}

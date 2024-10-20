@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.logging.LogUtils;
 import net.forixaim.vfo.animations.battle_style.charlemagne_flamiere.GroundAttacks;
-import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.SmashAttacks;
+import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordSmashAttacks;
 import net.forixaim.vfo.events.advanced_bosses.DamageDealtEvent;
 import net.forixaim.vfo.world.entity.charlemagne.Charlemagne;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagneMode;
@@ -50,7 +50,7 @@ public class CharlemagneBrain
 		charlemagneAttackStrings.add(
 				ASinstance.AttackString1
 		);
-		StaminaDamageMap.put((AttackAnimation) SmashAttacks.IMPERATRICE_SWORD_FIRE_DRIVER, 7.1f);
+		StaminaDamageMap.put((AttackAnimation) LumiereSwordSmashAttacks.IMPERATRICE_SWORD_FIRE_DRIVER, 7.1f);
 
 	}
 

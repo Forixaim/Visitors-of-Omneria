@@ -2,7 +2,7 @@ package net.forixaim.vfo.skill.battle_style.imperatrice_lumiere.active;
 
 import net.forixaim.bs_api.battle_arts_skills.BattleArtsSkillSlots;
 import net.forixaim.bs_api.battle_arts_skills.active.combat_arts.CombatArt;
-import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.SpecialArts;
+import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordSpecialArts;
 import net.forixaim.vfo.capabilities.styles.LumiereStyles;
 import net.forixaim.vfo.skill.DatakeyRegistry;
 import net.forixaim.vfo.skill.OmneriaSkills;
@@ -28,8 +28,8 @@ public class ImperatriceSpecials extends CombatArt
 {
 
 	private static final UUID EVENT_UUID = UUID.fromString("a4deb3a3-2eb2-4e3b-8204-265e95cc4eaf");
-	private static final AnimationProvider<AttackAnimation> provider = () -> (AttackAnimation) SpecialArts.IMPERATRICE_INCANDESCENT_FIREWORK.get();
-	private static final AnimationProvider<AttackAnimation> INFERNO_ASTROLABE = () -> (AttackAnimation) SpecialArts.IMPERATRICE_SWORD_INFERNO_ASTROLABE;
+	private static final AnimationProvider<AttackAnimation> provider = () -> (AttackAnimation) LumiereSwordSpecialArts.IMPERATRICE_INCANDESCENT_FIREWORK.get();
+	private static final AnimationProvider<AttackAnimation> INFERNO_ASTROLABE = () -> (AttackAnimation) LumiereSwordSpecialArts.IMPERATRICE_SWORD_INFERNO_ASTROLABE;
 
 	public ImperatriceSpecials(Builder<? extends Skill> builder)
 	{

@@ -2,7 +2,7 @@ package net.forixaim.vfo.skill.battle_style.imperatrice_lumiere;
 
 import net.forixaim.bs_api.AnimationHelpers;
 import net.forixaim.bs_api.battle_arts_skills.BattleArtsSkillSlots;
-import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.SmashAttacks;
+import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordSmashAttacks;
 import net.forixaim.vfo.registry.ItemRegistry;
 import net.forixaim.vfo.registry.SoundRegistry;
 import net.forixaim.vfo.skill.DatakeyRegistry;
@@ -35,16 +35,15 @@ import yesman.epicfight.world.entity.eventlistener.PlayerEventListener;
 
 import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class FireDriver extends WeaponInnateSkill
 {
 
 	private static final UUID EVENT_UUID = UUID.fromString("9ed5a11f-c7b2-4679-99db-0a4c8de2f5a3");
-	private static final AnimationProvider<AttackAnimation> NEUTRAL_SMASH = () -> (AttackAnimation) SmashAttacks.IMPERATRICE_SWORD_FIRE_DRIVER;
-	private static final AnimationProvider<AttackAnimation> DOWN_SMASH =  () -> (AttackAnimation) SmashAttacks.IMPERATRICE_SWORD_FLARE_ERUPTION;
-	private static final AnimationProvider<AttackAnimation> NEUTRAL_AERIAL_SMASH = () -> (AttackAnimation) SmashAttacks.IMPERATRICE_SWORD_FLAMING_ATMOSPHERE;
-	private static final AnimationProvider<AttackAnimation> SOLAR_FLARE = () -> (AttackAnimation) SmashAttacks.IMPERATRICE_SWORD_SOLAR_FLARE;
+	private static final AnimationProvider<AttackAnimation> NEUTRAL_SMASH = () -> (AttackAnimation) LumiereSwordSmashAttacks.IMPERATRICE_SWORD_FIRE_DRIVER;
+	private static final AnimationProvider<AttackAnimation> DOWN_SMASH =  () -> (AttackAnimation) LumiereSwordSmashAttacks.IMPERATRICE_SWORD_FLARE_ERUPTION;
+	private static final AnimationProvider<AttackAnimation> NEUTRAL_AERIAL_SMASH = () -> (AttackAnimation) LumiereSwordSmashAttacks.IMPERATRICE_SWORD_FLAMING_ATMOSPHERE;
+	private static final AnimationProvider<AttackAnimation> SOLAR_FLARE = () -> (AttackAnimation) LumiereSwordSmashAttacks.IMPERATRICE_SWORD_SOLAR_FLARE;
 
 	public FireDriver(Builder<? extends Skill> builder)
 	{
@@ -76,7 +75,7 @@ public class FireDriver extends WeaponInnateSkill
 
 		container.getExecuter().getEventListener().addEventListener(PlayerEventListener.EventType.ATTACK_ANIMATION_END_EVENT, EVENT_UUID, event ->
 		{
-			if (event.getAnimation() == SmashAttacks.IMPERATRICE_SWORD_FLAMING_ATMOSPHERE || event.getAnimation() == SmashAttacks.IMPERATRICE_SWORD_FIRE_DRIVER || event.getAnimation() == SmashAttacks.IMPERATRICE_SWORD_FLARE_ERUPTION ||  event.getAnimation() == SmashAttacks.IMPERATRICE_SWORD_SOLAR_FLARE)
+			if (event.getAnimation() == LumiereSwordSmashAttacks.IMPERATRICE_SWORD_FLAMING_ATMOSPHERE || event.getAnimation() == LumiereSwordSmashAttacks.IMPERATRICE_SWORD_FIRE_DRIVER || event.getAnimation() == LumiereSwordSmashAttacks.IMPERATRICE_SWORD_FLARE_ERUPTION ||  event.getAnimation() == LumiereSwordSmashAttacks.IMPERATRICE_SWORD_SOLAR_FLARE)
 				container.getDataManager().setDataSync(DatakeyRegistry.CHARGE_EXECUTING.get(), false, event.getPlayerPatch().getOriginal());
 		});
 
@@ -89,7 +88,7 @@ public class FireDriver extends WeaponInnateSkill
 		});
 
 		container.getExecuter().getEventListener().addEventListener(PlayerEventListener.EventType.DEALT_DAMAGE_EVENT_HURT, EVENT_UUID, (event) -> {
-			if (event.getDamageSource().getAnimation() == SmashAttacks.IMPERATRICE_SWORD_FLARE_ERUPTION)
+			if (event.getDamageSource().getAnimation() == LumiereSwordSmashAttacks.IMPERATRICE_SWORD_FLARE_ERUPTION)
 			{
 				if (EpicFightCapabilities.getEntityPatch(event.getTarget(), LivingEntityPatch.class) != null)
 				{
@@ -97,7 +96,7 @@ public class FireDriver extends WeaponInnateSkill
 				}
 			}
 
-			if (event.getDamageSource().getAnimation() == SmashAttacks.IMPERATRICE_SWORD_FIRE_DRIVER) {
+			if (event.getDamageSource().getAnimation() == LumiereSwordSmashAttacks.IMPERATRICE_SWORD_FIRE_DRIVER) {
 				ValueModifier damageModifier = ValueModifier.empty();
 				this.getProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, this.properties.get(0)).ifPresent(damageModifier::merge);
 				damageModifier.merge(ValueModifier.multiplier(0.8F));

@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.mojang.logging.LogUtils;
 import net.forixaim.bs_api.AnimationHelpers;
 import net.forixaim.bs_api.battle_arts_skills.BattleArtsSkillSlots;
-import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.GroundAttacks;
+import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordGroundAttacks;
 import net.forixaim.vfo.capabilities.styles.LumiereStyles;
 import net.forixaim.vfo.skill.DatakeyRegistry;
 import net.minecraft.network.FriendlyByteBuf;
@@ -41,9 +41,9 @@ public class FlareBlitz extends BasicAttack
 {
 	private static final UUID EVENT_UUID = UUID.fromString("bb4af80f-603a-4b52-a92d-1d4a444749af");
 	private static final List<AnimationProvider<?>> IMPERATRICE_SWORD_JAB_SET = Lists.newArrayList(
-			() -> GroundAttacks.IMPERATRICE_SWORD_JAB1,
-			() -> GroundAttacks.IMPERATRICE_SWORD_JAB2,
-			() -> GroundAttacks.IMPERATRICE_SWORD_JAB3
+			() -> LumiereSwordGroundAttacks.IMPERATRICE_SWORD_JAB1,
+			() -> LumiereSwordGroundAttacks.IMPERATRICE_SWORD_JAB2,
+			() -> LumiereSwordGroundAttacks.IMPERATRICE_SWORD_JAB3
 	);
 
 	public static Builder<FlareBlitz> createImperatriceAttackSet()
@@ -51,13 +51,13 @@ public class FlareBlitz extends BasicAttack
 
 		return (new Builder<FlareBlitz>()).setCategory(SkillCategories.BASIC_ATTACK).setActivateType(ActivateType.ONE_SHOT).setResource(Resource.NONE);
 	}
-	private static final AttackAnimationProvider DASH_ATTACK = () -> (AttackAnimation) GroundAttacks.IMPERATRICE_SWORD_DASH_ATTACK;
-	private static final AttackAnimationProvider CROUCH_LIGHT = () -> (AttackAnimation) GroundAttacks.IMPERATRICE_SWORD_CROUCH_LIGHT;
-	private static final AttackAnimationProvider FTILT = () -> (AttackAnimation) GroundAttacks.IMPERATRICE_SWORD_FTILT;
-	private static final AttackAnimationProvider CERCLE_DE_FEU = () -> (AttackAnimation) GroundAttacks.IMPERATRICE_SWORD_CERCLE_DE_FLAMME;
-	private static final AttackAnimationProvider RTILT = () -> (AttackAnimation) GroundAttacks.IMPERATRICE_SWORD_RTILT;
-	private static final AttackAnimationProvider LTILT = () -> (AttackAnimation) GroundAttacks.IMPERATRICE_SWORD_LTILT;
-	private static final AttackAnimationProvider BTILT = () -> (AttackAnimation) GroundAttacks.IMPERATRICE_SWORD_BTILT;
+	private static final AttackAnimationProvider DASH_ATTACK = () -> (AttackAnimation) LumiereSwordGroundAttacks.IMPERATRICE_SWORD_DASH_ATTACK;
+	private static final AttackAnimationProvider CROUCH_LIGHT = () -> (AttackAnimation) LumiereSwordGroundAttacks.IMPERATRICE_SWORD_CROUCH_LIGHT;
+	private static final AttackAnimationProvider FTILT = () -> (AttackAnimation) LumiereSwordGroundAttacks.IMPERATRICE_SWORD_FTILT;
+	private static final AttackAnimationProvider CERCLE_DE_FEU = () -> (AttackAnimation) LumiereSwordGroundAttacks.IMPERATRICE_SWORD_CERCLE_DE_FLAMME;
+	private static final AttackAnimationProvider RTILT = () -> (AttackAnimation) LumiereSwordGroundAttacks.IMPERATRICE_SWORD_RTILT;
+	private static final AttackAnimationProvider LTILT = () -> (AttackAnimation) LumiereSwordGroundAttacks.IMPERATRICE_SWORD_LTILT;
+	private static final AttackAnimationProvider BTILT = () -> (AttackAnimation) LumiereSwordGroundAttacks.IMPERATRICE_SWORD_BTILT;
 	public FlareBlitz(Builder<? extends Skill> builder)
 	{
 		super(builder);

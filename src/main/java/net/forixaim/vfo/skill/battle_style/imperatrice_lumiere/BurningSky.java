@@ -4,7 +4,7 @@ import com.mojang.logging.LogUtils;
 import io.netty.buffer.Unpooled;
 import net.forixaim.bs_api.AnimationHelpers;
 import net.forixaim.bs_api.battle_arts_skills.aerials.MidAirAttack;
-import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.AerialAttacks;
+import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordAerialAttacks;
 import net.forixaim.vfo.capabilities.styles.LumiereStyles;
 import net.forixaim.vfo.skill.DatakeyRegistry;
 import net.minecraft.client.Minecraft;
@@ -31,9 +31,12 @@ import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 
 public class BurningSky extends MidAirAttack
 {
-	private static final AnimationProvider<AttackAnimation> NEUTRAL_AERIAL = () -> (AttackAnimation) AerialAttacks.IMPERATRICE_SWORD_NEUTRAL_AERIAL;
-	private static final AnimationProvider<AttackAnimation> FORWARD_AERIAL = () -> (AttackAnimation) AerialAttacks.IMPERATRICE_SWORD_FORWARD_AERIAL;
-	private static final AnimationProvider<AttackAnimation> DOWN_AERIAL = () -> (AttackAnimation) AerialAttacks.IMPERATRICE_SWORD_DOWN_AERIAL;
+	private static final AnimationProvider<AttackAnimation> NEUTRAL_AERIAL = () -> (AttackAnimation) LumiereSwordAerialAttacks.IMPERATRICE_SWORD_NEUTRAL_AERIAL;
+	private static final AnimationProvider<AttackAnimation> FORWARD_AERIAL = () -> (AttackAnimation) LumiereSwordAerialAttacks.IMPERATRICE_SWORD_FORWARD_AERIAL;
+	private static final AnimationProvider<AttackAnimation> DOWN_AERIAL = () -> (AttackAnimation) LumiereSwordAerialAttacks.IMPERATRICE_SWORD_DOWN_AERIAL;
+	private static final AnimationProvider<AttackAnimation> BACK_AERIAL = () -> (AttackAnimation) LumiereSwordAerialAttacks.IMPERATRICE_BACK_AERIAL;
+	private static final AnimationProvider<AttackAnimation> UP_AERIAL = () -> (AttackAnimation) LumiereSwordAerialAttacks.IMPERATRICE_UP_AERIAL;
+
 
 	public BurningSky(Builder<? extends Skill> builder)
 	{
@@ -49,40 +52,14 @@ public class BurningSky extends MidAirAttack
 	@Override
 	public FriendlyByteBuf gatherArguments(LocalPlayerPatch executer, ControllEngine controllEngine)
 	{
-		Input input = executer.getOriginal().input;
-		float pulse = Mth.clamp(0.3F + EnchantmentHelper.getSneakingSpeedBonus(executer.getOriginal()), 0.0F, 1.0F);
-		input.tick(false, pulse);
-
-		int forward = controllEngine.isKeyDown(Minecraft.getInstance().options.keyUp) ? 1 : 0;
-		int backward = controllEngine.isKeyDown(Minecraft.getInstance().options.keyDown) ? -1 : 0;
-		int left = controllEngine.isKeyDown(Minecraft.getInstance().options.keyLeft) ? 1 : 0;
-		int right = controllEngine.isKeyDown(Minecraft.getInstance().options.keyRight) ? -1 : 0;
-
-		FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-		buf.writeInt(forward);
-		buf.writeInt(backward);
-		buf.writeInt(left);
-		buf.writeInt(right);
-
-		return buf;
+		return ArgumentGatherers.UniversalDirectionalInput(executer, null);
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public Object getExecutionPacket(LocalPlayerPatch executer, FriendlyByteBuf args)
 	{
-		int forward = args.readInt();
-		int backward = args.readInt();
-		int left = args.readInt();
-		int right = args.readInt();
-		int vertic = forward + backward;
-		int horizon = left + right;
-
-		CPExecuteSkill packet = new CPExecuteSkill(executer.getSkill(this).getSlotId());
-		packet.getBuffer().writeInt(Integer.compare(vertic, 0));
-		packet.getBuffer().writeInt(Integer.compare(horizon, 0));
-
-		return packet;
+		return ArgumentGatherers.DirectionalExecutionPacket(executer, args, this);
 	}
 
 	@Override
@@ -121,10 +98,12 @@ public class BurningSky extends MidAirAttack
 			else if (fw == -1)
 			{
 				LogUtils.getLogger().debug("Back Aerial");
+				attackMotion = BACK_AERIAL.get();
 			}
 			else if (sw == 1)
 			{
 				LogUtils.getLogger().debug("Left Aerial");
+				attackMotion = UP_AERIAL.get();
 			}
 			else if (sw == -1)
 			{

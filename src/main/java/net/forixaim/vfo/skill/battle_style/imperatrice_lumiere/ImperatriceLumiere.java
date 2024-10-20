@@ -15,8 +15,8 @@ import moze_intel.projecte.gameObjs.items.armor.RMArmor;
 import net.forixaim.bs_api.battle_arts_skills.battle_style.BattleStyle;
 import net.forixaim.vfo.Config;
 import net.forixaim.vfo.VisitorsOfOmneria;
-import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.AerialAttacks;
-import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.ImperatriceLumiereAnims;
+import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordAerialAttacks;
+import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordAnims;
 import net.forixaim.vfo.capabilities.styles.LumiereStyles;
 import net.forixaim.vfo.capabilities.weapons.OmneriaCategories;
 import net.forixaim.vfo.registry.ItemRegistry;
@@ -123,12 +123,12 @@ public class ImperatriceLumiere extends BattleStyle
 		container.getExecuter().getEventListener().addEventListener(PlayerEventListener.EventType.DEALT_DAMAGE_EVENT_HURT, EVENT_UUID,
 				event ->
 				{
-					if (event.getDamageSource().getAnimation() == AerialAttacks.IMPERATRICE_SWORD_NEUTRAL_AERIAL || event.getDamageSource().getAnimation() == AerialAttacks.IMPERATRICE_SWORD_FORWARD_AERIAL)
+					if (event.getDamageSource().getAnimation() == LumiereSwordAerialAttacks.IMPERATRICE_SWORD_NEUTRAL_AERIAL || event.getDamageSource().getAnimation() == LumiereSwordAerialAttacks.IMPERATRICE_SWORD_FORWARD_AERIAL)
 					{
 						event.getPlayerPatch().getOriginal().addEffect(new MobEffectInstance(MobEffects.LEVITATION, 5, 4, true, false, false));
 						event.getPlayerPatch().getOriginal().addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 5, 20, true, false, false));
 					}
-					if (event.getDamageSource().getAnimation() == AerialAttacks.IMPERATRICE_SWORD_FORWARD_AERIAL)
+					if (event.getDamageSource().getAnimation() == LumiereSwordAerialAttacks.IMPERATRICE_SWORD_FORWARD_AERIAL)
 					{
 						event.getPlayerPatch().playSound(SoundRegistry.SPIKE.get(), 0, 0);
 					}
@@ -381,7 +381,7 @@ public class ImperatriceLumiere extends BattleStyle
 	{
 		super(builder);
 		modifiesAttacks = true;
-		weaponDrawAnimations.add(Pair.of(OmneriaCategories.ORIGIN_JOYEUSE, () -> ImperatriceLumiereAnims.IMPERATRICE_JOYEUSE_DRAW));
+		weaponDrawAnimations.add(Pair.of(OmneriaCategories.ORIGIN_JOYEUSE, () -> LumiereSwordAnims.IMPERATRICE_JOYEUSE_DRAW));
 		immuneDamages.add(DamageTypes.LAVA);
 		immuneDamages.add(DamageTypes.FIREBALL);
 		immuneDamages.add(DamageTypes.IN_FIRE);

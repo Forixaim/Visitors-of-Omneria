@@ -3,7 +3,7 @@ package net.forixaim.vfo.skill.battle_style.imperatrice_lumiere.active;
 import com.google.common.collect.Lists;
 import net.forixaim.bs_api.battle_arts_skills.BattleArtsSkillSlots;
 import net.forixaim.bs_api.battle_arts_skills.active.ultimate_arts.UltimateArt;
-import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.Ultimate;
+import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordUltimates;
 import net.forixaim.vfo.capabilities.weapons.OmneriaCategories;
 import net.forixaim.vfo.registry.ItemRegistry;
 import net.forixaim.vfo.registry.SoundRegistry;
@@ -32,9 +32,9 @@ import java.util.UUID;
 public class ImperatriceUltimateArt extends UltimateArt
 {
 	private static final UUID EVENT_UUID = UUID.fromString("9febc8c6-a0b3-4ee8-8da0-65cccb5a3ca0");
-	private static final AnimationProvider<AttackAnimation> TRY_ANIMATION = () -> (AttackAnimation) Ultimate.IMPERATRICE_ULTIMATE_TRY;
-	private static final AnimationProvider<AttackAnimation> FLARE_BLADE_CLEAVE = () -> (AttackAnimation) Ultimate.IMPERATRICE_FLARE_BLADE_CLEAVE;
-	private static final AnimationProvider<AttackAnimation> FLARIAN_IGNITION = () -> (AttackAnimation) Ultimate.IMPERATRICE_SWORD_FLARIAN_IGNITION;
+	private static final AnimationProvider<AttackAnimation> TRY_ANIMATION = () -> (AttackAnimation) LumiereSwordUltimates.IMPERATRICE_ULTIMATE_TRY;
+	private static final AnimationProvider<AttackAnimation> FLARE_BLADE_CLEAVE = () -> (AttackAnimation) LumiereSwordUltimates.IMPERATRICE_FLARE_BLADE_CLEAVE;
+	private static final AnimationProvider<AttackAnimation> FLARIAN_IGNITION = () -> (AttackAnimation) LumiereSwordUltimates.IMPERATRICE_SWORD_FLARIAN_IGNITION;
 	private static final List<WeaponCategory> ALLOWED_WEAPONS = Lists.newArrayList(
 			CapabilityItem.WeaponCategories.SWORD,
 			CapabilityItem.WeaponCategories.GREATSWORD,

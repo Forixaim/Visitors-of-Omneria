@@ -2,8 +2,8 @@ package net.forixaim.vfo.skill.battle_style.imperatrice_lumiere;
 
 import net.forixaim.bs_api.battle_arts_skills.BattleArtsSkillSlots;
 import net.forixaim.vfo.Config;
-import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.GroundAttacks;
-import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.ImperatriceLumiereAnims;
+import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordGroundAttacks;
+import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordAnims;
 import net.forixaim.vfo.skill.DatakeyRegistry;
 import net.forixaim.vfo.skill.OmneriaSkills;
 import net.minecraft.client.Minecraft;
@@ -38,8 +38,8 @@ public class Trailblaze extends DodgeSkill
 {
     private static final UUID EVENT_UUID = UUID.fromString("c1b3d7b3-f934-48b5-a03e-9a94ba1962a6");
 
-    private static final AnimationProvider<DodgeAnimation> SPOT_DODGE = () -> (DodgeAnimation) ImperatriceLumiereAnims.IMPERATRICE_TRAILBLAZE_SPOT;
-    private static final AnimationProvider<AttackAnimation> SPOT_DODGE_RIPOSTE = () -> (AttackAnimation) GroundAttacks.IMPERATRICE_SWORD_JAB3;
+    private static final AnimationProvider<DodgeAnimation> SPOT_DODGE = () -> (DodgeAnimation) LumiereSwordAnims.IMPERATRICE_TRAILBLAZE_SPOT;
+    private static final AnimationProvider<AttackAnimation> SPOT_DODGE_RIPOSTE = () -> (AttackAnimation) LumiereSwordGroundAttacks.IMPERATRICE_SWORD_JAB3;
 
     public Trailblaze(Builder builder) {
         super(builder);
