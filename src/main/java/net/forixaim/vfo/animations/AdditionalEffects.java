@@ -20,6 +20,8 @@ public class AdditionalEffects
 		OpenMatrix4f.transform3v(posRotation, pos, pos);
 		RandomSource random = livingEntityPatch.getOriginal().getRandom();
 
+
+
 		livingEntityPatch.getOriginal().level().explode(livingEntityPatch.getOriginal(), (double)pos.x + (livingEntityPatch.getOriginal()).getX(), (double)pos.y + livingEntityPatch.getOriginal().getY(), (double)pos.z + livingEntityPatch.getOriginal().getZ(), (float) parameters[0], Level.ExplosionInteraction.NONE);
 		for (int i = 0; i < 100; i++)
 		{

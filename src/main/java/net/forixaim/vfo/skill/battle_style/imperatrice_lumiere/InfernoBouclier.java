@@ -17,7 +17,7 @@ import java.util.UUID;
 /**
  * This class represents Inferno Bulwark
  */
-public class InfernoBulwark extends GuardSkill
+public class InfernoBouclier extends GuardSkill
 {
 	private static final UUID EVENT_UUID = UUID.fromString("c5547250-4aa6-44c4-a01e-cf4bd4f8e93b");
 
@@ -32,7 +32,7 @@ public class InfernoBulwark extends GuardSkill
 				.addAdvancedGuardMotion(CapabilityItem.WeaponCategories.TACHI, (itemCap, playerpatch) ->
 						new StaticAnimation[] { Animations.LONGSWORD_GUARD_ACTIVE_HIT1, Animations.LONGSWORD_GUARD_ACTIVE_HIT2 });
 	}
-	public InfernoBulwark(Builder builder)
+	public InfernoBouclier(Builder builder)
 	{
 		super(builder);
 	}
@@ -50,8 +50,6 @@ public class InfernoBulwark extends GuardSkill
 		if (!container.getExecuter().isLogicalClient())
 		{
 			ServerPlayerPatch serverPlayerPatch = (ServerPlayerPatch) container.getExecuter();
-
-
 		}
 	}
 
