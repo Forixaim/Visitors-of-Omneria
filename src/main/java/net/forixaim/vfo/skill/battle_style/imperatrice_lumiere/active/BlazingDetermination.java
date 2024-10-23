@@ -28,6 +28,9 @@ import yesman.epicfight.world.entity.eventlistener.SkillExecuteEvent;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+/**
+ * Skill Description: Determination increases with the amount of damage dealt, decreases with damage taken. When activating, blows back every opponent in a 3 block radius and go into a defensive stance. While in this stance, as long as you are landing hits, damage will be reduced by 1/4 or nullified when the attacker is in front of you, and any attacker will be set on fire. You also attack faster. (25% efficiency when landing hits while skill is active)
+ */
 public class BlazingDetermination extends BurstArt
 {
 	private static final UUID EVENT_UUID = UUID.fromString("1f198bcc-af51-45ae-a5f0-78496ec47408");
