@@ -10,11 +10,13 @@ import net.forixaim.vfo.world.entity.charlemagne.Charlemagne;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagneMode;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagnePatch;
 import net.forixaim.vfo.world.entity.charlemagne.ai.behaviors.HostileAttackBehavior;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import yesman.epicfight.api.animation.types.AttackAnimation;
+import yesman.epicfight.api.utils.AttackResult;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.api.utils.math.Vec3f;
 import yesman.epicfight.skill.Skill;
@@ -58,12 +60,12 @@ public class CharlemagneBrain
 		this.mode = CharlemagneMode.FRIENDLY;
 		this.patch = patch;
 		hostileAttackBehavior = new HostileAttackBehavior(patch, this, target);
-		AttackStrings ASinstance = new AttackStrings();
-		charlemagneAttackStrings.add(
-				ASinstance.AttackString1
-		);
 		StaminaDamageMap.put((AttackAnimation) LumiereSwordSmashAttacks.IMPERATRICE_SWORD_FIRE_DRIVER, 7.1f);
+	}
 
+	public AttackResult handleWhenAttacked(DamageSource damageSource, float amount)
+	{
+		return AttackResult.of(patch.getEntityState().attackResult(damageSource), amount);
 	}
 
 	public CharlemagneMode getMode()
@@ -95,7 +97,7 @@ public class CharlemagneBrain
 					if (s.position < s.Attacks.size())
 					{
 						s.connected = true;
-						s.fire();
+						s.fire(patch);
 						s.position++;
 					}
 					else
@@ -218,7 +220,7 @@ public class CharlemagneBrain
 
 	public void debugFire()
 	{
-		this.charlemagneAttackStrings.get(0).fire();
+		this.charlemagneAttackStrings.get(0).fire(patch);
 		this.charlemagneAttackStrings.get(0).position++;
 	}
 
@@ -230,22 +232,6 @@ public class CharlemagneBrain
 	private void friendlyTick()
 	{
 
-	}
-
-	private class AttackStrings
-	{
-		public final CharlemagneAttackString AttackString1 = new CharlemagneAttackString(
-				patch,
-				Lists.newArrayList(
-						new CharlemagneAttack((AttackAnimation) GroundAttacks.JAB_1)
-				),
-				Lists.newArrayList(
-						new CharlemagneAttack((AttackAnimation) GroundAttacks.JAB_2)
-				),
-				Lists.newArrayList(
-						new CharlemagneAttack((AttackAnimation) GroundAttacks.JAB_3)
-				)
-		);
 	}
 
 	private class MovementPatterns

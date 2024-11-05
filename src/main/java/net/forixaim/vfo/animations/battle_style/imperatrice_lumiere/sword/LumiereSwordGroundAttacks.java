@@ -117,7 +117,7 @@ public class LumiereSwordGroundAttacks
 							entity.level().addParticle(EpicFightParticles.ENTITY_AFTER_IMAGE.get(), entity.getX(), entity.getY(), entity.getZ(), Double.longBitsToDouble(entity.getId()), 0, 0);
 						}, AnimationEvent.Side.CLIENT)
 				);
-		IMPERATRICE_SWORD_JAB1 = new BasicAttackAnimation(0.05f, 0.25f, 0.4f, 0.5f, 1f, null, Armatures.BIPED.toolR, "battle_style/legendary/imperatrice_lumiere/sword/jab1", Armatures.BIPED)
+		IMPERATRICE_SWORD_JAB1 = new BasicAttackAnimation(0.05f, 0.25f, 0.45f, 0.55f, 1f, null, Armatures.BIPED.toolR, "battle_style/legendary/imperatrice_lumiere/sword/jab1", Armatures.BIPED)
 				.addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(0.25f))
 				.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
 				.addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, SoundRegistry.IMPERATRICE_SWING1.get())

@@ -1,30 +1,31 @@
 package net.forixaim.vfo.world.entity.charlemagne.ai;
 
+import net.forixaim.vfo.util.Tree;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagnePatch;
 import net.minecraft.util.RandomSource;
 import org.apache.commons.compress.utils.Lists;
 
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class CharlemagneAttackString
 {
 	public final List<List<CharlemagneAttack>> Attacks = Lists.newArrayList();
-	private final CharlemagnePatch attacker;
+	public final Tree<CharlemagneAttack> attacks;
 	public boolean connected;
 	public boolean firing;
 	public int position;
 
-	@SafeVarargs
-	public CharlemagneAttackString(CharlemagnePatch attacker, List<CharlemagneAttack>... attacks)
+	public CharlemagneAttackString(CharlemagneAttack set)
 	{
-		this.Attacks.addAll(List.of(attacks));
-		this.attacker = attacker;
+		attacks = new Tree<>(set);
 		this.connected = false;
 		this.firing = false;
 		this.position = 0;
 	}
 
-	public void fire()
+	public void fire(CharlemagnePatch attacker)
 	{
 		RandomSource source = attacker.getOriginal().getRandom();
 		if (position >= Attacks.size())

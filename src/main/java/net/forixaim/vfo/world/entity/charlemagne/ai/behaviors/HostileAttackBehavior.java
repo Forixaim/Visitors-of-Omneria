@@ -65,11 +65,16 @@ public class HostileAttackBehavior
 		{
 			mobPatch.currentLivingMotion = LivingMotions.IDLE;
 		}
+	}
+
+	private void fireAttacks()
+	{
 
 	}
 
 	public void onReceiveHostileAttack(LivingEntity opponent)
 	{
+
 		if (opponent == null || !opponent.isAlive())
 		{
 			return;
@@ -79,25 +84,21 @@ public class HostileAttackBehavior
 		{
 			chasing = true;
 			hyperChase = true;
-			mob.walkAnimation.setSpeed(1f);
+			mob.getNavigation().moveTo(opponent, 1.5f);
 		}
 		if (mob.distanceTo(opponent) > 4f && mob.distanceTo(opponent) <= 10 && (!mob.getNavigation().isInProgress() ||
 				(opponent instanceof PathfinderMob pathfinderMob &&
 						pathfinderMob.getNavigation().isInProgress()) || hyperChase))
 		{
 			hyperChase = false;
-			mob.walkAnimation.setSpeed(0.7f);
 			chasing = true;
+			mob.getNavigation().moveTo(opponent, 1);
 		}
 		if (mob.distanceTo(opponent) < 3f && mob.getNavigation().isInProgress())
 		{
 			chasing = false;
 			mob.setTarget(null);
 			mob.getNavigation().stop();
-		}
-		else
-		{
-			mob.setTarget(opponent);
 		}
 	}
 }

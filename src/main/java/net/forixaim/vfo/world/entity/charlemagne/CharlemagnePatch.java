@@ -10,12 +10,14 @@ import net.forixaim.vfo.events.advanced_bosses.DamageDealtEvent;
 import net.forixaim.vfo.world.entity.charlemagne.ai.CharlemagneAttackString;
 import net.forixaim.vfo.world.entity.charlemagne.ai.CharlemagneBrain;
 import net.forixaim.vfo.world.entity.patches.FriendlyHumanoidNPCPatch;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import yesman.epicfight.api.animation.Animator;
 import yesman.epicfight.api.animation.LivingMotions;
+import yesman.epicfight.api.utils.AttackResult;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.MobCombatBehaviors;
 import yesman.epicfight.world.capabilities.entitypatch.Faction;
@@ -130,6 +132,12 @@ public class CharlemagnePatch extends FriendlyHumanoidNPCPatch<Charlemagne>
 		super.tick(event);
 		if (brain != null && !this.isLogicalClient())
 			brain.receiveTickFire();
+	}
+
+	@Override
+	public AttackResult tryHurt(DamageSource damageSource, float amount)
+	{
+		return brain.handleWhenAttacked(damageSource, amount);
 
 	}
 }
