@@ -62,7 +62,6 @@ public class Charlemagne extends AbstractFriendlyNPC
 	protected void registerGoals()
 	{
 		goalSelector.addGoal(0, new FloatGoal(this));
-		goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
 	}
 
 	public static AttributeSupplier.Builder createAttributes()
@@ -75,7 +74,7 @@ public class Charlemagne extends AbstractFriendlyNPC
 				.add(Attributes.ATTACK_KNOCKBACK, 2)
 				.add(Attributes.KNOCKBACK_RESISTANCE, 1f)
 				.add(Attributes.ATTACK_DAMAGE, 10)
-				.add(Attributes.FOLLOW_RANGE, 40.0)
+				.add(Attributes.FOLLOW_RANGE, 80.0)
 				.add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1.5);
 
 	}

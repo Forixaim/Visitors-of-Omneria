@@ -10,6 +10,7 @@ import net.forixaim.vfo.events.advanced_bosses.DamageDealtEvent;
 import net.forixaim.vfo.world.entity.charlemagne.ai.CharlemagneAttackString;
 import net.forixaim.vfo.world.entity.charlemagne.ai.CharlemagneBrain;
 import net.forixaim.vfo.world.entity.patches.FriendlyHumanoidNPCPatch;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -31,6 +32,7 @@ public class CharlemagnePatch extends FriendlyHumanoidNPCPatch<Charlemagne>
 	private static final List<CharlemagneAttackString> bossAttackString = Lists.newArrayList();
 
 	public CharlemagneBrain brain;
+
 	public CharlemagnePatch()
 	{
 		super(Faction.NEUTRAL);
@@ -65,48 +67,61 @@ public class CharlemagnePatch extends FriendlyHumanoidNPCPatch<Charlemagne>
 	protected void setWeaponMotions()
 	{
 		this.weaponLivingMotions = Maps.newHashMap();
-		this.weaponLivingMotions.put(CapabilityItem.WeaponCategories.GREATSWORD, ImmutableMap.of(
-				CapabilityItem.Styles.TWO_HAND, Set.of(
-						Pair.of(LivingMotions.WALK, Animations.BIPED_WALK_TWOHAND),
-						Pair.of(LivingMotions.CHASE, Animations.BIPED_WALK_TWOHAND)
-				)
-		));
 		this.weaponLivingMotions.put(OmneriaCategories.ORIGIN_JOYEUSE, ImmutableMap.of(
 				CapabilityItem.Styles.COMMON, Set.of(
 						Pair.of(LivingMotions.WALK, CharlemagneFlamiereAnims.TRUE_IMPERATRICE_WALK),
 						Pair.of(LivingMotions.IDLE, CharlemagneFlamiereAnims.TRUE_IMPERATRICE_IDLE),
-						Pair.of(LivingMotions.CHASE, CharlemagneFlamiereAnims.TRUE_IMPERATRICE_WALK)
+						Pair.of(LivingMotions.CHASE, CharlemagneFlamiereAnims.TRUE_IMPERATRICE_RUN),
+						Pair.of(LivingMotions.RUN, CharlemagneFlamiereAnims.TRUE_IMPERATRICE_RUN)
 				)
 		));
 
 		this.weaponAttackMotions = Maps.newHashMap();
-		this.weaponAttackMotions.put(CapabilityItem.WeaponCategories.AXE, ImmutableMap.of(CapabilityItem.Styles.COMMON, MobCombatBehaviors.HUMANOID_ONEHAND_TOOLS));
-		this.weaponAttackMotions.put(CapabilityItem.WeaponCategories.HOE, ImmutableMap.of(CapabilityItem.Styles.COMMON, MobCombatBehaviors.HUMANOID_ONEHAND_TOOLS));
-		this.weaponAttackMotions.put(CapabilityItem.WeaponCategories.PICKAXE, ImmutableMap.of(CapabilityItem.Styles.COMMON, MobCombatBehaviors.HUMANOID_ONEHAND_TOOLS));
-		this.weaponAttackMotions.put(CapabilityItem.WeaponCategories.SHOVEL, ImmutableMap.of(CapabilityItem.Styles.COMMON, MobCombatBehaviors.HUMANOID_ONEHAND_TOOLS));
-		this.weaponAttackMotions.put(CapabilityItem.WeaponCategories.SWORD, ImmutableMap.of(CapabilityItem.Styles.ONE_HAND, MobCombatBehaviors.HUMANOID_ONEHAND_TOOLS, CapabilityItem.Styles.TWO_HAND, MobCombatBehaviors.HUMANOID_DUAL_SWORD));
-		this.weaponAttackMotions.put(CapabilityItem.WeaponCategories.GREATSWORD, ImmutableMap.of(CapabilityItem.Styles.TWO_HAND, MobCombatBehaviors.HUMANOID_GREATSWORD));
-		this.weaponAttackMotions.put(CapabilityItem.WeaponCategories.UCHIGATANA, ImmutableMap.of(CapabilityItem.Styles.TWO_HAND, MobCombatBehaviors.HUMANOID_KATANA));
-		this.weaponAttackMotions.put(CapabilityItem.WeaponCategories.LONGSWORD, ImmutableMap.of(CapabilityItem.Styles.TWO_HAND, MobCombatBehaviors.HUMANOID_LONGSWORD));
-		this.weaponAttackMotions.put(CapabilityItem.WeaponCategories.TACHI, ImmutableMap.of(CapabilityItem.Styles.TWO_HAND, MobCombatBehaviors.HUMANOID_TACHI));
-		this.weaponAttackMotions.put(CapabilityItem.WeaponCategories.SPEAR, ImmutableMap.of(CapabilityItem.Styles.ONE_HAND, MobCombatBehaviors.HUMANOID_SPEAR_ONEHAND, CapabilityItem.Styles.TWO_HAND, MobCombatBehaviors.HUMANOID_SPEAR_TWOHAND));
-		this.weaponAttackMotions.put(CapabilityItem.WeaponCategories.FIST, ImmutableMap.of(CapabilityItem.Styles.COMMON, MobCombatBehaviors.HUMANOID_FIST));
-		this.weaponAttackMotions.put(CapabilityItem.WeaponCategories.DAGGER, ImmutableMap.of(CapabilityItem.Styles.ONE_HAND, MobCombatBehaviors.HUMANOID_ONEHAND_DAGGER, CapabilityItem.Styles.TWO_HAND, MobCombatBehaviors.HUMANOID_TWOHAND_DAGGER));
-		this.weaponAttackMotions.put(CapabilityItem.WeaponCategories.RANGED, ImmutableMap.of(CapabilityItem.Styles.COMMON, MobCombatBehaviors.HUMANOID_FIST));
-		this.weaponAttackMotions.put(CapabilityItem.WeaponCategories.TRIDENT, ImmutableMap.of(CapabilityItem.Styles.COMMON, MobCombatBehaviors.HUMANOID_SPEAR_ONEHAND));
 	}
 
 	@Override
 	public void initAnimator(Animator animator)
 	{
 		animator.addLivingAnimation(LivingMotions.IDLE, Animations.BIPED_IDLE);
-		animator.addLivingAnimation(LivingMotions.WALK, Animations.BIPED_IDLE);
+		animator.addLivingAnimation(LivingMotions.WALK, Animations.BIPED_WALK);
+		animator.addLivingAnimation(LivingMotions.RUN, Animations.BIPED_RUN);
 	}
 
 	@Override
 	public void updateMotion(boolean b)
 	{
-		super.updateMotion(b);
+		if (this.original.getHealth() <= 0.0F)
+		{
+			this.currentLivingMotion = LivingMotions.DEATH;
+		}
+		else if (this.state.inaction() && b)
+		{
+			this.currentLivingMotion = LivingMotions.INACTION;
+		}
+		else if (this.original.getVehicle() != null)
+		{
+			this.currentLivingMotion = LivingMotions.MOUNT;
+		}
+		else if (!(this.original.getDeltaMovement().y < -0.550000011920929) && !this.isAirborneState())
+		{
+			if (this.getOriginal().walkAnimation.speed() > 0.01f)
+			{
+				if (this.getOriginal().walkAnimation.speed() > 0.8f)
+					this.currentLivingMotion = LivingMotions.RUN;
+				else
+					this.currentLivingMotion = LivingMotions.WALK;
+			}
+			else
+			{
+				this.currentLivingMotion = LivingMotions.IDLE;
+			}
+		}
+		else
+		{
+			this.currentLivingMotion = LivingMotions.FALL;
+		}
+
+		this.currentCompositeMotion = this.currentLivingMotion;
 	}
 
 	@Override
@@ -115,14 +130,6 @@ public class CharlemagnePatch extends FriendlyHumanoidNPCPatch<Charlemagne>
 		super.tick(event);
 		if (brain != null && !this.isLogicalClient())
 			brain.receiveTickFire();
-		if (this.currentLivingMotion == LivingMotions.CHASE)
-		{
-			Objects.requireNonNull(this.original.getAttribute(Attributes.MOVEMENT_SPEED)).addTransientModifier(new AttributeModifier(CloseGapUUID, "chase", 3.0, AttributeModifier.Operation.MULTIPLY_TOTAL));
-		}
-		else
-		{
-			if (Objects.requireNonNull(this.original.getAttribute(Attributes.MOVEMENT_SPEED)).getModifier(CloseGapUUID) != null)
-				Objects.requireNonNull(this.original.getAttribute(Attributes.MOVEMENT_SPEED)).removeModifier(CloseGapUUID);
-		}
+
 	}
 }

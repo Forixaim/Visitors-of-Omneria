@@ -99,6 +99,24 @@ public class FlareBlitz extends BasicAttack
 		return super.canExecute(executor);
 	}
 
+	@Override
+	public void onInitiate(SkillContainer container)
+	{
+		container.getExecuter().getEventListener().addEventListener(PlayerEventListener.EventType.DEALT_DAMAGE_EVENT_ATTACK, EVENT_UUID, event ->
+		{
+			if (event.getDamageSource().getAnimation() == LumiereSwordGroundAttacks.IMPERATRICE_SWORD_JAB1 || event.getDamageSource().getAnimation() == LumiereSwordGroundAttacks.IMPERATRICE_SWORD_JAB2)
+			{
+				container.getDataManager().setDataSync(DatakeyRegistry.BLAZE_COMBO.get(), container.getDataManager().getDataValue(DatakeyRegistry.BLAZE_COMBO.get())+1, event.getPlayerPatch().getOriginal());
+			}
+		});
+	}
+
+	@Override
+	public void onRemoved(SkillContainer container)
+	{
+		container.getExecuter().getEventListener().removeListener(PlayerEventListener.EventType.DEALT_DAMAGE_EVENT_ATTACK, EVENT_UUID);
+	}
+
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public FriendlyByteBuf gatherArguments(LocalPlayerPatch executer, ControllEngine controllEngine)
@@ -224,7 +242,6 @@ public class FlareBlitz extends BasicAttack
 					LogUtils.getLogger().debug("Jab");
 					LogUtils.getLogger().debug("Combo Counter: {}", comboCounter);
 					attackMotion = IMPERATRICE_SWORD_JAB_SET.get(comboCounter).get();
-					comboCounter++;
 					cercleDeFeu = 0;
 				}
 			}

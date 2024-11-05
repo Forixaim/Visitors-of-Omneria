@@ -12,6 +12,7 @@ import net.forixaim.vfo.skill.OmneriaSkills;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import yesman.epicfight.api.animation.AnimationProvider;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.skill.Skill;
@@ -65,6 +66,10 @@ public class ImperatriceUltimateArt extends UltimateArt
 						{
 							enemyPatch.playSound(SoundRegistry.FATAL_ULTIMATE_HIT.get(), 3, 0,0);
 						}
+						if (event.getTarget().hasEffect(MobEffects.MOVEMENT_SLOWDOWN))
+						{
+							event.getTarget().removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
+						}
 					}
 					if (event.getDamageSource().getAnimation() == TRY_ANIMATION.get() && !isConnected(container.getExecuter().getSkill(BattleArtsSkillSlots.BATTLE_STYLE)))
 					{
@@ -77,6 +82,7 @@ public class ImperatriceUltimateArt extends UltimateArt
 						{
 							event.getTarget().knockback(10, 5,0);
 						}
+						event.getTarget().addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 0, 255));
 						event.getPlayerPatch().getSkill(BattleArtsSkillSlots.BATTLE_STYLE).getDataManager().setDataSync(DatakeyRegistry.ULTIMATE_ART_TRY_CONNECTED.get(), true, event.getPlayerPatch().getOriginal());
 					}
 					else

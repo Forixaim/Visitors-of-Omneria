@@ -1,11 +1,11 @@
 {
-	"required": true,
+	"required": false,
 	"minVersion": "0.8",
-	"package": "net.forixaim.vfo.mixin",
+	"package": "net.forixaim.vfo.mixin.optional",
 	"compatibilityLevel": "JAVA_8",
-	"refmap": "vfo.refmap.json",
+	"refmap": "vfo.optional.refmap.json",
 	"mixins": [
-		"MixinAttackAnimation"
+		"MixinLupusRexPatch"
 	],
 	"client": [
 	],

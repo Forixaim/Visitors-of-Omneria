@@ -1,11 +1,13 @@
 package net.forixaim.vfo.world.entity.patches;
 
 import net.forixaim.vfo.world.entity.types.AbstractFriendlyNPC;
+import net.minecraft.world.entity.Mob;
 import yesman.epicfight.api.animation.Animator;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.world.capabilities.entitypatch.Faction;
 import yesman.epicfight.world.capabilities.entitypatch.HumanoidMobPatch;
+import yesman.epicfight.world.capabilities.entitypatch.mob.ZombiePatch;
 
 public class FriendlyHumanoidNPCPatch<T extends AbstractFriendlyNPC> extends HumanoidMobPatch<T>
 {

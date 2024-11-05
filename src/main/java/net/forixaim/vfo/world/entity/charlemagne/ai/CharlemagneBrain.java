@@ -9,10 +9,14 @@ import net.forixaim.vfo.events.advanced_bosses.DamageDealtEvent;
 import net.forixaim.vfo.world.entity.charlemagne.Charlemagne;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagneMode;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagnePatch;
+import net.forixaim.vfo.world.entity.charlemagne.ai.behaviors.HostileAttackBehavior;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import yesman.epicfight.api.animation.types.AttackAnimation;
+import yesman.epicfight.api.utils.math.OpenMatrix4f;
+import yesman.epicfight.api.utils.math.Vec3f;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.EntityPatch;
@@ -33,6 +37,10 @@ public class CharlemagneBrain
 	private CharlemagneMode mode;
 	private LivingEntity nearestMonster;
 	private LivingEntity opponent;
+
+	//Behaviors
+	public HostileAttackBehavior hostileAttackBehavior;
+
 	private final List<CharlemagneAttackString> charlemagneAttackStrings = Lists.newArrayList(
 	);
 
@@ -41,11 +49,15 @@ public class CharlemagneBrain
 	private int tick = 0;
 	private int seconds = 0;
 
+	//Defense flags
+	private boolean backingOff = false;
+
 	public CharlemagneBrain(final Charlemagne target, final CharlemagnePatch patch)
 	{
 		this.target = target;
 		this.mode = CharlemagneMode.FRIENDLY;
 		this.patch = patch;
+		hostileAttackBehavior = new HostileAttackBehavior(patch, this, target);
 		AttackStrings ASinstance = new AttackStrings();
 		charlemagneAttackStrings.add(
 				ASinstance.AttackString1
@@ -95,11 +107,22 @@ public class CharlemagneBrain
 		}
 	}
 
-	//TODO: Implement a backtrack
-	public void backOff(LivingEntity nearestMonster)
+	public void circleAround(LivingEntity target, float distance)
 	{
-		//move backwards until the distance has been reached.
 
+	}
+
+	//TODO: Implement a backtrack
+	public void backOff(LivingEntity nearestMonster, float distance)
+	{
+		backingOff = true;
+		//move backwards until the distance has been reached.
+		target.getLookControl().setLookAt(nearestMonster);
+		Vec3f pos = new Vec3f(0, 0, distance);
+		OpenMatrix4f posRotation = new OpenMatrix4f().rotate(-(float)Math.toRadians(target.getYRot()), new Vec3f(0.0F, 1.0F, 0.0F));
+		OpenMatrix4f.transform3v(posRotation, pos, pos);
+		Vec3 movePos = pos.toDoubleVector();
+		target.getNavigation().moveTo(movePos.x(), movePos.y(), movePos.z(), 1);
 	}
 
 	public void onAttackAnimationEnd()
@@ -114,14 +137,38 @@ public class CharlemagneBrain
 	}
 
 	protected AABB getTargetSearchArea() {
-		return this.target.getBoundingBox().inflate(30.0, 4.0, 30.0);
+		return this.target.getBoundingBox().inflate(80.0, 4.0, 80.0);
+	}
+
+	private void rotateTo(LivingEntity livingEntity)
+	{
+		double distanceX = livingEntity.getX() - target.getX();
+		double distanceY = livingEntity.getY() - target.getY();
+		double distanceHypo = target.distanceTo(livingEntity);
+		double rAngle = 0;
+
+		if (distanceX == 0)
+		{
+			double searchAngle = distanceY/distanceHypo;
+			if (searchAngle <= Math.PI/2)
+				rAngle = Math.asin(distanceY);
+		}
+		else
+		{
+			double searchAngle = distanceY/distanceX;
+			rAngle = Math.atan(searchAngle);
+		}
+
+
+
+		target.setYRot((float) rAngle);
 	}
 
 	public void receiveTickFire()
 	{
 		tick++;
 		if (mode.is(CharlemagneMode.DEFENSE))
-			defenseTick();
+			hostileAttackBehavior.onReceiveHostileAttack(nearestMonster);
 		if (mode.is(CharlemagneMode.FRIENDLY))
 			friendlyTick();
 		if (mode.is(CharlemagneMode.DUELING))
@@ -130,20 +177,13 @@ public class CharlemagneBrain
 		{
 			tick = 0;
 			seconds++;
-			if (!target.level().isClientSide)
-			{
-				LogUtils.getLogger().debug("a second has passed;");
-				LogUtils.getLogger().debug("Nearest monster: {}", nearestMonster);
-				LogUtils.getLogger().debug("Current Mode: {}", mode);
-			}
-
 			//Check for any enemy mobs nearby unless in defense mode;
 			nearestMonster = this.target.level().getNearestEntity(this.target.level().getEntitiesOfClass(Mob.class, this.getTargetSearchArea()), target.DefCond, this.target, this.target.getX(), this.target.getY(), this.target.getZ());
 			if (nearestMonster != null && !mode.is(CharlemagneMode.DUELING))
 			{
 				this.mode = CharlemagneMode.DEFENSE;
 			}
-
+			printDebugList();
 		}
 		if (seconds >= 60)
 		{
@@ -163,6 +203,19 @@ public class CharlemagneBrain
 		return true;
 	}
 
+	private void printDebugList()
+	{
+		if (!target.level().isClientSide)
+		{
+			LogUtils.getLogger().debug("a second has passed;");
+			LogUtils.getLogger().debug("Nearest monster: {}", nearestMonster);
+			LogUtils.getLogger().debug("Current Mode: {}", mode);
+			LogUtils.getLogger().debug("Backing off: {}", backingOff);
+			LogUtils.getLogger().debug("WalkSpeed: {}", target.walkAnimation.speed());
+			LogUtils.getLogger().debug("Living Motion: {}", patch.currentLivingMotion);
+		}
+	}
+
 	public void debugFire()
 	{
 		this.charlemagneAttackStrings.get(0).fire();
@@ -177,32 +230,6 @@ public class CharlemagneBrain
 	private void friendlyTick()
 	{
 
-	}
-
-	private void defenseTick()
-	{
-		if (nearestMonster != null && !nearestMonster.isDeadOrDying() )
-		{
-			this.target.lookAt(nearestMonster, 0, 0);
-			nearestMonster.setSecondsOnFire(2);
-			if (this.target.distanceTo(nearestMonster) < 2.5f && fireCheck())
-			{
-				this.target.setTarget(null);
-				debugFire();
-
-			}
-			else if (fireCheck())
-			{
-				if (this.target.getTarget() != nearestMonster)
-				{
-					target.setTarget(nearestMonster);
-				}
-			}
-		}
-		else
-		{
-			this.mode = CharlemagneMode.FRIENDLY;
-		}
 	}
 
 	private class AttackStrings

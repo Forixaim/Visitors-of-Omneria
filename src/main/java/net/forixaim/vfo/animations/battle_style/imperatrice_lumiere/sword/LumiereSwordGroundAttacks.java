@@ -140,7 +140,7 @@ public class LumiereSwordGroundAttacks
 				})
 				.addState(EntityState.TURNING_LOCKED, true)
 				.addProperty(AnimationProperty.StaticAnimationProperty.FIXED_HEAD_ROTATION, true);
-		IMPERATRICE_SWORD_JAB2 = new BasicAttackAnimation(0.05f, 0.25f, 0.5f, 0.6f, 1f, null, Armatures.BIPED.toolR, "battle_style/legendary/imperatrice_lumiere/sword/jab2", Armatures.BIPED)
+		IMPERATRICE_SWORD_JAB2 = new BasicAttackAnimation(0.05f, 0.25f, 0.8f, 0.9f, 1f, null, Armatures.BIPED.toolR, "battle_style/legendary/imperatrice_lumiere/sword/jab2", Armatures.BIPED)
 				.addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(0.25f))
 				.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
 				.addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, SoundRegistry.IMPERATRICE_SWING2.get())
