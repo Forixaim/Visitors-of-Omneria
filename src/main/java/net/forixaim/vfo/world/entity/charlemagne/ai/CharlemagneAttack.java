@@ -15,20 +15,28 @@ public class CharlemagneAttack
 	//Primarily for multi-hit attacks
 	private List<AttackAnimation.Phase> attacks = Lists.newArrayList();
 
-	private float suspectConfidence;
+	/**
+	 * Range: The magnitude of the vector generated when putting the end of a h
+	 */
+	private final float range;
 	private boolean feint;
 
-	private CharlemagneAttack(AttackAnimation attackAnimation)
+	private CharlemagneAttack(AttackAnimation attackAnimation, float range)
 	{
 		this.attackAnimation = () -> attackAnimation;
 		this.attacks.addAll(List.of(attackAnimation.phases));
-		this.suspectConfidence = 1;
+		this.range = range;
 	}
 
-	public static CharlemagneAttack createAttack(StaticAnimation animation)
+	public float getRange()
+	{
+		return range;
+	}
+
+	public static CharlemagneAttack createAttack(StaticAnimation animation, float range)
 	{
 		if (animation instanceof AttackAnimation attack)
-			return new CharlemagneAttack(attack);
+			return new CharlemagneAttack(attack, range);
 		return null;
 	}
 
