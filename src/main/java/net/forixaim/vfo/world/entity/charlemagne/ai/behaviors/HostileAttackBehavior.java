@@ -2,8 +2,10 @@ package net.forixaim.vfo.world.entity.charlemagne.ai.behaviors;
 
 import net.forixaim.vfo.animations.battle_style.charlemagne_flamiere.CharlemagneFlamiereAnims;
 import net.forixaim.vfo.world.entity.charlemagne.Charlemagne;
+import net.forixaim.vfo.world.entity.charlemagne.CharlemagneMode;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagnePatch;
 import net.forixaim.vfo.world.entity.charlemagne.ai.CharlemagneBrain;
+import net.forixaim.vfo.world.entity.charlemagne.ai.Emotion;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
@@ -77,7 +79,12 @@ public class HostileAttackBehavior
 
 		if (opponent == null || !opponent.isAlive())
 		{
+			brain.mode = CharlemagneMode.FRIENDLY;
 			return;
+		}
+		if (brain.getState() != Emotion.SERIOUS)
+		{
+			brain.changeEmotionState(Emotion.SERIOUS);
 		}
 		mobPatch.rotateTo(opponent, 360f, true);
 		if (mob.distanceTo(opponent) > 10f && (!mob.getNavigation().isInProgress() || (opponent instanceof PathfinderMob pathfinderMob && pathfinderMob.getNavigation().isInProgress()) || !hyperChase))

@@ -42,7 +42,7 @@ public class CharlemagneAttack
 
 	public float getSuspectConfidence()
 	{
-		return suspectConfidence;
+		return range;
 	}
 
 	public void Fire(CharlemagnePatch attacker)

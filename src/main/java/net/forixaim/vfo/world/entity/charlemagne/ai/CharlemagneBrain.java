@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.mojang.logging.LogUtils;
 import net.forixaim.vfo.animations.battle_style.charlemagne_flamiere.GroundAttacks;
 import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordSmashAttacks;
+import net.forixaim.vfo.animations.npc_interactions.charlemagne.FacialAnimations;
 import net.forixaim.vfo.events.advanced_bosses.DamageDealtEvent;
 import net.forixaim.vfo.world.entity.charlemagne.Charlemagne;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagneMode;
@@ -15,7 +16,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import yesman.epicfight.api.animation.AnimationProvider;
 import yesman.epicfight.api.animation.types.AttackAnimation;
+import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.utils.AttackResult;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.api.utils.math.Vec3f;
@@ -36,9 +39,11 @@ public class CharlemagneBrain
 {
 	private final Charlemagne target;
 	public CharlemagnePatch patch;
-	private CharlemagneMode mode;
+	public CharlemagneMode mode;
 	private LivingEntity nearestMonster;
 	private LivingEntity opponent;
+	private final Map<Emotion, AnimationProvider<?>> emotionState = Maps.newHashMap();
+	private Emotion state;
 
 	//Behaviors
 	public HostileAttackBehavior hostileAttackBehavior;
@@ -59,6 +64,9 @@ public class CharlemagneBrain
 		this.target = target;
 		this.mode = CharlemagneMode.FRIENDLY;
 		this.patch = patch;
+		this.state = null;
+		this.emotionState.put(Emotion.NEUTRAL, () -> FacialAnimations.CHARLEMAGNE_NEUTRAL);
+		this.emotionState.put(Emotion.SERIOUS, () -> FacialAnimations.CHARLEMAGNE_SERIOUS);
 		hostileAttackBehavior = new HostileAttackBehavior(patch, this, target);
 		StaminaDamageMap.put((AttackAnimation) LumiereSwordSmashAttacks.IMPERATRICE_SWORD_FIRE_DRIVER, 7.1f);
 	}
@@ -166,9 +174,18 @@ public class CharlemagneBrain
 		target.setYRot((float) rAngle);
 	}
 
+	public Emotion getState()
+	{
+		return state;
+	}
+
 	public void receiveTickFire()
 	{
 		tick++;
+		if (state == null)
+		{
+			changeEmotionState(Emotion.NEUTRAL);
+		}
 		if (mode.is(CharlemagneMode.DEFENSE))
 			hostileAttackBehavior.onReceiveHostileAttack(nearestMonster);
 		if (mode.is(CharlemagneMode.FRIENDLY))
@@ -205,6 +222,12 @@ public class CharlemagneBrain
 		return true;
 	}
 
+	public void changeEmotionState(Emotion newState)
+	{
+		this.state = newState;
+		patch.playAnimationSynchronized(emotionState.get(state).get(), 0);
+	}
+
 	private void printDebugList()
 	{
 		if (!target.level().isClientSide)
@@ -215,6 +238,7 @@ public class CharlemagneBrain
 			LogUtils.getLogger().debug("Backing off: {}", backingOff);
 			LogUtils.getLogger().debug("WalkSpeed: {}", target.walkAnimation.speed());
 			LogUtils.getLogger().debug("Living Motion: {}", patch.currentLivingMotion);
+			LogUtils.getLogger().debug("Emotional State: {}", state);
 		}
 	}
 
@@ -231,7 +255,8 @@ public class CharlemagneBrain
 
 	private void friendlyTick()
 	{
-
+		if (state != Emotion.NEUTRAL)
+			changeEmotionState(Emotion.NEUTRAL);
 	}
 
 	private class MovementPatterns
