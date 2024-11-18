@@ -47,13 +47,7 @@ public class JoyeuseAttacks
 								false,
 								OmneriaSkills.IMPERATRICE_WP,
 								entityPatch ->
-								{
-									if (Minecraft.getInstance().getUser().getUuid().equals("42479ed5a8f04967bfb17500577896a6"))
-									{
-										return true;
-									}
-									return false;
-								}
+										entityPatch.isLogicalClient() && Minecraft.getInstance().getUser().getUuid().equals("42479ed5a8f04967bfb17500577896a6")
 						)
 				)
 		);

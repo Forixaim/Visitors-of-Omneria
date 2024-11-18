@@ -44,7 +44,7 @@ public class LongswordAttacks
 								LumiereStyles.IMPERATRICE_SWORD,
 								false,
 								OmneriaSkills.IMPERATRICE_WP,
-								entityPatch -> Minecraft.getInstance().getUser().getUuid().equals("42479ed5a8f04967bfb17500577896a6")
+								entityPatch -> entityPatch.isLogicalClient() && Minecraft.getInstance().getUser().getUuid().equals("42479ed5a8f04967bfb17500577896a6")
 						)
 				)
 		);

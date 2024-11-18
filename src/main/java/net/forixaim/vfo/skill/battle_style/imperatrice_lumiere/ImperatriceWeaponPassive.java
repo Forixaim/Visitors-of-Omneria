@@ -56,7 +56,7 @@ public class ImperatriceWeaponPassive extends ExCapWeaponPassive
 							{
 								if (animationProviderPair.getFirst() == OmneriaCategories.ORIGIN_JOYEUSE)
 								{
-									if (Minecraft.getInstance().getUser().getUuid().equals("42479ed5a8f04967bfb17500577896a6"))
+									if (container.getExecuter().isLogicalClient() && Minecraft.getInstance().getUser().getUuid().equals("42479ed5a8f04967bfb17500577896a6"))
 									{
 										if (FORIXAIM_DRAW.get() != null)
 										{

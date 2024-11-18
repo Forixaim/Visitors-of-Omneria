@@ -4,7 +4,7 @@
   [
     {
       "livingmotion":"ALL",
-      "type": "root_upper_joints"
+      "type": "face"
     }
   ]
 }
