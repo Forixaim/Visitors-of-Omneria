@@ -1,42 +1,57 @@
 package net.forixaim.vfo.world.entity.charlemagne.ai.behaviors;
 
-import net.forixaim.vfo.animations.battle_style.charlemagne_flamiere.CharlemagneFlamiereAnims;
+import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordSmashAttacks;
+import net.forixaim.vfo.events.advanced_bosses.DamageDealtEvent;
 import net.forixaim.vfo.world.entity.charlemagne.Charlemagne;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagneMode;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagnePatch;
 import net.forixaim.vfo.world.entity.charlemagne.ai.CharlemagneBrain;
-import net.forixaim.vfo.world.entity.charlemagne.ai.Emotion;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import org.lwjgl.system.MathUtil;
-import reascer.wom.gameasset.WOMAnimationsEntity;
-import reascer.wom.world.entity.mob.LupusRex;
-import yesman.epicfight.api.animation.LivingMotions;
+import yesman.epicfight.api.animation.AnimationProvider;
+import yesman.epicfight.api.utils.AttackResult;
 import yesman.epicfight.api.utils.math.MathUtils;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.api.utils.math.Vec3f;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
-public class HostileAttackBehavior
+public class HostileAttackBehavior extends BaseBehavior
 {
-	//Flags
-	private boolean bEncirclement = false;
-	private int timer;
+	//Timers (MC Runs at 20 TPS)
+	private int encirclementTimer;
 	private int cooldown;
-	private boolean lR;
+
+	//Opponent Watches
+	Vec3 opLastPosition;
+
+	//Movement Flags
+	private boolean bEncirclement = false;
+	private boolean encirclementDirectionLR = true;
+	private boolean shouldCloseIn = false;
+	
+	//Important Values
 	private final CharlemagneBrain brain;
 	private final Charlemagne mob;
 	private final CharlemagnePatch mobPatch;
+	private Vec3 targetPoint;
 
-	//Movement Flags
-	public boolean hyperChase = false;
 	public boolean chasing = false;
+
+	public boolean interruptedCircle = false;
+
+	List<AnimationProvider<?>> attackTests = Arrays.asList(
+			() -> LumiereSwordSmashAttacks.IMPERATRICE_SWORD_FIRE_DRIVER,
+			() -> LumiereSwordSmashAttacks.IMPERATRICE_SWORD_SOLAR_FLARE
+	);
+
+
 
 	public HostileAttackBehavior(final CharlemagnePatch patch, final CharlemagneBrain brain, final Charlemagne mob)
 	{
@@ -44,68 +59,156 @@ public class HostileAttackBehavior
 		this.mobPatch = patch;
 		this.brain = brain;
 	}
-
-	private void closeIn(LivingEntity opponent, float distance)
+	//Logic
+	private void handleLogic(LivingEntity opponent)
 	{
-		double theta = MathUtils.getYRotOfVector(opponent.position().subtract(mob.position()));
-		mobPatch.rotateTo(opponent, 360f, true);
-		Vec3 closeInPosition = new Vec3(distance * Math.cos(theta), opponent.position().y(), distance * Math.sin(theta));
-		mob.getNavigation().moveTo(closeInPosition.x(), closeInPosition.y(), closeInPosition.z(), 1);
+		if (opLastPosition == null || shouldCloseIn)
+		{
+			opLastPosition = copyPosition(opponent.position());
+		}
+		shouldCloseIn = distanceToPoint(opponent, opLastPosition) > 5 && mob.getNavigation().isInProgress();
 	}
 
-	public void selectLivingMotion(CharlemagnePatch patch, boolean considerInaction)
+	private void handleResponse(LivingEntity opponent)
 	{
-		if (hyperChase)
+		if (shouldCloseIn)
 		{
-			patch.currentLivingMotion = LivingMotions.RUN;
+			float dist = (float) mob.getRandom().nextInt(4, 6);
+			closeIn(opponent, dist, dist * ((float) mob.getRandom().nextInt(3, 5) / 2));
+			return;
 		}
-		else if (mob.getNavigation().isInProgress())
+
+	}
+
+	private Vec3 copyPosition(Vec3 toCopy)
+	{
+		return new Vec3(toCopy.toVector3f());
+	}
+
+	private float distanceToPoint(LivingEntity entity, Vec3 targetPoint)
+	{
+		return (float) Math.sqrt(entity.distanceToSqr(targetPoint));
+	}
+
+	//Movement Patterns
+	private void closeIn(LivingEntity opponent, float distance, float fastChaseThreshold)
+	{
+		mobPatch.rotateTo(opponent, 360f, true);
+		if (mob.distanceTo(opponent) > distance && (!mob.getNavigation().isInProgress() || (opponent instanceof PathfinderMob pathfinderMob && pathfinderMob.getNavigation().isInProgress())))
 		{
-			patch.currentLivingMotion = LivingMotions.WALK;
+			if (mob.distanceTo(opponent) > fastChaseThreshold)
+			{
+				mob.getNavigation().moveTo(opponent, 1.5f);
+			}
+			else if (mob.distanceTo(opponent) >= distance && mob.distanceTo(opponent) <= fastChaseThreshold)
+			{
+				mob.getNavigation().moveTo(opponent, 1);
+			}
 		}
 		else
 		{
-			mobPatch.currentLivingMotion = LivingMotions.IDLE;
+			mob.getNavigation().stop();
 		}
 	}
 
-	private void fireAttacks()
+	private void encircle(Vec3 pos, LivingEntity entity)
 	{
-
+		double distanceToTarget = mob.distanceToSqr(pos.x(), pos.y(), pos.z());
+		float angle = (float) (Objects.requireNonNull(mob.getAttribute(Attributes.MOVEMENT_SPEED)).getValue() * 8.100000381469727 * 2);
+		if (Math.sqrt(distanceToTarget) < 4) {
+			angle = -2.0F;
+		} else if (Math.sqrt(distanceToTarget) > 5) {
+			angle = 2.0F;
+		}
+		mobPatch.rotateTo((float) MathUtils.getYRotOfVector(pos.subtract(mob.position())), 360, true);
+		if (encirclementDirectionLR)
+		{
+			mobPatch.rotateTo(mobPatch.getYRot() - 90.0F + angle, 360.0F, true);
+		}
+		else
+		{
+			mobPatch.rotateTo(mobPatch.getYRot() + 90.0F - angle, 360.0F, true);
+		}
+		//Move forward
+		mob.getLookControl().setLookAt(entity);
+		Vec3 forwardHorizontal = Vec3.directionFromRotation(new Vec2(0.0F, mob.getYHeadRot()));
+		Vec3 jumpDir = OpenMatrix4f.transform(OpenMatrix4f.createRotatorDeg(0.0F, Vec3f.Y_AXIS), forwardHorizontal.scale(Objects.requireNonNull(mob.getAttribute(Attributes.MOVEMENT_SPEED)).getValue() * 0.6));
+		mob.setDeltaMovement(jumpDir.x, mob.getDeltaMovement().y, jumpDir.z);
+		encirclementTimer--;
+		if (Math.sqrt(entity.distanceToSqr(pos)) > Math.sqrt(distanceToTarget))
+		{
+			//Rush up and grab
+			onStopEncirclement(true);
+		}
 	}
 
+	private void backOff(LivingEntity entity)
+	{
+		mobPatch.rotateTo(entity, 360, true);
+		Vec3 forwardHorizontal = Vec3.directionFromRotation(new Vec2(0.0F, -mob.getYHeadRot()));
+		Vec3 jumpDir = OpenMatrix4f.transform(OpenMatrix4f.createRotatorDeg(0.0F, Vec3f.Y_AXIS), forwardHorizontal.scale(Objects.requireNonNull(mob.getAttribute(Attributes.MOVEMENT_SPEED)).getValue() * 0.6));
+		mob.setDeltaMovement(jumpDir.x, mob.getDeltaMovement().y, jumpDir.z);
+	}
+
+
+	//Events
+	private void onStopEncirclement(Boolean interrupted)
+	{
+		bEncirclement = false;
+		encirclementTimer = 0;
+		interruptedCircle = interrupted;
+	}
+
+	private void startEncirclement(LivingEntity opponent)
+	{
+		//Ticks
+		encirclementTimer = 200;
+		bEncirclement = true;
+		cooldown = 100;
+		targetPoint = new Vec3(opponent.position().toVector3f());
+		encirclementDirectionLR = mob.getRandom().nextBoolean();
+	}
+
+	//Actions
+	private void resetAll()
+	{
+		chasing = false;
+		bEncirclement = false;
+		encirclementTimer = 0;
+		cooldown = 0;
+	}
+
+	private void powerAttack()
+	{
+		mobPatch.playAnimationSynchronized(attackTests.get(0).get(), 0);
+	}
+
+	/**
+	 * This function is called every tick
+	 * @param opponent the opponent to fight.
+	 */
 	public void onReceiveHostileAttack(LivingEntity opponent)
 	{
-
+		//Primary Ticking Function
 		if (opponent == null || !opponent.isAlive())
 		{
 			brain.mode = CharlemagneMode.FRIENDLY;
+			resetAll();
 			return;
 		}
-		if (brain.getState() != Emotion.SERIOUS)
-		{
-			brain.changeEmotionState(Emotion.SERIOUS);
-		}
-		mobPatch.rotateTo(opponent, 360f, true);
-		if (mob.distanceTo(opponent) > 10f && (!mob.getNavigation().isInProgress() || (opponent instanceof PathfinderMob pathfinderMob && pathfinderMob.getNavigation().isInProgress()) || !hyperChase))
-		{
-			chasing = true;
-			hyperChase = true;
-			mob.getNavigation().moveTo(opponent, 1.5f);
-		}
-		if (mob.distanceTo(opponent) > 4f && mob.distanceTo(opponent) <= 10 && (!mob.getNavigation().isInProgress() ||
-				(opponent instanceof PathfinderMob pathfinderMob &&
-						pathfinderMob.getNavigation().isInProgress()) || hyperChase))
-		{
-			hyperChase = false;
-			chasing = true;
-			mob.getNavigation().moveTo(opponent, 1);
-		}
-		if (mob.distanceTo(opponent) < 3f && mob.getNavigation().isInProgress())
-		{
-			chasing = false;
-			mob.setTarget(null);
-			mob.getNavigation().stop();
-		}
+		handleLogic(opponent);
+
+	}
+
+	@Override
+	public void handleAttackConnection(DamageDealtEvent event)
+	{
+
+	}
+
+	@Override
+	public AttackResult handleDamageTaken(DamageSource source, float amount)
+	{
+		return AttackResult.missed(amount);
 	}
 }

@@ -19,34 +19,55 @@ public class CharlemagneAttackString
 
 	public CharlemagneAttackString(CharlemagneAttack set)
 	{
-		attacks = new Tree<>(set);
+		attacks = newTreeBuilder(Tree.Node.createNode(set)).build();
 		this.connected = false;
 		this.firing = false;
 		this.position = 0;
 	}
 
+	//Creates a new tree builder that will be used to build the tree
+	private Tree.TreeBuilder<CharlemagneAttack> newTreeBuilder(Tree.Node<CharlemagneAttack> root)
+	{
+		return new Tree.TreeBuilder<>(root);
+	}
+
 	public void fire(CharlemagnePatch attacker)
 	{
 		RandomSource source = attacker.getOriginal().getRandom();
-		if (position >= Attacks.size())
-			return;
-		List<CharlemagneAttack> Buffer1 = Attacks.get(position);
-		CharlemagneAttack BufferAnim = null;
-		if (Buffer1.size() > 1)
+		//All traversal logic is done here
+		Tree.Node<CharlemagneAttack> node = attacks.getRoot();
+		while (node != null)
 		{
-			BufferAnim = Buffer1.get(source.nextInt(0, Buffer1.size()));
-		}
-		else
-		{
-			BufferAnim = Buffer1.get(0);
-		}
-		if (BufferAnim != null)
-		{
-			if (BufferAnim.getSuspectConfidence() > 0.94 || connected)
-				BufferAnim.Fire(attacker);
-			else if (BufferAnim.getSuspectConfidence() > 0.82)
-				BufferAnim.Feint(attacker);
-			firing = true;
+			if (node.isRoot())
+			{
+				//Immediately fire the attack and traverse to the next node
+				node.getData().Fire(attacker);
+				node = node.getChild();
+			}
+			else
+			{
+				//Randomly decide whether to fire the attack and traverse to the child node or traverse to the sibling node
+				if (source.nextBoolean())
+				{
+					node.getData().Fire(attacker);
+					node = node.getChild();
+				}
+				else
+				{
+					//However this will throw an exception if the sibling node is null, check if the sibling node is null
+					if (node.getSibling() == null)
+					{
+						//If the sibling node is null fire the attack and traverse to the child node
+						node.getData().Fire(attacker);
+						node = node.getChild();
+					}
+					else
+					{
+						//If the sibling node is not null traverse to the sibling node
+						node = node.getSibling();
+					}
+				}
+			}
 		}
 	}
 

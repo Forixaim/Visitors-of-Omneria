@@ -3,30 +3,24 @@ package net.forixaim.vfo.world.entity.charlemagne.ai;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.logging.LogUtils;
-import net.forixaim.vfo.animations.battle_style.charlemagne_flamiere.GroundAttacks;
 import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordSmashAttacks;
 import net.forixaim.vfo.animations.npc_interactions.charlemagne.FacialAnimations;
 import net.forixaim.vfo.events.advanced_bosses.DamageDealtEvent;
 import net.forixaim.vfo.world.entity.charlemagne.Charlemagne;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagneMode;
 import net.forixaim.vfo.world.entity.charlemagne.CharlemagnePatch;
+import net.forixaim.vfo.world.entity.charlemagne.ai.behaviors.BaseBehavior;
 import net.forixaim.vfo.world.entity.charlemagne.ai.behaviors.HostileAttackBehavior;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import yesman.epicfight.api.animation.AnimationProvider;
 import yesman.epicfight.api.animation.types.AttackAnimation;
-import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.utils.AttackResult;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.api.utils.math.Vec3f;
-import yesman.epicfight.skill.Skill;
-import yesman.epicfight.world.capabilities.EpicFightCapabilities;
-import yesman.epicfight.world.capabilities.entitypatch.EntityPatch;
-import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
-import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 import java.util.List;
 import java.util.Map;
@@ -44,6 +38,7 @@ public class CharlemagneBrain
 	private LivingEntity opponent;
 	private final Map<Emotion, AnimationProvider<?>> emotionState = Maps.newHashMap();
 	private Emotion state;
+	private final Map<CharlemagneMode, BaseBehavior> handlers = Maps.newHashMap();
 
 	//Behaviors
 	public HostileAttackBehavior hostileAttackBehavior;
@@ -69,10 +64,14 @@ public class CharlemagneBrain
 		this.emotionState.put(Emotion.SERIOUS, () -> FacialAnimations.CHARLEMAGNE_SERIOUS);
 		hostileAttackBehavior = new HostileAttackBehavior(patch, this, target);
 		StaminaDamageMap.put((AttackAnimation) LumiereSwordSmashAttacks.IMPERATRICE_SWORD_FIRE_DRIVER, 7.1f);
+		this.handlers.put(CharlemagneMode.DEFENSE, hostileAttackBehavior);
 	}
 
 	public AttackResult handleWhenAttacked(DamageSource damageSource, float amount)
 	{
+		if (mode.is(CharlemagneMode.DEFENSE))
+			return AttackResult.missed(amount);
+
 		return AttackResult.of(patch.getEntityState().attackResult(damageSource), amount);
 	}
 
@@ -83,56 +82,8 @@ public class CharlemagneBrain
 
 	public void onReceiveAttackConnection(DamageDealtEvent event)
 	{
-		//Searches for all attack strings to find the one which fired.
-		if (EpicFightCapabilities.getEntityPatch(event.getHurtEntity(), EntityPatch.class) instanceof LivingEntityPatch<?> livingEntityPatch)
-		{
-			if (livingEntityPatch instanceof PlayerPatch<?> playerPatch)
-			{
-				if (event.getDamageSource().getAnimation() instanceof AttackAnimation attackAnimation)
-				{
-					if (StaminaDamageMap.get(attackAnimation) != null)
-					{
-						playerPatch.consumeForSkill(null, Skill.Resource.STAMINA, StaminaDamageMap.get(attackAnimation));
-					}
-				}
-			}
-			//Check if the defender is stunned
-			for (CharlemagneAttackString s : charlemagneAttackStrings)
-			{
-				if (s.firing)
-				{
-					//Fire
-					if (s.position < s.Attacks.size())
-					{
-						s.connected = true;
-						s.fire(patch);
-						s.position++;
-					}
-					else
-					{
-						s.reset();
-					}
-				}
-			}
-		}
-	}
-
-	public void circleAround(LivingEntity target, float distance)
-	{
-
-	}
-
-	//TODO: Implement a backtrack
-	public void backOff(LivingEntity nearestMonster, float distance)
-	{
-		backingOff = true;
-		//move backwards until the distance has been reached.
-		target.getLookControl().setLookAt(nearestMonster);
-		Vec3f pos = new Vec3f(0, 0, distance);
-		OpenMatrix4f posRotation = new OpenMatrix4f().rotate(-(float)Math.toRadians(target.getYRot()), new Vec3f(0.0F, 1.0F, 0.0F));
-		OpenMatrix4f.transform3v(posRotation, pos, pos);
-		Vec3 movePos = pos.toDoubleVector();
-		target.getNavigation().moveTo(movePos.x(), movePos.y(), movePos.z(), 1);
+		//Handle
+		handlers.get(mode).handleAttackConnection(event);
 	}
 
 	public void onAttackAnimationEnd()
@@ -148,30 +99,6 @@ public class CharlemagneBrain
 
 	protected AABB getTargetSearchArea() {
 		return this.target.getBoundingBox().inflate(80.0, 4.0, 80.0);
-	}
-
-	private void rotateTo(LivingEntity livingEntity)
-	{
-		double distanceX = livingEntity.getX() - target.getX();
-		double distanceY = livingEntity.getY() - target.getY();
-		double distanceHypo = target.distanceTo(livingEntity);
-		double rAngle = 0;
-
-		if (distanceX == 0)
-		{
-			double searchAngle = distanceY/distanceHypo;
-			if (searchAngle <= Math.PI/2)
-				rAngle = Math.asin(distanceY);
-		}
-		else
-		{
-			double searchAngle = distanceY/distanceX;
-			rAngle = Math.atan(searchAngle);
-		}
-
-
-
-		target.setYRot((float) rAngle);
 	}
 
 	public Emotion getState()
@@ -197,7 +124,7 @@ public class CharlemagneBrain
 			tick = 0;
 			seconds++;
 			//Check for any enemy mobs nearby unless in defense mode;
-			nearestMonster = this.target.level().getNearestEntity(this.target.level().getEntitiesOfClass(Mob.class, this.getTargetSearchArea()), target.DefCond, this.target, this.target.getX(), this.target.getY(), this.target.getZ());
+			nearestMonster = this.target.level().getNearestEntity(this.target.level().getEntitiesOfClass(ArmorStand.class, this.getTargetSearchArea()), target.DefCond, this.target, this.target.getX(), this.target.getY(), this.target.getZ());
 			if (nearestMonster != null && !mode.is(CharlemagneMode.DUELING))
 			{
 				this.mode = CharlemagneMode.DEFENSE;
@@ -210,22 +137,10 @@ public class CharlemagneBrain
 		}
 	}
 
-	public boolean fireCheck()
-	{
-		for (CharlemagneAttackString string : charlemagneAttackStrings)
-		{
-			if (string.firing)
-			{
-				return false;
-			}
-		}
-		return true;
-	}
 
 	public void changeEmotionState(Emotion newState)
 	{
 		this.state = newState;
-		patch.playAnimationSynchronized(emotionState.get(state).get(), 0);
 	}
 
 	private void printDebugList()
@@ -257,11 +172,5 @@ public class CharlemagneBrain
 	{
 		if (state != Emotion.NEUTRAL)
 			changeEmotionState(Emotion.NEUTRAL);
-	}
-
-	private class MovementPatterns
-	{
-		private final Charlemagne target = CharlemagneBrain.this.target;
-
 	}
 }
