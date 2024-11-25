@@ -13,6 +13,7 @@ import mekanism.common.tags.MekanismTags;
 import net.forixaim.vfo.world.entity.special_tags.IRadiationImmune;
 import net.forixaim.vfo.world.entity.types.AbstractFriendlyNPC;
 import net.mcreator.whendaybreaks.WhenDayBreaksMod;
+import net.mcreator.whendaybreaks.init.WhenDayBreaksModGameRules;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
@@ -46,8 +47,13 @@ public class Charlemagne extends AbstractFriendlyNPC implements InventoryCarrier
 	private final SimpleContainer charlemagneInventory = new SimpleContainer(8);
 	//For debugging purposes, the entity will be set to a stationary armor stand.
 	public final TargetingConditions DefCond = TargetingConditions.forCombat().range(this.getAttributeValue(Attributes.FOLLOW_RANGE)).selector((pred) -> pred instanceof ArmorStand);
-	private static final List<MobEffect> ImmunityList = Lists.newArrayList(
-
+	private static final List<MobEffect> AffectedOnlyBy = Lists.newArrayList(
+			MobEffects.ABSORPTION,
+			MobEffects.DAMAGE_BOOST,
+			MobEffects.DAMAGE_RESISTANCE,
+			MobEffects.REGENERATION,
+			MobEffects.HEAL,
+			MobEffects.MOVEMENT_SPEED
 	);
 
 	public Charlemagne(EntityType<? extends AbstractFriendlyNPC> p_21683_, Level p_21684_)
@@ -113,6 +119,11 @@ public class Charlemagne extends AbstractFriendlyNPC implements InventoryCarrier
 	@Override
 	public boolean addEffect(@NotNull MobEffectInstance pEffectInstance, @Nullable Entity pEntity)
 	{
+		for (MobEffect effect : AffectedOnlyBy)
+		{
+			if (pEffectInstance.getEffect() == effect)
+				return super.addEffect(pEffectInstance, pEntity);
+		}
 		return false;
 	}
 
@@ -123,6 +134,16 @@ public class Charlemagne extends AbstractFriendlyNPC implements InventoryCarrier
 		if (p_21472_.getItemInHand(InteractionHand.MAIN_HAND).is(Items.DEBUG_STICK) && !this.level().isClientSide)
 			this.patch.brain.debugFire();
 		return InteractionResult.SUCCESS;
+	}
+
+	@Override
+	public void tick()
+	{
+		super.tick();
+		if (this.level().isDay() && this.level().getGameRules().getBoolean(WhenDayBreaksModGameRules.WHEN_DAY_BREAKS_ACTIVE))
+		{
+			this.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 20, 5));
+		}
 	}
 
 	@Override

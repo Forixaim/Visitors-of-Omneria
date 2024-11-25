@@ -4,9 +4,11 @@ import com.google.common.collect.Lists;
 import com.mojang.logging.LogUtils;
 import net.forixaim.bs_api.AnimationHelpers;
 import net.forixaim.bs_api.battle_arts_skills.BattleArtsSkillSlots;
+import net.forixaim.vfo.animations.battle_style.charlemagne_flamiere.GroundAttacks;
 import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordGroundAttacks;
 import net.forixaim.vfo.capabilities.styles.LumiereStyles;
 import net.forixaim.vfo.skill.DatakeyRegistry;
+import net.forixaim.vfo.special.SpecialPlayers;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -46,6 +48,12 @@ public class FlareBlitz extends BasicAttack
 			() -> LumiereSwordGroundAttacks.IMPERATRICE_SWORD_JAB3
 	);
 
+	private static final List<AnimationProvider<?>> CHARLEMAGNE_JAB_SET = Lists.newArrayList(
+			() -> GroundAttacks.JAB_1,
+			() -> GroundAttacks.JAB_2,
+			() -> GroundAttacks.JAB_3
+	);
+
 	public static Builder<FlareBlitz> createImperatriceAttackSet()
 	{
 
@@ -83,7 +91,7 @@ public class FlareBlitz extends BasicAttack
 	public boolean isExecutableState(PlayerPatch<?> executer)
 	{
 		EntityState playerState = executer.getEntityState();
-		Player player = (Player)executer.getOriginal();
+		Player player = executer.getOriginal();
 		if (executer.getAdvancedHoldingItemCapability(InteractionHand.MAIN_HAND).getStyle(executer) == LumiereStyles.IMPERATRICE_SWORD)
 		{
 			return !player.isSpectator() && !executer.isAirborneState() && !AnimationHelpers.isInAir(executer) && playerState.canBasicAttack();
@@ -97,24 +105,6 @@ public class FlareBlitz extends BasicAttack
 		if (executor.getAdvancedHoldingItemCapability(InteractionHand.MAIN_HAND).getStyle(executor) == LumiereStyles.IMPERATRICE_SWORD)
 			return executor.getOriginal().onGround() && executor.getSkill(SkillSlots.WEAPON_INNATE).getDataManager().hasData(DatakeyRegistry.CHARGE_EXECUTING.get()) && !executor.getSkill(SkillSlots.WEAPON_INNATE).getDataManager().getDataValue(DatakeyRegistry.CHARGE_EXECUTING.get());
 		return super.canExecute(executor);
-	}
-
-	@Override
-	public void onInitiate(SkillContainer container)
-	{
-		container.getExecuter().getEventListener().addEventListener(PlayerEventListener.EventType.DEALT_DAMAGE_EVENT_ATTACK, EVENT_UUID, event ->
-		{
-			if (event.getDamageSource().getAnimation() == LumiereSwordGroundAttacks.IMPERATRICE_SWORD_JAB1 || event.getDamageSource().getAnimation() == LumiereSwordGroundAttacks.IMPERATRICE_SWORD_JAB2)
-			{
-				container.getDataManager().setDataSync(DatakeyRegistry.BLAZE_COMBO.get(), container.getDataManager().getDataValue(DatakeyRegistry.BLAZE_COMBO.get())+1, event.getPlayerPatch().getOriginal());
-			}
-		});
-	}
-
-	@Override
-	public void onRemoved(SkillContainer container)
-	{
-		container.getExecuter().getEventListener().removeListener(PlayerEventListener.EventType.DEALT_DAMAGE_EVENT_ATTACK, EVENT_UUID);
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -237,11 +227,22 @@ public class FlareBlitz extends BasicAttack
 				{
 					// Normal Attack
 					executer.getSkill(this).getDataManager().setData(DatakeyRegistry.JAB.get(), true);
-					comboSize = IMPERATRICE_SWORD_JAB_SET.size();
-					comboCounter %= comboSize;
+					if (player.getUUID().equals(SpecialPlayers.FORIXAIM))
+					{
+						comboSize = CHARLEMAGNE_JAB_SET.size();
+						comboCounter %= comboSize;
+						attackMotion = CHARLEMAGNE_JAB_SET.get(comboCounter).get();
+					}
+					else
+					{
+						comboSize = IMPERATRICE_SWORD_JAB_SET.size();
+						comboCounter %= comboSize;
+						attackMotion = IMPERATRICE_SWORD_JAB_SET.get(comboCounter).get();
+					}
+
+					comboCounter++;
 					LogUtils.getLogger().debug("Jab");
 					LogUtils.getLogger().debug("Combo Counter: {}", comboCounter);
-					attackMotion = IMPERATRICE_SWORD_JAB_SET.get(comboCounter).get();
 					cercleDeFeu = 0;
 				}
 			}

@@ -35,6 +35,8 @@ public class HostileAttackBehavior extends BaseBehavior
 	private boolean bEncirclement = false;
 	private boolean encirclementDirectionLR = true;
 	private boolean shouldCloseIn = false;
+	private boolean hyperChase = false;
+	private float dist = 4;
 	
 	//Important Values
 	private final CharlemagneBrain brain;
@@ -62,21 +64,31 @@ public class HostileAttackBehavior extends BaseBehavior
 	//Logic
 	private void handleLogic(LivingEntity opponent)
 	{
-		if (opLastPosition == null || shouldCloseIn)
+		if (opLastPosition == null)
+		{
+			shouldCloseIn = true;
+			return;
+		}
+		if (shouldCloseIn)
 		{
 			opLastPosition = copyPosition(opponent.position());
 		}
 		shouldCloseIn = distanceToPoint(opponent, opLastPosition) > 5 && mob.getNavigation().isInProgress();
+
+		if (mob.distanceTo(opponent) <= dist && hyperChase)
+		{
+			powerAttack();
+			hyperChase = false;
+		}
 	}
 
 	private void handleResponse(LivingEntity opponent)
 	{
 		if (shouldCloseIn)
 		{
-			float dist = (float) mob.getRandom().nextInt(4, 6);
-			closeIn(opponent, dist, dist * ((float) mob.getRandom().nextInt(3, 5) / 2));
-			return;
+			closeIn(opponent, dist, dist * 2);
 		}
+
 
 	}
 
@@ -93,21 +105,27 @@ public class HostileAttackBehavior extends BaseBehavior
 	//Movement Patterns
 	private void closeIn(LivingEntity opponent, float distance, float fastChaseThreshold)
 	{
-		mobPatch.rotateTo(opponent, 360f, true);
+
 		if (mob.distanceTo(opponent) > distance && (!mob.getNavigation().isInProgress() || (opponent instanceof PathfinderMob pathfinderMob && pathfinderMob.getNavigation().isInProgress())))
 		{
 			if (mob.distanceTo(opponent) > fastChaseThreshold)
 			{
-				mob.getNavigation().moveTo(opponent, 1.5f);
+				mob.getNavigation().moveTo(opponent.position().x(), opponent.position().y(), opponent.position().z(), 2f);
+				hyperChase = true;
 			}
 			else if (mob.distanceTo(opponent) >= distance && mob.distanceTo(opponent) <= fastChaseThreshold)
 			{
-				mob.getNavigation().moveTo(opponent, 1);
+				mob.getNavigation().moveTo(opponent.position().x(), opponent.position().y(), opponent.position().z(), 1);
 			}
 		}
 		else
 		{
-			mob.getNavigation().stop();
+			if (mob.distanceTo(opponent) <= distance)
+			{
+				mobPatch.rotateTo(opponent, 360f, true);
+				mob.getNavigation().stop();
+			}
+
 		}
 	}
 
@@ -174,6 +192,7 @@ public class HostileAttackBehavior extends BaseBehavior
 	{
 		chasing = false;
 		bEncirclement = false;
+		opLastPosition = null;
 		encirclementTimer = 0;
 		cooldown = 0;
 	}
@@ -197,7 +216,7 @@ public class HostileAttackBehavior extends BaseBehavior
 			return;
 		}
 		handleLogic(opponent);
-
+		handleResponse(opponent);
 	}
 
 	@Override
