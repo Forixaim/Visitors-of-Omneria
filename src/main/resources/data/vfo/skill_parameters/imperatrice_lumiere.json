@@ -16,13 +16,6 @@
 			"amount": 0.4
 		},
 		{
-			"attribute": "forge:entity_gravity",
-			"name": "cosmic_field",
-			"uuid": "fceabee5-64fc-40dd-a7a2-4470ed8ff00a",
-			"operation": "multiply_base",
-			"amount": -0.6
-		},
-		{
 			"attribute": "minecraft:generic.max_health",
 			"name": "cosmonian_durability",
 			"uuid": "fceabee5-64fc-40dd-a7a2-4470ed8ff00a",

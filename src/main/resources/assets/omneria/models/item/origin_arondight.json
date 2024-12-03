@@ -1,6 +1,6 @@
 {
 	"loader": "forge:obj",
-	"model": "vfo:models/item/obj/origin_arondight.obj",
+	"model": "omneria:models/item/obj/origin_arondight.obj",
 	"flip-v": true,
 	"display":
 	{

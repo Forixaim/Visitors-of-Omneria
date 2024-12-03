@@ -11,7 +11,7 @@
       "lifetime": 80,
       "joint": "Tool_R",
       "item_skin_hand": "main_hand",
-      "texture_path": "battle_arts:textures/particle/joyeuse_trail.png"
+      "texture_path": "omneria:textures/particle/joyeuse_trail.png"
     }
   ]
 }

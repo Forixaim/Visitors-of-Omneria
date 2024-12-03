@@ -1,0 +1,38 @@
+{
+	"item.omneria.origin_excalibur": "Origin Excalibur",
+	"item.omneria.origin_excalibur.tooltip": "This relic was once wielded by one of the 10 legendary heroes. It is said that all Excaliburs are based off this original template.",
+	"item.omneria.origin_arondight": "Origin Arondight",
+	"item.omneria.origin_joyeuse": "Origin Joyeuse",
+	"item.omneria.origin_joyeuse.tooltip": "Flames that should not be handled but only by a true wielder.\nAll human variants of Joyeuse are derived from this one, be it holy or demonic.\nAll said is nothing compared to the almighty Flare Blade.\n\nTemperatures can reach 10 to the power of 32 degrees Kelvin.",
+	"item.omneria.baguette": "La Baguette",
+
+	"skill.omneria.imperatrice_lumiere": "Impératrice Lumiére",
+	"skill.omneria.imperatrice_lumiere.tooltip": "The legendary battle style of the Eternal Emberlight Empress. Uses primarily swords.\n\n\"Hey, learning House Flaron's sword style is a massive responsibility! Good luck!\"",
+	"skill.omneria.house_lux_arms_master": "House Lux Arms Master",
+	"skill.omneria.house_lux_arms_master.tooltip": "Not Yet Implemented",
+	"skill.omneria.blaze_stinger": "Conducteur d'incendie",
+	"skill.omneria.blaze_stinger.tooltip": "Smash attacks can be directionally inputted for different animations or results.",
+	"skill.omneria.trailblaze": "Trailblaze",
+	"skill.omneria.trailblaze.tooltip": "Required Battle Style: Impératrice Lumiére\n\nDash a fair distance in any direction, primarily used to follow up on the mostly stationary comboes of Impératrice Lumiére",
+	"skill.omneria.flare_burst": "Enfer Château d'If",
+	"skill.omneria.flare_burst.tooltip": "Required Battle Style: Impératrice Lumiére\n\nGo into overdrive, gaining increased attack damage and stun immunity. Slowly damages your common weapons that you wield. Allows the use of the Impératrice Lumiére's Ultimate Art Set",
+	"skill.omneria.imperatrice_ultimate": "Finale de l'ignition",
+	"skill.omneria.imperatrice_ultimate.tooltip": "Required Battle Style: Impératrice Lumiére\n\nSpecified Weapon: Origin Joyeuse or Derived Joyeuse\n\nCasts three different ultimate arts based if you have the correct weapons or not.",
+
+	"sounds.omneria.entity.weapon.imperatrice_swing": "Light Blade Swing",
+	"sounds.omneria.entity.weapon.imperatrice_hit_s": "Light Blade Hit",
+	"sounds.omneria.entity.weapon.imperatrice_hit_m": "Medium Blade Hit",
+	"sounds.omneria.entity.weapon.imperatrice_hit_l": "Heavy Blade Hit",
+	"sounds.omneria.entity.weapon.imperatrice_thrust_l": "Blade Impale",
+	"sounds.omneria.entity.weapon.imperatrice_kick_impact_m": "Medium Kick Impact",
+	"sounds.omneria.entity.weapon.imperatrice_punch_impact_m": "Medium Punch Impact",
+	"sounds.omneria.entity.combat.critical_hit": "Critical Hit",
+	"sounds.omneria.entity.weapon.imperatrice_anti_cheese": "Invincibility Puncture",
+	"sounds.omneria.entity.combat.nocheese": "No Cheese",
+	"sounds.omneria.entity.weapon.flare_burst_aura": "Infernal Ambience",
+
+	"epicfight.style.imperatrice_sword": "House Flaron's Impératrice Lumiére Art",
+	"epicfight.style.forixaim_sword": "Charlemagne's Impératrice Lumiére Art",
+
+	"itemGroup.omneria.visitors_of_omneria": "Battle Arts - Visitors of Omneria"
+}

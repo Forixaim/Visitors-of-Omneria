@@ -35,6 +35,6 @@
 		}
 	},
 	"textures": {
-		"layer0" : "vfo:item/baguette"
+		"layer0" : "omneria:item/baguette"
 	}
 }

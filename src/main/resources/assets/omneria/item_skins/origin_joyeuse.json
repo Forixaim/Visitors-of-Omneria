@@ -5,7 +5,7 @@
     "end_pos": [0.0, 0, -2.5],
     "lifetime": 4,
     "interpolations": 15,
-    "texture_path": "vfo:textures/particle/joyeuse_trail.png",
+    "texture_path": "omneria:textures/particle/joyeuse_trail.png",
     "particle_type": "epicfight:swing_trail"
   }
 }

@@ -24,7 +24,7 @@ import static net.forixaim.vfo.registry.ItemRegistry.ITEMS;
 public class VisitorsOfOmneria
 {
 	// Define mod id in a common place for everything to reference
-	public static final String MOD_ID = "vfo";
+	public static final String MOD_ID = "omneria";
 
 
 	public VisitorsOfOmneria()
