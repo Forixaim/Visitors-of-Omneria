@@ -9,6 +9,7 @@ import yesman.epicfight.api.animation.types.MovementAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Armatures;
+import yesman.epicfight.main.EpicFightMod;
 
 public class CharlemagneFlamiereAnims
 {
@@ -30,5 +31,6 @@ public class CharlemagneFlamiereAnims
 				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (a,b,c,d,e) -> 1.5f);
 		TRUE_IMPERATRICE_RUN = new MovementAnimation(true, "battle_style/legendary/imperatrice_lumiere/forixaim_sword_living/run", Armatures.BIPED)
 				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (a,b,c,d,e) -> 2f);
+
 	}
 }

@@ -3,6 +3,9 @@ package net.forixaim.vfo.world.entity.charlemagne.ai.behaviors.dueling;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
+/**
+ * This module collects data from the opponent player and sends data to the Logic Module
+ */
 public class DataCollectionModule
 {
 	private LivingEntity livingEntity;

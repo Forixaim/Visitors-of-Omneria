@@ -28,7 +28,7 @@ public class GroundAttacks
 				.addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.setter(5))
 				.addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, SoundRegistry.IMPERATRICE_HIT_S.get())
 				.addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, true)
-				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, Animations.ReusableSources.CONSTANT_ONE)
+				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (dynamicAnimation, livingEntityPatch, v, v1, v2) -> 1.2f)
 				.addState(EntityState.TURNING_LOCKED, true)
 				.addEvents(AnimationEvent.TimeStampedEvent.create(
 						0.5f, (livingEntityPatch, staticAnimation, objects) -> {
@@ -43,7 +43,7 @@ public class GroundAttacks
 				.addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.setter(5))
 				.addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, SoundRegistry.IMPERATRICE_HIT_S.get())
 				.addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, true)
-				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, Animations.ReusableSources.CONSTANT_ONE)
+				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (dynamicAnimation, livingEntityPatch, v, v1, v2) -> 1.2f)
 				.addState(EntityState.TURNING_LOCKED, true)
 				.addEvents(AnimationEvent.TimeStampedEvent.create(
 						0.5f, (livingEntityPatch, staticAnimation, objects) -> {
@@ -58,7 +58,7 @@ public class GroundAttacks
 				.addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.setter(5))
 				.addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, SoundRegistry.IMPERATRICE_HIT_M.get())
 				.addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, true)
-				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, Animations.ReusableSources.CONSTANT_ONE)
+				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (dynamicAnimation, livingEntityPatch, v, v1, v2) -> 1.2f)
 				.addState(EntityState.TURNING_LOCKED, true)
 				.addEvents(AnimationEvent.TimeStampedEvent.create(
 						0.45f, (livingEntityPatch, staticAnimation, objects) -> {
