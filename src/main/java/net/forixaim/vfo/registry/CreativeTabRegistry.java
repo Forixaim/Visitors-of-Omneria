@@ -20,7 +20,7 @@ public class CreativeTabRegistry
 
 
 	public static final RegistryObject<CreativeModeTab> VISITORS_OF_OMNERIA = CREATIVE_MODE_TABS.register("visitors_of_omneria", () -> CreativeModeTab.builder()
-			.title(Component.translatable("itemGroup.vfo.visitors_of_omneria").withStyle(ChatFormatting.DARK_PURPLE))
+			.title(Component.translatable("itemGroup.omneria.visitors_of_omneria").withStyle(ChatFormatting.DARK_PURPLE))
 			.icon(() -> new ItemStack(ItemRegistry.ORIGIN_JOYEUSE.get()))
 			.withTabsBefore(EpicFightCreativeTabs.ITEMS.getId()).hideTitle()
 			.withBackgroundLocation(new ResourceLocation(VisitorsOfOmneria.MOD_ID, "textures/gui/visitors_of_omneria.png"))

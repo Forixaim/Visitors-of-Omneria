@@ -14,8 +14,10 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import yesman.epicfight.main.EpicFightExtensions;
 
 import static net.forixaim.vfo.registry.CreativeTabRegistry.CREATIVE_MODE_TABS;
+import static net.forixaim.vfo.registry.CreativeTabRegistry.VISITORS_OF_OMNERIA;
 import static net.forixaim.vfo.registry.ItemRegistry.ITEMS;
 
 
@@ -37,11 +39,12 @@ public class VisitorsOfOmneria
 		DatakeyRegistry.DATA_KEYS.register(modEventBus);
 		modEventBus.addListener(CoreRegistry::Register);
 		SoundRegistry.SOUNDS.register(modEventBus);
-
 		modEventBus.addListener(this::commonSetup);
 		modEventBus.addListener(this::clientSetup);
 		MinecraftForge.EVENT_BUS.register(this);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+		ModLoadingContext.get().registerExtensionPoint(EpicFightExtensions.class, () ->
+				new EpicFightExtensions(VISITORS_OF_OMNERIA.get()));
 	}
 
 	private void commonSetup(final FMLCommonSetupEvent event)

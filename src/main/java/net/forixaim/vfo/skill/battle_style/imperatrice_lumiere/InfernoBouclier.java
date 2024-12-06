@@ -1,6 +1,7 @@
 package net.forixaim.vfo.skill.battle_style.imperatrice_lumiere;
 
 import net.forixaim.bs_api.battle_arts_skills.BattleArtsSkillSlots;
+import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordAnims;
 import net.forixaim.vfo.capabilities.styles.LumiereStyles;
 import net.forixaim.vfo.skill.OmneriaSkills;
 import net.minecraft.server.level.ServerLevel;
@@ -15,6 +16,7 @@ import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.particle.EpicFightParticles;
 import yesman.epicfight.particle.HitParticleType;
+import yesman.epicfight.skill.SkillCategories;
 import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.skill.SkillDataKeys;
 import yesman.epicfight.skill.SkillDataManager;
@@ -41,8 +43,23 @@ public class InfernoBouclier extends GuardSkill
 
 	public static Builder createInfernoBouclier()
 	{
-		return GuardSkill.createGuardBuilder();
-
+		return GuardSkill.createGuardBuilder().setCategory(SkillCategories.GUARD)
+				.addGuardMotion(CapabilityItem.WeaponCategories.LONGSWORD, (itemCapability, playerPatch) ->
+				{
+					if (itemCapability.getStyle(playerPatch) == LumiereStyles.IMPERATRICE_SWORD || itemCapability.getStyle(playerPatch) == LumiereStyles.FORIXAIM_SWORD)
+					{
+						return LumiereSwordAnims.IMPERATRICE_GUARD;
+					}
+					return null;
+				})
+				.addGuardBreakMotion(CapabilityItem.WeaponCategories.LONGSWORD, (itemCapability, playerPatch) ->
+				{
+					if (itemCapability.getStyle(playerPatch) == LumiereStyles.IMPERATRICE_SWORD || itemCapability.getStyle(playerPatch) == LumiereStyles.FORIXAIM_SWORD)
+					{
+						return LumiereSwordAnims.IMPERATRICE_GUARD;
+					}
+					return null;
+				});
 	}
 	public InfernoBouclier(Builder builder)
 	{

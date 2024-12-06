@@ -48,25 +48,6 @@ public class ImperatriceWeaponPassive extends ExCapWeaponPassive
 					{
 						battleStyleContainer.requestExecute(playerPatch, null);
 					}
-					if (!battleStyle.getWeaponDrawAnimations().isEmpty())
-					{
-						for (Pair<WeaponCategory, AnimationProvider<StaticAnimation>> animationProviderPair : battleStyle.getWeaponDrawAnimations())
-						{
-							if (container.getExecuter().getHoldingItemCapability(InteractionHand.MAIN_HAND).getWeaponCategory() == animationProviderPair.getFirst())
-							{
-								if (animationProviderPair.getFirst() == OmneriaCategories.ORIGIN_JOYEUSE)
-								{
-									if (container.getExecuter().isLogicalClient() && Minecraft.getInstance().getUser().getUuid().equals("42479ed5a8f04967bfb17500577896a6"))
-									{
-										if (FORIXAIM_DRAW.get() != null)
-										{
-											container.getExecuter().playAnimationSynchronized(FORIXAIM_DRAW.get(), 0);
-										}
-									}
-								}
-							}
-						}
-					}
 				}
 			}
 		}

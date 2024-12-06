@@ -1,10 +1,13 @@
 package net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword;
 
+import net.forixaim.vfo.colliders.LumiereColliders;
 import net.minecraft.sounds.SoundEvents;
+import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.property.AnimationEvent;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.utils.TimePairList;
+import yesman.epicfight.api.utils.math.Vec3f;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Armatures;
 
@@ -22,6 +25,8 @@ public class LumiereSwordAnims
 	public static StaticAnimation IMPERATRICE_SWORD_JUMP;
 
 	public static StaticAnimation IMPERATRICE_GUARD;
+	public static StaticAnimation IMPERATRICE_GUARD_HIT_1;
+	public static StaticAnimation IMPERATRICE_GUARD_BROKEN;
 
 	//Trailblaze
 	public static StaticAnimation IMPERATRICE_TRAILBLAZE_FWD;
@@ -49,12 +54,22 @@ public class LumiereSwordAnims
 
 		IMPERATRICE_GUARD = new StaticAnimation(true, "battle_style/legendary/imperatrice_lumiere/sword/guard", Armatures.BIPED)
 				.addState(EntityState.MOVEMENT_LOCKED, true);
+		IMPERATRICE_GUARD_HIT_1 = new GuardAnimation(0.1F, 0.0F, "battle_style/legendary/imperatrice_lumiere/sword/guard_hit_1", Armatures.BIPED)
+				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (a,b,c,d,e) -> 1.2f)
+				.addState(EntityState.MOVEMENT_LOCKED, true)
+				.addState(EntityState.CAN_BASIC_ATTACK, false)
+				.addState(EntityState.CAN_SKILL_EXECUTION, false);
 
+		//One last up yours to the attacker.
+		IMPERATRICE_GUARD_BROKEN = new AttackAnimation(0.1F, 0.0F, 0.7F, 0.6F, 1.2F, LumiereColliders.IMPERATRICE_DOWN_SMASH, Armatures.BIPED.toolR, "battle_style/legendary/imperatrice_lumiere/sword/guard_broken", Armatures.BIPED)
+				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (a,b,c,d,e) -> 1f)
+				.addState(EntityState.MOVEMENT_LOCKED, true)
+				.addState(EntityState.CAN_BASIC_ATTACK, false)
+				.addState(EntityState.CAN_SKILL_EXECUTION, false);
 		IMPERATRICE_SWORD_CROUCH = new StaticAnimation(true, "battle_style/legendary/imperatrice_lumiere/sword/crouch", Armatures.BIPED)
 				.addStateRemoveOld(EntityState.MOVEMENT_LOCKED, true);
 		IMPERATRICE_SWORD_CROUCH_WALK = new MovementAnimation(true, "battle_style/legendary/imperatrice_lumiere/sword/crouch_walk", Armatures.BIPED);
-		IMPERATRICE_SWORD_WALK = new MovementAnimation(true, "battle_style/legendary/imperatrice_lumiere/sword/walk", Armatures.BIPED)
-				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (a,b,c,d,e) -> 1.5f);
+		IMPERATRICE_SWORD_WALK = new MovementAnimation(true, "battle_style/legendary/imperatrice_lumiere/sword/walk", Armatures.BIPED);
 		IMPERATRICE_SWORD_RUN = new MovementAnimation(true, "battle_style/legendary/imperatrice_lumiere/sword/run", Armatures.BIPED)
 				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (a,b,c,d,e) -> 1.5f);
 

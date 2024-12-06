@@ -240,11 +240,15 @@ public class ImperatriceLumiere extends BattleStyle
 		container.getExecuter().getEventListener().removeListener(PlayerEventListener.EventType.ACTION_EVENT_SERVER, EVENT_UUID);
 	}
 
+
+
 	public ImperatriceLumiere(Builder<? extends Skill> builder)
 	{
 		super(builder);
 		modifiesAttacks = true;
-		weaponDrawAnimations.add(Pair.of(OmneriaCategories.ORIGIN_JOYEUSE, () -> LumiereSwordAnims.IMPERATRICE_JOYEUSE_DRAW));
+		jumpBoostPower = 6f;
+		criticalHitChance = 1;
+		criticalHitDamage = 0.8f;
 		immuneDamages.add(DamageTypes.LAVA);
 		immuneDamages.add(DamageTypes.FIREBALL);
 		immuneDamages.add(DamageTypes.IN_FIRE);

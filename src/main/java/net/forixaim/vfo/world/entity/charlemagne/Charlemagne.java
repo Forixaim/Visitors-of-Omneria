@@ -1,19 +1,10 @@
 package net.forixaim.vfo.world.entity.charlemagne;
 
-import com.brandon3055.draconicevolution.api.modules.types.DamageType;
 import com.google.common.collect.Lists;
 import com.mojang.logging.LogUtils;
-import mekanism.common.Mekanism;
-import mekanism.common.MekanismLang;
 import mekanism.common.capabilities.Capabilities;
-import mekanism.common.command.RadiationCommand;
-import mekanism.common.lib.radiation.RadiationManager;
-import mekanism.common.registries.MekanismEntityTypes;
-import mekanism.common.tags.MekanismTags;
 import net.forixaim.vfo.world.entity.special_tags.IRadiationImmune;
 import net.forixaim.vfo.world.entity.types.AbstractFriendlyNPC;
-import net.mcreator.whendaybreaks.WhenDayBreaksMod;
-import net.mcreator.whendaybreaks.init.WhenDayBreaksModGameRules;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
@@ -134,16 +125,6 @@ public class Charlemagne extends AbstractFriendlyNPC implements InventoryCarrier
 		if (p_21472_.getItemInHand(InteractionHand.MAIN_HAND).is(Items.DEBUG_STICK) && !this.level().isClientSide)
 			this.patch.brain.debugFire();
 		return InteractionResult.SUCCESS;
-	}
-
-	@Override
-	public void tick()
-	{
-		super.tick();
-		if (this.level().isDay() && this.level().getGameRules().getBoolean(WhenDayBreaksModGameRules.WHEN_DAY_BREAKS_ACTIVE))
-		{
-			this.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 20, 5));
-		}
 	}
 
 	@Override

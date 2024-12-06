@@ -5,8 +5,7 @@
 	"compatibilityLevel": "JAVA_8",
 	"refmap": "vfo.refmap.json",
 	"mixins": [
-		"MixinAttackAnimation",
-		"MixinLivingEntity"
+		"MixinAttackAnimation"
 	],
 	"client": [
 	],

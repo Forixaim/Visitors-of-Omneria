@@ -1,16 +1,23 @@
 package net.forixaim.vfo.capabilities.weapon_attacks;
 
+import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
 import net.forixaim.efm_ex.capabilities.weaponcaps.EXWeaponCapability;
 import net.forixaim.vfo.animations.battle_style.charlemagne_flamiere.CharlemagneFlamiereAnims;
 import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordAerialAttacks;
 import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordGroundAttacks;
 import net.forixaim.vfo.animations.battle_style.imperatrice_lumiere.sword.LumiereSwordAnims;
+import net.forixaim.vfo.capabilities.styles.LumiereStyles;
 import net.forixaim.vfo.skill.OmneriaSkills;
 import yesman.epicfight.api.animation.LivingMotions;
+import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.gameasset.EpicFightSkills;
+import yesman.epicfight.skill.guard.GuardSkill;
 import yesman.epicfight.world.capabilities.item.Style;
 
+import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ImperatriceWeaponAttacks
 {
@@ -31,10 +38,14 @@ public class ImperatriceWeaponAttacks
 				LumiereSwordGroundAttacks.IMPERATRICE_SWORD_JAB3,
 				LumiereSwordGroundAttacks.IMPERATRICE_SWORD_DASH_ATTACK,
 				LumiereSwordAerialAttacks.IMPERATRICE_SWORD_FORWARD_AERIAL
-		);
+		)
+				.addGuardMotion(style, (GuardSkill) EpicFightSkills.GUARD, GuardSkill.BlockType.GUARD, LumiereSwordAnims.IMPERATRICE_GUARD_HIT_1)
+				.addGuardMotion(style, (GuardSkill) EpicFightSkills.GUARD, GuardSkill.BlockType.GUARD_BREAK, LumiereSwordAnims.IMPERATRICE_GUARD_BROKEN);
 		builder.innateSkill(style, (itemstack) -> OmneriaSkills.FIRE_DRIVER);
 		return builder;
 	};
+
+
 
 	public static Function<Pair<Style, EXWeaponCapability.Builder>, EXWeaponCapability.Builder> imperatriceForixaimSword = (main) ->
 	{
