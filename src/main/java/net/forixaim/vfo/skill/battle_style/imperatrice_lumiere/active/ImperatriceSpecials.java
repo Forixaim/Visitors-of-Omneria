@@ -70,7 +70,7 @@ public class ImperatriceSpecials extends CombatArt
 			{
 				container.getExecuter().getSkill(BattleArtsSkillSlots.BATTLE_STYLE).getDataManager().setDataSync(DatakeyRegistry.SPECIAL_EXECUTING.get(), false, event.getPlayerPatch().getOriginal());
 			}
-			if (dataManager.getDataValue(DatakeyRegistry.ASTROLABE_EXECUTE.get()) && event.getAnimation() == INFERNO_ASTROLABE.get())
+			if (dataManager.getDataValue(DatakeyRegistry.ASTROLABE_EXECUTE.get()) && event.getAnimation() == LumiereSwordSpecialArts.IMPERATRICE_SWORD_INFERNO_ASTROLABE_START && !dataManager.getDataValue(DatakeyRegistry.ULTIMATE_ART_TRY_CONNECTED.get()))
 			{
 				dataManager.setDataSync(DatakeyRegistry.ASTROLABE_EXECUTE.get(), false, event.getPlayerPatch().getOriginal());
 				event.getPlayerPatch().playAnimationSynchronized(INFERNO_ASTROLABE_MISS.get(), 0);
@@ -86,7 +86,7 @@ public class ImperatriceSpecials extends CombatArt
 			if (!dataManager.getDataValue(DatakeyRegistry.ULTIMATE_ART_TRY_CONNECTED.get()) && hurt.getDamageSource().getAnimation() == LumiereSwordSpecialArts.IMPERATRICE_SWORD_INFERNO_ASTROLABE_START)
 			{
 				dataManager.setDataSync(DatakeyRegistry.ULTIMATE_ART_TRY_CONNECTED.get(), true, hurt.getPlayerPatch().getOriginal());
-				container.requestExecute(hurt.getPlayerPatch(), null);
+				executeOnServer(hurt.getPlayerPatch(), null);
 			}
 		});
 		super.onInitiate(container);

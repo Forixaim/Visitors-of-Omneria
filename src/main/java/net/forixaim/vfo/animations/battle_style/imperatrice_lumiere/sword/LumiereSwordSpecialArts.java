@@ -44,12 +44,17 @@ public class LumiereSwordSpecialArts
 				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, Animations.ReusableSources.CONSTANT_ONE)
 				.addEvents(AnimationEvent.TimeStampedEvent.create(0.7f, AdditionalEffects.SHOOT_FIREWISP, AnimationEvent.Side.SERVER));
 		IMPERATRICE_SWORD_INFERNO_ASTROLABE_START = new AttackAnimation(0.1f, "battle_style/legendary/imperatrice_lumiere/sword/combat_arts/inferno_astrolabe_start", Armatures.BIPED,
-				new AttackAnimation.Phase(0f, 0.0f, 0.8f, 1f, 1.2f, 1.2f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL));
+				new AttackAnimation.Phase(0f, 0.0f, 0.8f, 1f, 1.2f, 1.2f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL))
+				.addProperty(AnimationProperty.AttackAnimationProperty.FIXED_MOVE_DISTANCE, true)
+				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, Animations.ReusableSources.CONSTANT_ONE);
 		IMPERATRICE_SWORD_INFERNO_ASTROLABE_MISS = new AttackAnimation(0.0f, "battle_style/legendary/imperatrice_lumiere/sword/combat_arts/inferno_astrolabe_miss", Armatures.BIPED,
 				new AttackAnimation.Phase(0f, 0.0f, 0.5f, 0.0f, 1.2f, 1.2f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL))
-				.addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, EpicFightSounds.NO_SOUND.get());
+				.addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, EpicFightSounds.NO_SOUND.get())
+				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, Animations.ReusableSources.CONSTANT_ONE);
 		IMPERATRICE_SWORD_INFERNAL_ASTROLABE_SLASHES = new AttackAnimation(0.0f, "battle_style/legendary/imperatrice_lumiere/sword/combat_arts/inferno_astrolabe_slashes", Armatures.BIPED,new AttackAnimation.Phase(0f, 0.0f, 0.5f, 0.0f, 1.2f, 1.2f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL))
-				.addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, EpicFightSounds.NO_SOUND.get());
+				.addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, EpicFightSounds.NO_SOUND.get())
+				.addProperty(AnimationProperty.AttackAnimationProperty.FIXED_MOVE_DISTANCE, true)
+				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, Animations.ReusableSources.CONSTANT_ONE);
 
 		IMPERATRICE_SWORD_FLARE_BURST = new AttackAnimation(0.2f, 1.1f, 1.1f, 1.2f, 2f, LumiereColliders.IMPERATRICE_FLARE_BURST, Armatures.BIPED.rootJoint, "battle_style/legendary/imperatrice_lumiere/sword/burst_art/flare_burst", Armatures.BIPED)
 				.addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.setter(19))
