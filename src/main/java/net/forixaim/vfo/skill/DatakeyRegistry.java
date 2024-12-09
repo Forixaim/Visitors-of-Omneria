@@ -5,6 +5,7 @@ import net.forixaim.vfo.skill.battle_style.imperatrice_lumiere.FireDriver;
 import net.forixaim.vfo.skill.battle_style.imperatrice_lumiere.FlareBlitz;
 import net.forixaim.vfo.skill.battle_style.imperatrice_lumiere.ImperatriceLumiere;
 import net.forixaim.vfo.skill.battle_style.imperatrice_lumiere.Trailblaze;
+import net.forixaim.vfo.skill.battle_style.imperatrice_lumiere.active.ImperatriceSpecials;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -75,7 +76,8 @@ public class DatakeyRegistry
 					(
 							false,
 							true,
-							ImperatriceLumiere.class
+							ImperatriceLumiere.class,
+							ImperatriceSpecials.class
 					));
 	public static final RegistryObject<SkillDataKey<Boolean>> ULTIMATE_ART_READY =
 			DATA_KEYS.register("ultimate_art_ready", () -> SkillDataKey.createBooleanKey
@@ -105,4 +107,10 @@ public class DatakeyRegistry
 							true,
 							ImperatriceLumiere.class
 					));
+	public static final RegistryObject<SkillDataKey<Boolean>> ASTROLABE_EXECUTE =
+			DATA_KEYS.register("astrolabe_executing", () -> SkillDataKey.createBooleanKey(
+					false,
+					true,
+					ImperatriceSpecials.class
+			));
 }

@@ -40,7 +40,13 @@ public class ImperatriceWeaponAttacks
 				LumiereSwordAerialAttacks.IMPERATRICE_SWORD_FORWARD_AERIAL
 		)
 				.addGuardMotion(style, (GuardSkill) EpicFightSkills.GUARD, GuardSkill.BlockType.GUARD, LumiereSwordAnims.IMPERATRICE_GUARD_HIT_1)
-				.addGuardMotion(style, (GuardSkill) EpicFightSkills.GUARD, GuardSkill.BlockType.GUARD_BREAK, LumiereSwordAnims.IMPERATRICE_GUARD_BROKEN);
+				.addGuardMotion(style, (GuardSkill) EpicFightSkills.GUARD, GuardSkill.BlockType.GUARD_BREAK, LumiereSwordAnims.IMPERATRICE_GUARD_BROKEN)
+				.addGuardMotion(style, (GuardSkill) EpicFightSkills.PARRYING, GuardSkill.BlockType.GUARD, LumiereSwordAnims.IMPERATRICE_GUARD_HIT_1)
+				.addGuardMotion(style, (GuardSkill) EpicFightSkills.PARRYING, GuardSkill.BlockType.GUARD_BREAK, LumiereSwordAnims.IMPERATRICE_GUARD_BROKEN)
+				.addGuardMotion(style, (GuardSkill) EpicFightSkills.PARRYING, GuardSkill.BlockType.ADVANCED_GUARD, LumiereSwordAnims.IMPERATRICE_GUARD_PARRY_1)
+				.addGuardMotion(style, (GuardSkill) EpicFightSkills.PARRYING, GuardSkill.BlockType.ADVANCED_GUARD, LumiereSwordAnims.IMPERATRICE_GUARD_PARRY_2);
+
+
 		builder.innateSkill(style, (itemstack) -> OmneriaSkills.FIRE_DRIVER);
 		return builder;
 	};

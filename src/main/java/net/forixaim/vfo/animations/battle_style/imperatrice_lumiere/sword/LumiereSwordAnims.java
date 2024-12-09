@@ -27,6 +27,8 @@ public class LumiereSwordAnims
 	public static StaticAnimation IMPERATRICE_GUARD;
 	public static StaticAnimation IMPERATRICE_GUARD_HIT_1;
 	public static StaticAnimation IMPERATRICE_GUARD_BROKEN;
+	public static StaticAnimation IMPERATRICE_GUARD_PARRY_1;
+	public static StaticAnimation IMPERATRICE_GUARD_PARRY_2;
 
 	//Trailblaze
 	public static StaticAnimation IMPERATRICE_TRAILBLAZE_FWD;
@@ -54,14 +56,18 @@ public class LumiereSwordAnims
 
 		IMPERATRICE_GUARD = new StaticAnimation(true, "battle_style/legendary/imperatrice_lumiere/sword/guard", Armatures.BIPED)
 				.addState(EntityState.MOVEMENT_LOCKED, true);
-		IMPERATRICE_GUARD_HIT_1 = new GuardAnimation(0.1F, 0.0F, "battle_style/legendary/imperatrice_lumiere/sword/guard_hit_1", Armatures.BIPED)
+		IMPERATRICE_GUARD_HIT_1 = new GuardAnimation(0.1F, "battle_style/legendary/imperatrice_lumiere/sword/guard_hit_1", Armatures.BIPED)
 				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (a,b,c,d,e) -> 1.2f)
 				.addState(EntityState.MOVEMENT_LOCKED, true)
 				.addState(EntityState.CAN_BASIC_ATTACK, false)
 				.addState(EntityState.CAN_SKILL_EXECUTION, false);
+		IMPERATRICE_GUARD_PARRY_1 = new GuardAnimation(0.1F, "battle_style/legendary/imperatrice_lumiere/sword/skills/guard_parry_1", Armatures.BIPED)
+				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, ((dynamicAnimation, livingEntityPatch, v, v1, v2) -> 1.4f));
+		IMPERATRICE_GUARD_PARRY_2 = new GuardAnimation(0.1F, "battle_style/legendary/imperatrice_lumiere/sword/skills/guard_parry_2", Armatures.BIPED)
+				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, ((dynamicAnimation, livingEntityPatch, v, v1, v2) -> 1.4f));
 
 		//One last up yours to the attacker.
-		IMPERATRICE_GUARD_BROKEN = new AttackAnimation(0.1F, 0.0F, 0.7F, 0.6F, 1.2F, LumiereColliders.IMPERATRICE_DOWN_SMASH, Armatures.BIPED.toolR, "battle_style/legendary/imperatrice_lumiere/sword/guard_broken", Armatures.BIPED)
+		IMPERATRICE_GUARD_BROKEN = new LongHitAnimation(0.1F, "battle_style/legendary/imperatrice_lumiere/sword/guard_broken", Armatures.BIPED)
 				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (a,b,c,d,e) -> 1f)
 				.addState(EntityState.MOVEMENT_LOCKED, true)
 				.addState(EntityState.CAN_BASIC_ATTACK, false)
