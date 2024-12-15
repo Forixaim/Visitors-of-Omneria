@@ -61,12 +61,16 @@ mandatory = true
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
+[[dependencies."${mod_id}"]]
+modId="efm_ex"
+mandatory=true
+versionRange="[20.9.4.5,)"
+ordering="AFTER"
+side="BOTH"
 
 [[dependencies."${mod_id}"]]
-modId = "epicfightmultiverse"
-mandatory = false
-# This version range declares a minimum of the current minecraft version up to but not including the next major version
-versionRange = "2.1.6"
-ordering = "AFTER"
-side = "BOTH"
-
+modId="battlearts_api"
+mandatory=true
+versionRange="[20.9,)"
+ordering="AFTER"
+side="BOTH"

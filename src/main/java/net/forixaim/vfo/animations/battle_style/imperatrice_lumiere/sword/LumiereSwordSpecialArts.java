@@ -44,15 +44,38 @@ public class LumiereSwordSpecialArts
 				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, Animations.ReusableSources.CONSTANT_ONE)
 				.addEvents(AnimationEvent.TimeStampedEvent.create(0.7f, AdditionalEffects.SHOOT_FIREWISP, AnimationEvent.Side.SERVER));
 		IMPERATRICE_SWORD_INFERNO_ASTROLABE_START = new AttackAnimation(0.1f, "battle_style/legendary/imperatrice_lumiere/sword/combat_arts/inferno_astrolabe_start", Armatures.BIPED,
-				new AttackAnimation.Phase(0f, 0.0f, 0.8f, 1f, 1.2f, 1.2f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL))
+				new AttackAnimation.Phase(0f, 0.0f, 0.8f, 1f, 1.2f, 1.2f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_INFERNO_SCAN))
+				.addProperty(AnimationProperty.AttackPhaseProperty.SOURCE_TAG, Set.of(EpicFightDamageType.GUARD_PUNCTURE))
+				.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.HOLD)
+				.addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.setter(2f))
 				.addProperty(AnimationProperty.AttackAnimationProperty.FIXED_MOVE_DISTANCE, true)
 				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, Animations.ReusableSources.CONSTANT_ONE);
 		IMPERATRICE_SWORD_INFERNO_ASTROLABE_MISS = new AttackAnimation(0.0f, "battle_style/legendary/imperatrice_lumiere/sword/combat_arts/inferno_astrolabe_miss", Armatures.BIPED,
 				new AttackAnimation.Phase(0f, 0.0f, 0.5f, 0.0f, 1.2f, 1.2f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL))
 				.addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, EpicFightSounds.NO_SOUND.get())
 				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, Animations.ReusableSources.CONSTANT_ONE);
-		IMPERATRICE_SWORD_INFERNAL_ASTROLABE_SLASHES = new AttackAnimation(0.0f, "battle_style/legendary/imperatrice_lumiere/sword/combat_arts/inferno_astrolabe_slashes", Armatures.BIPED,new AttackAnimation.Phase(0f, 0.0f, 0.5f, 0.0f, 1.2f, 1.2f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL))
+		IMPERATRICE_SWORD_INFERNAL_ASTROLABE_SLASHES = new AttackAnimation(0.0f, "battle_style/legendary/imperatrice_lumiere/sword/combat_arts/inferno_astrolabe_slashes",
+				Armatures.BIPED,
+				new AttackAnimation.Phase(0f, 0.0f, 0.0f, 0.1f, 0.1f, 0.1f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL),
+				new AttackAnimation.Phase(0f, 0.0f, 0.15f, 0.25f, 0.25f, 0.25f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL),
+				new AttackAnimation.Phase(0f, 0.0f, 0.3f, 0.4f, 0.4f, 0.4f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL),
+				new AttackAnimation.Phase(0f, 0.0f, 0.45f, 0.6f, 2f, 2f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL))
 				.addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, EpicFightSounds.NO_SOUND.get())
+				.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.HOLD)
+				.addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.setter(2f))
+				.addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(0.4f))
+				.addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, EpicFightSounds.NO_SOUND.get(), 1)
+				.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.HOLD, 1)
+				.addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.setter(2f), 1)
+				.addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(0.6f), 1)
+				.addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, EpicFightSounds.NO_SOUND.get(), 2)
+				.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.HOLD, 2)
+				.addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.setter(2f), 2)
+				.addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(0.8f), 2)
+				.addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, EpicFightSounds.NO_SOUND.get(), 3)
+				.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.NEUTRALIZE, 3)
+				.addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.setter(2f), 3)
+				.addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(1f), 3)
 				.addProperty(AnimationProperty.AttackAnimationProperty.FIXED_MOVE_DISTANCE, true)
 				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, Animations.ReusableSources.CONSTANT_ONE);
 

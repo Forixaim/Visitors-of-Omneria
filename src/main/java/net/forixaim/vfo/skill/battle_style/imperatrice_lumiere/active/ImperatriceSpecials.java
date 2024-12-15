@@ -96,6 +96,7 @@ public class ImperatriceSpecials extends CombatArt
 	public void onRemoved(SkillContainer container)
 	{
 		container.getExecuter().getEventListener().removeListener(PlayerEventListener.EventType.ATTACK_ANIMATION_END_EVENT, EVENT_UUID);
+		container.getExecuter().getEventListener().removeListener(PlayerEventListener.EventType.DEALT_DAMAGE_EVENT_HURT, EVENT_UUID);
 	}
 
 	@Override
