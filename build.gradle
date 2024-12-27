@@ -89,7 +89,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     implementation fg.deobf("curse.maven:ex-cap-1074178:5970306")
     implementation fg.deobf("curse.maven:epic-fight-mod-405076:5922122")
-    implementation fg.deobf("curse.maven:battle-arts-api-1091499:5973210")
+    implementation fg.deobf("libs:BattleArtsAPI:20.9.5.1")
     runtimeOnly fg.deobf("curse.maven:rpg-hud-235670:4805323")
     compileOnly fg.deobf("curse.maven:mekanism-268560:5395221")
     compileOnly fg.deobf("curse.maven:draconic-evolution-223565:5524457")
@@ -98,6 +98,7 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:selene-499980:5546852")
     runtimeOnly fg.deobf("curse.maven:mmmmmmmmmmmm-225738:5319203")
     implementation fg.deobf("curse.maven:weapons-of-miracles-epicfight-918614:5889471")
+    implementation fg.deobf("curse.maven:aaa-particles-979809:6015887")
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
