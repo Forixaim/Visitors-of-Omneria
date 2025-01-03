@@ -54,12 +54,13 @@ public class LumiereSwordSpecialArts
 				new AttackAnimation.Phase(0f, 0.0f, 0.5f, 0.0f, 1.2f, 1.2f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL))
 				.addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, EpicFightSounds.NO_SOUND.get())
 				.addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, Animations.ReusableSources.CONSTANT_ONE);
+
 		IMPERATRICE_SWORD_INFERNAL_ASTROLABE_SLASHES = new AttackAnimation(0.0f, "battle_style/legendary/imperatrice_lumiere/sword/combat_arts/inferno_astrolabe_slashes",
 				Armatures.BIPED,
 				new AttackAnimation.Phase(0f, 0.0f, 0.0f, 0.1f, 0.1f, 0.1f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL),
-				new AttackAnimation.Phase(0f, 0.0f, 0.15f, 0.25f, 0.25f, 0.25f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL),
-				new AttackAnimation.Phase(0f, 0.0f, 0.3f, 0.4f, 0.4f, 0.4f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL),
-				new AttackAnimation.Phase(0f, 0.0f, 0.45f, 0.6f, 2f, 2f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL))
+				new AttackAnimation.Phase(0f, 0.0f, 0.85f, 0.95f, 0.95f, 0.95f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL),
+				new AttackAnimation.Phase(0f, 0.0f, 1f, 1.05f, 1.1f, 1.1f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL),
+				new AttackAnimation.Phase(0f, 0.0f, 1.45f, 1.6f, 2f, 2f, Armatures.BIPED.rootJoint, LumiereColliders.IMPERATRICE_NEUTRAL_AERIAL))
 				.addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, EpicFightSounds.NO_SOUND.get())
 				.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.HOLD)
 				.addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.setter(2f))

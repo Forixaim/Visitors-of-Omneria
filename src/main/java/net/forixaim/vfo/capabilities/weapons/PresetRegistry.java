@@ -1,7 +1,6 @@
 package net.forixaim.vfo.capabilities.weapons;
 
 import net.forixaim.vfo.VisitorsOfOmneria;
-import net.forixaim.vfo.capabilities.weapon_types.JoyeuseType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,8 +14,7 @@ import java.util.function.Function;
 @Mod.EventBusSubscriber(modid = VisitorsOfOmneria.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class PresetRegistry
 {
-	public static Function<Item, CapabilityItem.Builder> JOYEUSE = (item ->
-			JoyeuseType.getInstance().export());
+	public static Function<Item, CapabilityItem.Builder> JOYEUSE = (item -> OmneriaExCapWeapons.ORIGIN_JOYEUSE.export());
 
 
 	@SubscribeEvent

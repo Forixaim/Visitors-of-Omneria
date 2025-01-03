@@ -1,5 +1,6 @@
 package net.forixaim.vfo.skill;
 
+import net.forixaim.bs_api.BattleArtsAPI;
 import net.forixaim.bs_api.battle_arts_skills.active.burst_arts.BurstArt;
 import net.forixaim.bs_api.battle_arts_skills.active.combat_arts.CombatArt;
 import net.forixaim.bs_api.battle_arts_skills.active.ultimate_arts.UltimateArt;
@@ -13,6 +14,7 @@ import net.forixaim.vfo.skill.battle_style.imperatrice_lumiere.active.BlazingDet
 import net.forixaim.vfo.skill.battle_style.imperatrice_lumiere.active.ImperatriceSpecials;
 import net.forixaim.vfo.skill.battle_style.imperatrice_lumiere.active.ImperatriceUltimateArt;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.forgeevent.SkillBuildEvent;
@@ -43,14 +45,23 @@ public class OmneriaSkills
 	public static void BuildSkillEvent(SkillBuildEvent OnBuild)
 	{
 		SkillBuildEvent.ModRegistryWorker registryWorker = OnBuild.createRegistryWorker(VisitorsOfOmneria.MOD_ID);
-		IMPERATRICE_LUMIERE = registryWorker.build("imperatrice_lumiere", ImperatriceLumiere::new, BattleStyle.CreateBattleStyle().setCreativeTab(CreativeTabRegistry.VISITORS_OF_OMNERIA.get()));
-		FLARE_BLITZ = registryWorker.build("imperatrice_attack", FlareBlitz::new, FlareBlitz.createImperatriceAttackSet().setCreativeTab(CreativeTabRegistry.VISITORS_OF_OMNERIA.get()));
-		IMPERATRICE_AERIALS = registryWorker.build("imperatrice_aerials", BurningSky::new, BurningSky.createImperatriceAerialBuilder().setCreativeTab(CreativeTabRegistry.VISITORS_OF_OMNERIA.get()));
-		IMPERATRICE_WP = registryWorker.build("imperatrice_weapon_passive", ImperatriceWeaponPassive::new, ExCapWeaponPassive.createBuilder());
-
-		FLARE_BURST = registryWorker.build("flare_burst", BlazingDetermination::new, BurstArt.createBurstArt().setResource(Skill.Resource.COOLDOWN).setCreativeTab(CreativeTabRegistry.VISITORS_OF_OMNERIA.get()));
-		IMPERATRICE_ULTIMATE = registryWorker.build("imperatrice_ultimate", ImperatriceUltimateArt::new, UltimateArt.createUltimateArt().setResource(Skill.Resource.COOLDOWN).setCreativeTab(CreativeTabRegistry.VISITORS_OF_OMNERIA.get()));
-		IMPERATRICE_SPECIALS = registryWorker.build("imperatrice_specials", ImperatriceSpecials::new, CombatArt.createCombatArt().setCreativeTab(CreativeTabRegistry.VISITORS_OF_OMNERIA.get()));
+			IMPERATRICE_LUMIERE = registryWorker.build("imperatrice_lumiere", ImperatriceLumiere::new, BattleStyle.CreateBattleStyle().setCreativeTab(CreativeTabRegistry.VISITORS_OF_OMNERIA.get()));
+			FLARE_BLITZ = registryWorker.build("imperatrice_attack", FlareBlitz::new, FlareBlitz.createImperatriceAttackSet().setCreativeTab(CreativeTabRegistry.VISITORS_OF_OMNERIA.get()));
+			IMPERATRICE_AERIALS = registryWorker.build("imperatrice_aerials", BurningSky::new, BurningSky.createImperatriceAerialBuilder().setCreativeTab(CreativeTabRegistry.VISITORS_OF_OMNERIA.get()));
+			IMPERATRICE_WP = registryWorker.build("imperatrice_weapon_passive", ImperatriceWeaponPassive::new, ExCapWeaponPassive.createBuilder());
+			FLARE_BURST = registryWorker.build("flare_burst", BlazingDetermination::new, BurstArt.createBurstArt().setResource(Skill.Resource.COOLDOWN).setCreativeTab(CreativeTabRegistry.VISITORS_OF_OMNERIA.get()));
+			IMPERATRICE_ULTIMATE = registryWorker.build("imperatrice_ultimate", ImperatriceUltimateArt::new, UltimateArt.createUltimateArt().setResource(Skill.Resource.COOLDOWN).setCreativeTab(CreativeTabRegistry.VISITORS_OF_OMNERIA.get()));
+			IMPERATRICE_SPECIALS = registryWorker.build("imperatrice_specials", ImperatriceSpecials::new, CombatArt.createCombatArt().setCreativeTab(CreativeTabRegistry.VISITORS_OF_OMNERIA.get()));
+			TRAILBLAZE = registryWorker.build(
+					"trailblaze",
+					Trailblaze::new,
+					DodgeSkill.createDodgeBuilder().setAnimations(
+							() -> LumiereSwordAnims.IMPERATRICE_TRAILBLAZE_FWD,
+							() -> LumiereSwordAnims.IMPERATRICE_TRAILBLAZE_BACK,
+							() -> LumiereSwordAnims.IMPERATRICE_TRAILBLAZE_LEFT,
+							() -> LumiereSwordAnims.IMPERATRICE_TRAILBLAZE_RIGHT
+					)
+			);
 		WeaponInnateSkill BlazeStinger = registryWorker.build(
 				"blaze_stinger",
 				FireDriver::new,
@@ -64,15 +75,6 @@ public class OmneriaSkills
 				.addProperty(AnimationProperty.AttackPhaseProperty.SOURCE_TAG, Set.of(EpicFightDamageType.WEAPON_INNATE, EpicFightDamageType.GUARD_PUNCTURE));
 		FIRE_DRIVER = BlazeStinger;
 
-		TRAILBLAZE = registryWorker.build(
-				"trailblaze",
-				Trailblaze::new,
-				DodgeSkill.createDodgeBuilder().setAnimations(
-						() -> LumiereSwordAnims.IMPERATRICE_TRAILBLAZE_FWD,
-						() -> LumiereSwordAnims.IMPERATRICE_TRAILBLAZE_BACK,
-						() -> LumiereSwordAnims.IMPERATRICE_TRAILBLAZE_LEFT,
-						() -> LumiereSwordAnims.IMPERATRICE_TRAILBLAZE_RIGHT
-				)
-		);
+
 	}
 }
