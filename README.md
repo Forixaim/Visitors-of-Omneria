@@ -20,6 +20,8 @@ Burst Arts - Powerful burst modes you can tap into.
 
 Ultimate Arts - Extremely powerful, once per battle, near instakill attempt on your foes.
 
+## The World Layout
+
 You can meet 10 legendary warriors called the "Omnerian Cosmonians" along the journey and additional villains down the path.
 
 Currently, the 1st Omnerian Cosmonian is: The Imperatrice Lumiere - Charlemagne Halphas Flaron
